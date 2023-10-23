@@ -5,15 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Categories extends Model
+class Brands extends Model
 {
     use HasFactory;
     protected $fillable = [
         'name',
+        'image',
         'status'
     ];
-    public function Subcategories()
-    {
-        return $this->hasMany(Subcategories::class,'cat_id','id');
-    }
 }

@@ -1,4 +1,7 @@
 @extends('admin/layout/index')
+@section('dashboard')
+active
+@endsection
 @section('content')
 <div class="page-title">
     <h3>Dashboard</h3>

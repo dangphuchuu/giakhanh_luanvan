@@ -1,6 +1,4 @@
 <?php
-
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+require 'admin.php';
 Route::get('/', [WebController::class, 'index']);
 
-Route::get('/admin', [AdminController::class, 'index']);
+

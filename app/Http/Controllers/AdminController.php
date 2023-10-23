@@ -8,6 +8,12 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin/layout/index');
+        return view('admin/pages/home/index');
+    }
+    public function login(){
+        return view('admin/pages/auth/login');
+    }
+    public function handle_login(){
+
     }
 }
