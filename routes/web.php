@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('web/layout/index');
-});
+Route::get('/', [WebController::class, 'index']);
 
-Route::get('/admin', function () {
-    return view('admin/layout/index');
-});
+Route::get('/admin', [AdminController::class, 'index']);
