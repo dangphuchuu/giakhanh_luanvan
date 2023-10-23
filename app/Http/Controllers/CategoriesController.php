@@ -72,7 +72,7 @@ class CategoriesController extends Controller
     public function destroy($id)
     {
         $categories = Categories::find($id);
-            $categories::destroy($id);
-            return redirect()->back();
+        $categories::destroy($id);
+        return redirect()->back();
     }
 }
