@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
 use Illuminate\Http\Request;
+
+use function Laravel\Prompts\confirm;
 
 class CategoriesController extends Controller
 {
@@ -11,15 +14,26 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Categories::all();
+        return view('admin/pages/categories/index',['categories' => $categories]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $request->validate([
+            'name' =>'required|unique:categories'
+        ],[
+            'name.required'=>"Vui lòng nhập tên danh mục",
+            'name.unique' =>'Tên danh mục này đã tồn tại'
+        ]);
+        $categories = new Categories([
+            'name'=> $request->name,
+        ]);
+        $categories->save();
+        return redirect()->back();
     }
 
     /**
@@ -41,24 +55,24 @@ class CategoriesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, $id) 
     {
-        //
+        $categories = Categories::find($id);
+        $request->validate([
+            'name' =>'required|unique:categories'
+        ],[
+            'name.required'=>"Vui lòng nhập tên danh mục",
+            'name.unique' =>'Tên danh mục này đã tồn tại'
+        ]);
+        $categories['name'] = $request['name'];
+        $categories->update();
+        
+        return redirect()->back();
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $categories = Categories::find($id);
+            $categories::destroy($id);
+            return redirect()->back();
     }
 }

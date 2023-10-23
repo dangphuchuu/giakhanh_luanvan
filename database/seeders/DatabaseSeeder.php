@@ -3,8 +3,13 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 
+use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -12,11 +17,34 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        Role::create(['name' => 'admin']);
+        Role::create(['name' => 'staff']);
+        Role::create(['name' => 'client']);
+        DB::table('users')->insert([
+            'lastname' => 'Nguyễn',
+            'firstname' => 'Gia Khánh',
+            'username' => 'admin',
+            'password' => bcrypt('1'),
+            'email'=>'admin@gmail.com',
+            'phone' => '123456',
+            'email_verified'=> 1,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        ]);
+        
+        DB::table('users')->insert([
+            'lastname' => 'Nguyễn',
+            'firstname' => 'Gia Khánh',
+            'username' => 'giakhanh',
+            'password' => bcrypt('1'),
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        ]);
+       
+        $user = User::find(1);
+        $user->assignRole('admin');
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $user2 = User::find(2);
+        $user2->assignRole('client');
     }
 }

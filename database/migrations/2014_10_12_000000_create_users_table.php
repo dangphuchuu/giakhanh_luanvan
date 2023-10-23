@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('district', 255)->nullable();
             $table->string('city', 255)->nullable();
             $table->boolean('status')->default(true);
-            $table->bigInteger('point');
+            $table->bigInteger('point')->default(0);
             $table->boolean('email_verified')->default(false);
             $table->rememberToken();
             $table->timestamps();

@@ -12,7 +12,7 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-item  has-sub">
+                <li class="sidebar-item  has-sub @yield('manage_products')">
 
                     <a href="#" class='sidebar-link'>
                         <i data-feather="triangle" width="20"></i>
@@ -20,11 +20,13 @@
                     </a>
                     <ul class="submenu ">
                         <li>
-                            <a href="component-alert.html">Categories</a>
+                            <a href="admin/categories">Categories</a>
                         </li>
-
                         <li>
-                            <a href="component-badge.html">Products</a>
+                            <a href="admin/subcategories">SubCategories</a>
+                        </li>
+                        <li>
+                            <a href="">Products</a>
                         </li>
                     </ul>
                 </li>
