@@ -15,7 +15,7 @@ active
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class='breadcrumb-header'>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Subcategories</li>
                     </ol>
                 </nav>
@@ -25,37 +25,44 @@ active
     <section class="section">
         <div class="card">
             <div class="card-header">
-                 <a href="#">Create</a>
+            <button type="button" class="btn btn-outline-primary block" data-bs-toggle="modal" data-bs-target="#subcategories_create">
+                       Create
+            </button>
+            @include('admin/pages/subcategories/create')
             </div>
-            
             <div class="card-body">
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
                             <th>Categories</th>
-                            <th>Subcategories</th>
+                            <th>Name</th>
                             <th>Status</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($subcategories as $sub)
+                        @foreach($subcategories as $key => $sub)
                         <tr>
-                            <td>{{$sub['categories']['name']}}</td>
-                            <td>{{$sub['name']}}</td>
-                            <td>
-                                @if($sub['status'] == 1)
-                                <a href="javascript:void(0)"><span class="badge bg-success">Active</span></a>
+                            <td>{{$sub->categories->name}}</td>
+                            <td>{{$sub->name}}</td>
+                            <td id="status{{$sub->id}}">
+                                @if($sub->status == 1)
+                                <a href="javascript:void(0)" onclick="status({{$sub->id}},0)"><span class="badge bg-success">Active</span></a>
                                 @else
-                                <a href="javascript:void(0)"><span class="badge bg-danger">Inactive</span></a>
+                                <a href="javascript:void(0)" onclick="status({{$sub->id}},1)"><span class="badge bg-danger">Inactive</span></a>
                                 @endif
                             </td>
                             <td>
+                            <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#subcategories_edit{{$sub->id}}">
                                 <i data-feather="edit"></i>
+                             </a>
+                                @include('admin/pages/subcategories/edit')
                             </td>
                             <td>
-                                <i data-feather="trash-2"></i>
+                            <a href="admin/subcategories/delete/{{$sub->id}}" onclick="return confirm('Are you sure you want to delete this')">
+                                    <i data-feather="trash-2"></i>
+                             </a> 
                             </td>
                         </tr>
                         @endforeach
@@ -70,4 +77,38 @@ active
 @section('scripts')
 <script src="admin_assets/vendors/simple-datatables/simple-datatables.js"></script>
 <script src="admin_assets/js/vendors.js"></script>
+<script>
+    function status(status_id, active) {
+        if (active === 1) {
+            $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',0)">\
+                <span class="badge bg-success">Active</span>\
+            </a>')
+        } else {
+            $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',1)">\
+                <span class="badge bg-danger">Inactive</span>\
+            </a>')
+        }
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: "/admin/subcategories/status",
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                'active': active,
+                'status_id': status_id
+            },
+            success: function(data) {
+                if (data['success']) {
+                    // alert(data.success);
+                } else if (data['error']) {
+                    alert(data.error);
+                }
+            }
+        });
+    }
+</script>
 @endsection

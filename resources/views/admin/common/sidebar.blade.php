@@ -7,7 +7,7 @@
             <ul class="menu">
                 <li class='sidebar-title'>Main Menu</li>
                 <li class="sidebar-item @yield('dashboard') ">
-                    <a href="index.html" class='sidebar-link'>
+                    <a href="/admin" class='sidebar-link'>
                         <i data-feather="home" width="20"></i>
                         <span>Dashboard</span>
                     </a>
@@ -26,7 +26,7 @@
                             <a href="admin/subcategories">SubCategories</a>
                         </li>
                         <li>
-                            <a href="">Products</a>
+                            <a href="admin/products">Products</a>
                         </li>
                     </ul>
                 </li>

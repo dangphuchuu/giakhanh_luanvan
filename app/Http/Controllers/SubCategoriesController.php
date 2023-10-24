@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subcategories;
+use App\Models\Categories;
 use Illuminate\Http\Request;
 
 class SubCategoriesController extends Controller
@@ -13,39 +14,41 @@ class SubCategoriesController extends Controller
     public function index()
     {
         $subcategories = Subcategories::all();
-        return view('admin/pages/subcategories/index',['subcategories' => $subcategories]);
+        $categories = Categories::all();
+        return view('admin/pages/subcategories/index',['subcategories' => $subcategories,'categories'=>$categories]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $request->validate([
+            'name' =>'required|unique:subcategories'
+        ],[
+            'name.required'=>"Vui lòng nhập tên danh mục con",
+            'name.unique' =>'Tên danh mục con này đã tồn tại'
+        ]);
+        $subcategories = new Subcategories([
+            'name'=> $request->name,
+            'cat_id'=>$request->cat_id
+        ]);
+        $subcategories->save();
+        return redirect()->back();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function edit(Request $request, $id)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        $subcategories = Subcategories::find($id);
+        $request->validate([
+            'name' =>'required'
+        ],[
+            'name.required'=>"Vui lòng nhập tên danh mục con"
+        ]);
+        $subcategories->name= $request->name;
+        $subcategories->cat_id= $request->cat_id;
+        $subcategories->update();
+        return redirect()->back();
     }
 
     /**
@@ -56,11 +59,17 @@ class SubCategoriesController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $subcategories = SubCategories::find($id);
+        $subcategories::destroy($id);
+        return redirect()->back();
+    }
+    public function status(Request $request)
+    {
+        $subcategories = SubCategories::find($request->status_id);
+        $subcategories->status = $request->active;
+        $subcategories->save();
+        return response('success',200);
     }
 }

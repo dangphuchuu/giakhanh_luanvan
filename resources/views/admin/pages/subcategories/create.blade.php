@@ -1,21 +1,29 @@
-<div class="modal fade text-left" id="categories_edit{{$cat->id}}" tabindex="-1" role="dialog" aria-labelledby="categories_edit"
+<div class="modal fade text-left" id="subcategories_create" tabindex="-1" role="dialog" aria-labelledby="subcategories_create"
                         aria-hidden="true">
                             <div class="modal-dialog modal-dialog-scrollable" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="categories_edit">Edit Categories</h5>
+                                        <h5 class="modal-title" id="subcategories_create">Create Subcategories</h5>
                                         <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
                                             <i data-feather="x"></i>
                                         </button>
                                     </div>
-                                    <form action="admin/categories/edit/{{$cat->id}}" method="post">
+                                    <form action="admin/subcategories/create" method="post">
                                         @csrf
-                                        <div class="modal-body">
-                                            <label>Name: </label>
-                                            <div class="form-group">
-                                            <input type="text" class="form-control" name="name" value="{{$cat->name}}" required>
-                                            </div>
+                                    <div class="modal-body">
+                                        <label>Name: </label>
+                                        <div class="form-group">
+                                        <input type="text" placeholder="Type...." class="form-control" name="name" required>
                                         </div>
+                                        <label>Categories: </label>
+                                        <div class="form-group">
+                                            <select name="cat_id" class="form-control form-control-primary">
+                                                @foreach($categories as $cat)
+                                                <option value="{{$cat->id}}">{{$cat->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn" data-bs-dismiss="modal">
                                                 <i class="bx bx-x d-block d-sm-none"></i>

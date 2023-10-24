@@ -1,19 +1,19 @@
-<div class="modal fade text-left" id="categories_edit{{$cat->id}}" tabindex="-1" role="dialog" aria-labelledby="categories_edit"
+<div class="modal fade text-left" id="products_edit{{$pro->id}}" tabindex="-1" role="dialog" aria-labelledby="products_edit"
                         aria-hidden="true">
                             <div class="modal-dialog modal-dialog-scrollable" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="categories_edit">Edit Categories</h5>
+                                        <h5 class="modal-title" id="products_edit">Edit Product</h5>
                                         <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
                                             <i data-feather="x"></i>
                                         </button>
                                     </div>
-                                    <form action="admin/categories/edit/{{$cat->id}}" method="post">
+                                    <form action="admin/products/edit/{{$pro->id}}" method="post">
                                         @csrf
                                         <div class="modal-body">
                                             <label>Name: </label>
                                             <div class="form-group">
-                                            <input type="text" class="form-control" name="name" value="{{$cat->name}}" required>
+                                            <input type="text" class="form-control" name="name" value="{{$pro->name}}" required>
                                             </div>
                                         </div>
                                         <div class="modal-footer">

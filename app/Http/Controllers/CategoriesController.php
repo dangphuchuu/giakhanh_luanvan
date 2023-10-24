@@ -36,25 +36,6 @@ class CategoriesController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Request $request, $id) 
     {
         $categories = Categories::find($id);
@@ -64,7 +45,7 @@ class CategoriesController extends Controller
             'name.required'=>"Vui lòng nhập tên danh mục",
             'name.unique' =>'Tên danh mục này đã tồn tại'
         ]);
-        $categories['name'] = $request['name'];
+        $categories->name = $request->name;
         $categories->update();
         
         return redirect()->back();
@@ -74,5 +55,12 @@ class CategoriesController extends Controller
         $categories = Categories::find($id);
         $categories::destroy($id);
         return redirect()->back();
+    }
+    public function status(Request $request)
+    {
+        $categories = Categories::find($request->status_id);
+        $categories->status = $request->active;
+        $categories->save();
+        return response('success',200);
     }
 }
