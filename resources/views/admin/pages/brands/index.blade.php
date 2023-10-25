@@ -10,13 +10,13 @@ active
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Products</h3>
+                <h3>Brands</h3>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class='breadcrumb-header'>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Products</li>
+                        <li class="breadcrumb-item active" aria-current="page">Brands</li>
                     </ol>
                 </nav>
             </div>
@@ -25,60 +25,48 @@ active
     <section class="section">
         <div class="card">
             <div class="card-header">
-            <button type="button" class="btn btn-outline-primary block" data-bs-toggle="modal" data-bs-target="#products_create">
+            <button type="button" class="btn btn-outline-primary block" data-bs-toggle="modal" data-bs-target="#brands_create">
                        Create
             </button>
-            @include('admin/pages/products/create')
+            @include('admin/pages/brands/create')
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>image</th>
                             <th>Name</th>
-                            <th>Categories</th>
-                            <th>Subcategories</th>
-                            <th>Brands</th>
-                            <th>featured</th>
+                            <th>Image</th>
                             <th>Status</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($products as $key => $pro)
+                        @foreach($brands as $key => $brand)
                         <tr>
-                            <td>{{$key+1}}</td>
+                            <td>{{$brand->name}}</td>
                             <td>
-                                <img style="width: 200px" src="{{$pro->image}}" alt="">
-                            </td>
-                            <td class="text-truncate" style="max-width: 200px;">{{$pro->name}}</td>
-                            <td>{{$pro->categories->name}}</td>
-                            <td>{{$pro->subcategories->name}}</td>
-                            <td>{{$pro->brands->name}}</td>
-                            <td id="featured{{$pro->id}}">
-                                @if($pro->featured_product == 1)
-                                <a href="javascript:void(0)" onclick="featured({{$pro->id}},0)"><span class="badge bg-success">Active</span></a>
+                                @if(strstr($brand->image,"https") == "")
+                                    <img style="width: 300px" src="https://res.cloudinary.com/{!! $cloud_name !!}/image/upload/{{ $brand->image }}.jpg" >
                                 @else
-                                <a href="javascript:void(0)" onclick="featured({{$pro->id}},1)"><span class="badge bg-danger">Inactive</span></a>
+                                    <img style="width: 300px" src="{{ $brand->image }}" >
                                 @endif
                             </td>
-                            <td id="status{{$pro->id}}">
-                                @if($pro->status == 1)
-                                <a href="javascript:void(0)" onclick="status({{$pro->id}},0)"><span class="badge bg-success">Active</span></a>
+                            <td id="status{{$brand->id}}">
+                                @if($brand->status == 1)
+                                <a href="javascript:void(0)" onclick="status({{$brand->id}},0)"><span class="badge bg-success">Active</span></a>
                                 @else
-                                <a href="javascript:void(0)" onclick="status({{$pro->id}},1)"><span class="badge bg-danger">Inactive</span></a>
+                                <a href="javascript:void(0)" onclick="status({{$brand->id}},1)"><span class="badge bg-danger">Inactive</span></a>
                                 @endif
                             </td>
                             <td>
-                            <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#products_edit{{$pro->id}}">
+                            <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#brands_edit{{$brand->id}}">
                                 <i data-feather="edit"></i>
                              </a>
-                                @include('admin/pages/products/edit')
+                                @include('admin/pages/brands/edit')
                             </td>
                             <td>
-                            <a href="admin/products/delete/{{$pro->id}}" onclick="return confirm('Are you sure you want to delete this')">
+                            <a href="admin/brands/delete/{{$brand->id}}" onclick="return confirm('Are you sure you want to delete this')">
                                     <i data-feather="trash-2"></i>
                              </a> 
                             </td>
@@ -112,7 +100,7 @@ active
             }
         });
         $.ajax({
-            url: "/admin/products/status",
+            url: "/admin/brands/status",
             type: 'GET',
             dataType: 'json',
             data: {
@@ -130,37 +118,18 @@ active
     }
 </script>
 <script>
-    function featured(featured_id, active) {
-        if (active === 1) {
-            $("#featured" + featured_id).html(' <a href="javascript:void(0)" onclick="featured(' + featured_id + ',0)">\
-                <span class="badge bg-success">Active</span>\
-            </a>')
-        } else {
-            $("#featured" + featured_id).html(' <a href="javascript:void(0)" onclick="featured(' + featured_id + ',1)">\
-                <span class="badge bg-danger">Inactive</span>\
-            </a>')
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('.file-uploader .img_brands').attr('src', e.target.result).removeClass('d-none');
+            }
+            reader.readAsDataURL(input.files[0]);
         }
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: "/admin/products/featured",
-            type: 'GET',
-            dataType: 'json',
-            data: {
-                'active': active,
-                'featured_id': featured_id
-            },
-            success: function(data) {
-                if (data['success']) {
-                    // alert(data.success);
-                } else if (data['error']) {
-                    alert(data.error);
-                }
-            }
-        });
     }
+
+    $(".image-brands").change(function() {
+        readURL(this);
+    });
 </script>
 @endsection

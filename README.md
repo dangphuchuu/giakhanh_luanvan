@@ -74,3 +74,6 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 - php artisan migrate:fresh --seed 
 - composer dumpautoload
 - php artisan serve
+### Error
+- Error: cURL error 60: SSL certificate problem: self signed certificate in certificate chain
+- fix: https://www.youtube.com/watch?v=f5jQqWvw44U

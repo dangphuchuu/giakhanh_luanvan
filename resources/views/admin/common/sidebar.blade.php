@@ -26,6 +26,9 @@
                             <a href="admin/subcategories">SubCategories</a>
                         </li>
                         <li>
+                            <a href="admin/brands">Brands</a>
+                        </li>
+                        <li>
                             <a href="admin/products">Products</a>
                         </li>
                     </ul>

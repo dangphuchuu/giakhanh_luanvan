@@ -44,4 +44,16 @@ class ProductsController extends Controller
     {
         //
     }
+    public function status(Request $request){
+        $products = Products::find($request->status_id);
+        $products->status = $request->active;
+        $products->save();
+        return response('success',200);
+    }
+    public function featured(Request $request){
+        $products = Products::find($request->featured_id);
+        $products->featured_product = $request->active;
+        $products->save();
+        return response('success',200);
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SubCategoriesController;
@@ -29,6 +30,13 @@ Route::prefix('admin')->middleware('admin','role:admin|staff')->group(function()
         Route::post('/edit/{id}',[SubCategoriesController::class, 'edit']);
         Route::get('/delete/{id}',[SubCategoriesController::class, 'destroy']);
         Route::get('/status',[SubCategoriesController::class, 'status']);
+    });
+    Route::prefix('brands')->group(function(){
+        Route::get('/',[BrandsController::class, 'index']);
+        Route::post('/create',[BrandsController::class, 'create']);
+        Route::post('/edit/{id}',[BrandsController::class, 'edit']);
+        Route::get('/delete/{id}',[BrandsController::class, 'destroy']);
+        Route::get('/status',[BrandsController::class, 'status']);
 
     });
     Route::prefix('products')->group(function(){
@@ -36,7 +44,8 @@ Route::prefix('admin')->middleware('admin','role:admin|staff')->group(function()
         Route::post('/create',[ProductsController::class, 'create']);
         Route::post('/edit/{id}',[ProductsController::class, 'edit']);
         Route::get('/delete/{id}',[ProductsController::class, 'destroy']);
-
+        Route::get('/status',[ProductsController::class, 'status']);
+        Route::get('/featured',[ProductsController::class, 'featured']);
     });
 
 });
