@@ -143,81 +143,20 @@
                                                 <span class="hamburger-inner"></span>
                                             </span>
                                         </span>
-                                        Categories
+                                        {{__("Categories")}}
                                     </a>
                                 </span>
                                 <div id="menu">
                                     <ul>
-                                        <li><span><a href="#0">Collections</a></span>
+                                        @foreach($categories as $cat)
+                                        <li><span><a href="">{{$cat->name}}</a></span>
                                             <ul class="fix_long">
-                                                <li><a href="listing-grid-1-full.html">Trending</a></li>
-                                                <li><a href="listing-grid-2-full.html">Life style</a></li>
-                                                <li><a href="listing-grid-3.html">Running</a></li>
-                                                <li><a href="listing-grid-4-sidebar-left.html">Latest
-                                                        products</a></li>
-                                                <li><a href="listing-grid-4-sidebar-left.html">Popular</a></li>
-                                                <li><a href="listing-grid-4-sidebar-left.html">Most Viewed</a>
-                                                </li>
-                                                <li><a href="listing-grid-4-sidebar-left.html">Most
-                                                        purchased</a></li>
-                                                <li><a href="listing-grid-4-sidebar-left.html">Men's</a></li>
-                                                <li><a href="listing-grid-4-sidebar-left.html">Women's</a></li>
-                                                <li><a href="listing-grid-4-sidebar-left.html">Child</a></li>
-                                                <li><a href="listing-grid-4-sidebar-left.html">Past
-                                                        collection</a></li>
-                                                <li><a href="listing-grid-5-sidebar-right.html">View all
-                                                        Collections</a></li>
+                                                @foreach($cat->Subcategories as $sub)
+                                                <li><a href="">{{$sub->name}}</a></li>
+                                                @endforeach
                                             </ul>
                                         </li>
-                                        <li><span><a href="#">Men</a></span>
-                                            <ul>
-                                                <li><a href="listing-grid-6-sidebar-left.html">Offers</a></li>
-                                                <li><a href="listing-grid-7-sidebar-right.html">Shoes</a></li>
-                                                <li><a href="listing-row-1-sidebar-left.html">Clothing</a></li>
-                                                <li><a href="listing-row-3-sidebar-left.html">Accessories</a>
-                                                </li>
-                                                <li><a href="listing-row-4-sidebar-extended.html">Equipment</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><span><a href="#">Women</a></span>
-                                            <ul>
-                                                <li><a href="listing-grid-1-full.html">Best Sellers</a></li>
-                                                <li><a href="listing-grid-2-full.html">Clothing</a></li>
-                                                <li><a href="listing-grid-3.html">Accessories</a></li>
-                                                <li><a href="listing-grid-4-sidebar-left.html">Shoes</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><span><a href="#">Boys</a></span>
-                                            <ul>
-                                                <li><a href="listing-grid-6-sidebar-left.html">Easy On Shoes</a>
-                                                </li>
-                                                <li><a href="listing-grid-7-sidebar-right.html">Clothing</a>
-                                                </li>
-                                                <li><a href="listing-row-3-sidebar-left.html">Must Have</a></li>
-                                                <li><a href="listing-row-4-sidebar-extended.html">All Boys</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><span><a href="#">Girls</a></span>
-                                            <ul>
-                                                <li><a href="listing-grid-1-full.html">New Releases</a></li>
-                                                <li><a href="listing-grid-2-full.html">Clothing</a></li>
-                                                <li><a href="listing-grid-3.html">Sale</a></li>
-                                                <li><a href="listing-grid-4-sidebar-left.html">Best Sellers</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><span><a href="#">Customize</a></span>
-                                            <ul>
-                                                <li><a href="listing-row-1-sidebar-left.html">For Men</a></li>
-                                                <li><a href="listing-row-2-sidebar-right.html">For Women</a>
-                                                </li>
-                                                <li><a href="listing-row-4-sidebar-extended.html">For Boys</a>
-                                                </li>
-                                                <li><a href="listing-grid-1-full.html">For Girls</a></li>
-                                            </ul>
-                                        </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </li>

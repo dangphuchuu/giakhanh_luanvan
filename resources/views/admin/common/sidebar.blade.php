@@ -5,53 +5,52 @@
         </div>
         <div class="sidebar-menu">
             <ul class="menu">
-                <li class='sidebar-title'>Main Menu</li>
+                <li class='sidebar-title'>{{__("Main Menu")}}</li>
                 <li class="sidebar-item @yield('dashboard') ">
                     <a href="/admin" class='sidebar-link'>
                         <i data-feather="home" width="20"></i>
-                        <span>Dashboard</span>
+                        <span>{{__("Dashboard")}}</span>
                     </a>
                 </li>
                 <li class="sidebar-item  has-sub @yield('manage_products')">
 
                     <a href="#" class='sidebar-link'>
                         <i data-feather="triangle" width="20"></i>
-                        <span>Manage Products</span>
+                        <span>{{__("Manage Products")}}</span>
                     </a>
                     <ul class="submenu ">
                         <li>
-                            <a href="admin/categories">Categories</a>
+                            <a href="admin/categories">{{__("Categories")}}</a>
                         </li>
                         <li>
-                            <a href="admin/subcategories">SubCategories</a>
+                            <a href="admin/subcategories">{{__("SubCategories")}}</a>
                         </li>
                         <li>
-                            <a href="admin/brands">Brands</a>
+                            <a href="admin/brands">{{__("Brands")}}</a>
                         </li>
                         <li>
-                            <a href="admin/products">Products</a>
+                            <a href="admin/products">{{__("Products")}}</a>
                         </li>
                     </ul>
                 </li>
-                <li class='sidebar-title'>Staff &amp; Clients</li>
+                <li class='sidebar-title'>{{__("Staff")}} &amp; {{__("Clients")}}</li>
                 <li class="sidebar-item  ">
                     <a href="form-layout.html" class='sidebar-link'>
                         <i data-feather="user-check" width="20"></i>
-                        <span>Staff</span>
+                        <span>{{__("Staff")}}</span>
                     </a>
                 </li>
                 <li class="sidebar-item  ">
                     <a href="form-layout.html" class='sidebar-link'>
                         <i data-feather="users" width="20"></i>
-                        <span>Clients</span>
+                        <span>{{__("Clients")}}</span>
                     </a>
                 </li>
-                <li class='sidebar-title'>Information</li>
-                <li class="sidebar-item  has-sub">
-
+                <li class='sidebar-title'>{{__("Information")}}</li>
+                <!-- <li class="sidebar-item  has-sub">
                     <a href="#" class='sidebar-link'>
-                        <i data-feather="user" width="20"></i>
-                        <span>Authentication</span>
+                        <i data-feather="info" width="20"></i>
+                        <span>Website</span>
                     </a>
                     <ul class="submenu ">
                         <li>
@@ -67,8 +66,8 @@
                         </li>
 
                     </ul>
-                </li>
-                <li class="sidebar-item  has-sub">
+                </li> -->
+                <!-- <li class="sidebar-item  has-sub">
                     <a href="#" class='sidebar-link'>
                         <i data-feather="alert-circle" width="20"></i>
                         <span>Errors</span>
@@ -87,7 +86,7 @@
                             <a href="error-500.html">500</a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
             </ul>
         </div>
         <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>

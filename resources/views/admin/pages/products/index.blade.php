@@ -40,6 +40,7 @@ active
                             <th>Categories</th>
                             <th>Subcategories</th>
                             <th>Brands</th>
+                            <th>Staff</th>
                             <th>featured</th>
                             <th>Status</th>
                             <th>Edit</th>
@@ -51,12 +52,21 @@ active
                         <tr>
                             <td>{{$key+1}}</td>
                             <td>
-                                <img style="width: 200px" src="{{$pro->image}}" alt="">
+                                @if($pro->image == NULL)
+                                    <img style="width: 150px">
+                                @else
+                                    @if(strstr($pro->image,"https") == "")
+                                        <img style="width: 150px" src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$pro->image}}.jpg" >
+                                    @elseif(strstr($pro->image,"https") != "")
+                                        <img style="width: 150px" src="{{$pro->image}}" >
+                                    @endif
+                                @endif 
                             </td>
-                            <td class="text-truncate" style="max-width: 200px;">{{$pro->name}}</td>
+                            <td class="text-truncate" style="max-width: 130px;">{{$pro->name}}</td>
                             <td>{{$pro->categories->name}}</td>
                             <td>{{$pro->subcategories->name}}</td>
                             <td>{{$pro->brands->name}}</td>
+                            <td>{{$pro->users->firstname}}</td>
                             <td id="featured{{$pro->id}}">
                                 @if($pro->featured_product == 1)
                                 <a href="javascript:void(0)" onclick="featured({{$pro->id}},0)"><span class="badge bg-success">Active</span></a>
@@ -162,5 +172,55 @@ active
             }
         });
     }
+</script>
+<script>
+     $(document).ready(function(){
+        $("#category").change(function(){
+            var cat_id = $(this).val();
+            $.get("admin/products/subcategory/"+cat_id,function(data){
+                $("#subcategory").html(data);
+            });
+        });
+    });
+</script>
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('.file-uploader .img_products').attr('src', e.target.result).removeClass('d-none');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(".image-products").change(function() {
+        readURL(this);
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $('#checkPrice').change(function(){
+        if($(this).is(":checked"))
+        {
+            $('.new_price').removeAttr('disabled');
+        }
+        else 
+            {
+                $('.new_price').attr('disabled','');
+                }
+        });
+    });
+</script>
+<script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
+<script>
+ClassicEditor
+        .create( document.querySelector( '#content' ) )
+        .then( content => {
+                console.log( content );
+        } )
+        .catch( error => {
+                console.error( error );
+        } );
 </script>
 @endsection

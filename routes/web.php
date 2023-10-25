@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +13,24 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-require 'admin.php';
-Route::get('/', [WebController::class, 'index']);
 
+Route::get('lang',function(){
+    $language = Session("language",config("app.locale"));
+    if($language == "en") {
+        $language = "vi";
+    }else
+    {
+        $language = "en";
+    }
+    Session::put('language',$language);
+    return redirect()->back();
+})->name("lang");
 
+Route::middleware('language')->group(function(){
+    require 'admin.php';
+    Route::get('/', [WebController::class, 'index']);
+    // Route::prefix('/')->middleware()->group(function(){
+
+    // });
+
+});

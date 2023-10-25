@@ -46,10 +46,14 @@ active
                         <tr>
                             <td>{{$brand->name}}</td>
                             <td>
-                                @if(strstr($brand->image,"https") == "")
-                                    <img style="width: 300px" src="https://res.cloudinary.com/{!! $cloud_name !!}/image/upload/{{ $brand->image }}.jpg" >
+                                @if($brand->image == NULL)
+                                    <img style="width: 300px">
                                 @else
-                                    <img style="width: 300px" src="{{ $brand->image }}" >
+                                    @if(strstr($brand->image,"https") == "")
+                                        <img style="width: 300px" src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ $brand->image }}.jpg" >
+                                    @elseif(strstr($brand->image,"https") != "")
+                                        <img style="width: 300px" src="{{ $brand->image }}" >
+                                    @endif
                                 @endif
                             </td>
                             <td id="status{{$brand->id}}">

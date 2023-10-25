@@ -9,10 +9,6 @@ use Illuminate\Contracts\Filesystem\Cloud;
 
 class BrandsController extends Controller
 {
-    public function __construct(){
-        $cloud_name = cloud_name();
-        view()->share('cloud_name',$cloud_name);
-    }
     public function index(){
         $brands = Brands::all();
         return view('admin/pages/brands/index',['brands' => $brands]);
@@ -33,8 +29,18 @@ class BrandsController extends Controller
                 ]
             );
             $brands->save();
-        }else{
-            return redirect()->back()->with('warning','Vui lòng nhập hình ảnh');
+        }
+        elseif(!$request->hasFile('Image')){
+            $brands = new Brands(
+                [
+                    'name'=>$request->name
+                ]
+            );
+            $brands->save();
+            return redirect()->back();
+        }
+        else{
+            return redirect()->back()->with('warning','vui lòng nhập ảnh');
         }
        
         return redirect()->back();

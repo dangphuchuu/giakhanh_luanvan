@@ -7,6 +7,9 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SubCategoriesController;
 use Illuminate\Support\Facades\Route;
 
+
+
+    
 Route::prefix('admin')->group(function(){
     Route::get('/login', [AdminController::class, 'login']);
     Route::post('/login', [AdminController::class, 'handle_login']);
@@ -46,6 +49,7 @@ Route::prefix('admin')->middleware('admin','role:admin|staff')->group(function()
         Route::get('/delete/{id}',[ProductsController::class, 'destroy']);
         Route::get('/status',[ProductsController::class, 'status']);
         Route::get('/featured',[ProductsController::class, 'featured']);
+        Route::get('/subcategory/{cat_id}',[ProductsController::class, 'getSubCategories']);
     });
 
 });
