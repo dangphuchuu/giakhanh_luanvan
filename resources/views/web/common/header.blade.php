@@ -152,7 +152,9 @@
                                         <li><span><a href="">{{$cat->name}}</a></span>
                                             <ul class="fix_long">
                                                 @foreach($cat->Subcategories as $sub)
+                                                @if($sub->status == 1)
                                                 <li><a href="">{{$sub->name}}</a></li>
+                                                @endif
                                                 @endforeach
                                             </ul>
                                         </li>

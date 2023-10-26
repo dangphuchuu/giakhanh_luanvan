@@ -11,10 +11,6 @@
                                     <form action="admin/subcategories/create" method="post">
                                         @csrf
                                     <div class="modal-body">
-                                        <label>Name: </label>
-                                        <div class="form-group">
-                                        <input type="text" placeholder="Type...." class="form-control" name="name" required>
-                                        </div>
                                         <label>Categories: </label>
                                         <div class="form-group">
                                             <select name="cat_id" class="form-control form-control-primary">
@@ -23,6 +19,12 @@
                                                 @endforeach
                                             </select>
                                         </div>
+
+                                        <label>Name: </label>
+                                        <div class="form-group">
+                                        <input type="text" placeholder="Type...." class="form-control" name="name" required>
+                                        </div>
+                                        
                                     </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn" data-bs-dismiss="modal">
