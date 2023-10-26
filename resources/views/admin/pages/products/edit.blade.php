@@ -8,12 +8,12 @@
                 <i data-feather="x"></i>
                 </button>
             </div>
-            <form action="admin/products/edit" method="post" enctype="multipart/form-data">
+            <form action="admin/products/edit/{{$pro->id}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <label>Category: </label>
                     <div class="form-group">
-                        <select name="cat_id" class="form-control form-control-primary" id="category">
+                        <select name="cat_id" class="form-control form-control-primary category_edit" >
                             @foreach($categories as $cat)
                             <option
                                 @if($pro->cat_id == $cat->id)
@@ -26,7 +26,7 @@
 
                     <label>Subcategory: </label>
                     <div class="form-group">
-                        <select name="sub_id" class="form-control form-control-primary" id="subcategory">
+                        <select name="sub_id" class="form-control form-control-primary subcategory_edit" >
                             @foreach($subcategories as $sub)
                             <option 
                                 @if($pro->sub_id == $sub->id)
@@ -80,22 +80,22 @@
 
                     <label>Video: </label>
                     <div class="form-group">
-                        <input type="text" placeholder="https://www.youtube.com/watch?v=" class="form-control" name="youtube_path">
+                        <input type="text" placeholder="https://www.youtube.com/watch?v=" value="{{$pro->youtube_path}}" class="form-control" name="youtube_path">
                     </div>
 
                     <label>Price: </label>
                     <div class="form-group">
-                        <input class="form-control" type="number" name="price"/>
+                        <input class="form-control" type="number" name="price" value="{{$pro->price}}"/>
                     </div>
-                    <input type="checkbox" id="checkPrice" name="changeprice">
+                    <input type="checkbox" class="checkPrice_edit" name="changeprice">
                     <label>New Price: </label>
                     <div class="form-group">
-                        <input class="new_price form-control" type="number" name="price_new" disabled/>
+                        <input class="new_price_edit form-control" type="number" name="price_new" value="{{$pro->price_new}}" disabled/>
                     </div>
 
                     <label>Content: </label>
                     <div class="form-group">
-                        <textarea class="form-control" name="content" id="content"></textarea>
+                        <textarea class="form-control" name="content" id="content">{{$pro->content}}</textarea>
                     </div>
 
                 </div>

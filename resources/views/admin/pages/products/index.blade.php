@@ -106,6 +106,48 @@ active
 <script src="admin_assets/vendors/simple-datatables/simple-datatables.js"></script>
 <script src="admin_assets/js/vendors.js"></script>
 <script>
+    $(document).ready(function(){
+        $('.checkPrice').change(function(){
+        if($(this).is(":checked"))
+        {
+            $('.new_price').removeAttr('disabled');
+        }
+        else 
+        {
+            $('.new_price').attr('disabled','');
+        }
+        });
+
+        //edit
+        $('.checkPrice_edit').change(function(){
+        if($(this).is(":checked"))
+        {
+            $('.new_price_edit').removeAttr('disabled');
+        }
+        else 
+        {
+            $('.new_price_edit').attr('disabled','');
+        }
+        });
+
+        //change category to subcategory create
+        $(".category").change(function(){
+            var cat_id = $(this).val();
+            $.get("admin/products/subcategory/"+cat_id,function(data){
+                $(".subcategory").html(data);
+            });
+        });
+
+        //change category to subcategory edit
+        $(".category_edit").change(function(){
+            var cat_id = $(this).val();
+            $.get("admin/products/subcategory_edit/"+cat_id,function(data){
+                $(".subcategory_edit").html(data);
+            });
+        });
+    });
+</script>
+<script>
     function status(status_id, active) {
         if (active === 1) {
             $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',0)">\
@@ -173,16 +215,7 @@ active
         });
     }
 </script>
-<script>
-     $(document).ready(function(){
-        $("#category").change(function(){
-            var cat_id = $(this).val();
-            $.get("admin/products/subcategory/"+cat_id,function(data){
-                $("#subcategory").html(data);
-            });
-        });
-    });
-</script>
+
 <script>
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -198,20 +231,7 @@ active
         readURL(this);
     });
 </script>
-<script>
-    $(document).ready(function(){
-        $('#checkPrice').change(function(){
-        if($(this).is(":checked"))
-        {
-            $('.new_price').removeAttr('disabled');
-        }
-        else 
-            {
-                $('.new_price').attr('disabled','');
-                }
-        });
-    });
-</script>
+
 <script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
 <script>
 ClassicEditor

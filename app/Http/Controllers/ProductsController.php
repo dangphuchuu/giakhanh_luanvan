@@ -86,25 +86,71 @@ class ProductsController extends Controller
         return redirect()->back();
     }
 
-    public function edit(string $id)
+    public function edit(Request $request,$id)
     {
-        //
-    }
+        $products = Products::find($id);
+        $request->validate([
+            'name' => 'required|min:1',
+        ], [
+            'name.required' => 'Vui lòng nhập tên sản phẩm',
+            'name.min' => 'Tên sản phẩm ít nhất 1 ký tự',
+        ]);
+        $request['users_id'] = Auth::user()->id;
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        if($request->hasFile('Image')){
+            $img = $request->file('Image');
+            if($products->image !=''){
+                Cloudinary::destroy($products->image);
+            }
+            $cloud = Cloudinary::upload($img->getRealPath(), [
+                'folder' => 'products',
+                'format' => 'jpg',
+            ])->getPublicId();
+            // var_dump($cloud);
+            $products->image = $cloud;
+        }
+        if($request->hasFile('Productslibrary'))
+        {
+            foreach($request->file('Productslibrary') as $file){
+                $img = $file;
+                $cloud = Cloudinary::upload($img->getRealPath(), [
+                    'folder' => 'Productslibrary',
+                    'format' => 'jpg',
+                ])->getPublicId();
+                $request['products_id'] = $products->id;
+                $request['image_library'] = $cloud;
+                ProductsLibrary::create([
+                    'products_id'=>$request['products_id'],
+                    'image_library'=>$request['image_library']
+                ]);
+            }
+        }
+        $products->cat_id = $request->cat_id;
+        $products->users_id = $request->users_id;
+        $products->brands_id = $request->brands_id;
+        $products->sub_id = $request->sub_id;
+        $products->name = $request->name;
+        $products->youtube_path = $request->youtube_path;
+        $products->price = $request->price;
+        $products->price_new = $request->price_new;
+        $products->content = $request->content;
+        $products->save();
+        return redirect()->back();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $products = Products::find($id);
+        $productsLibrary= ProductsLibrary::where('products_id',$products->id)->get();
+        Cloudinary::destroy($products->image);
+        foreach($productsLibrary as $productslib){
+            Cloudinary::destroy($productslib->image_library);
+        }
+        $products->delete();
+        return redirect()->back();
     }
     public function status(Request $request){
         $products = Products::find($request->status_id);
@@ -119,6 +165,12 @@ class ProductsController extends Controller
         return response('success',200);
     }
     public function getSubCategories($cat_id){
+        $subcategories = Subcategories::where('cat_id', $cat_id)->get();
+        foreach ($subcategories as $sub) {
+            echo '<option value="' . $sub->id . '">' . $sub->name . '</option>';
+        }
+    }
+    public function getSubCategories_edit($cat_id){
         $subcategories = Subcategories::where('cat_id', $cat_id)->get();
         foreach ($subcategories as $sub) {
             echo '<option value="' . $sub->id . '">' . $sub->name . '</option>';

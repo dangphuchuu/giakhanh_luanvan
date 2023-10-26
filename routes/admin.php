@@ -50,6 +50,7 @@ Route::prefix('admin')->middleware('admin','role:admin|staff')->group(function()
         Route::get('/status',[ProductsController::class, 'status']);
         Route::get('/featured',[ProductsController::class, 'featured']);
         Route::get('/subcategory/{cat_id}',[ProductsController::class, 'getSubCategories']);
+        Route::get('/subcategory_edit/{cat_id}',[ProductsController::class, 'getSubCategories_edit']);
     });
 
 });

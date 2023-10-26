@@ -13,7 +13,7 @@
                 <div class="modal-body">
                     <label>Category: </label>
                     <div class="form-group">
-                        <select name="cat_id" class="form-control form-control-primary" id="category">
+                        <select name="cat_id" class="form-control form-control-primary category" >
                             @foreach($categories as $cat)
                             <option value="{{$cat->id}}">{{$cat->name}}</option>
                             @endforeach
@@ -22,7 +22,7 @@
 
                     <label>Subcategory: </label>
                     <div class="form-group">
-                        <select name="sub_id" class="form-control form-control-primary" id="subcategory">
+                        <select name="sub_id" class="form-control form-control-primary subcategory" >
                             @foreach($subcategories as $sub)
                             <option value="{{$sub->id}}">{{$sub->name}}</option>
                             @endforeach
@@ -64,7 +64,7 @@
                     <div class="form-group">
                         <input class="form-control" type="number" name="price"/>
                     </div>
-                    <input type="checkbox" id="checkPrice" name="changeprice">
+                    <input type="checkbox" class="checkPrice" name="changeprice">
                     <label>New Price: </label>
                     <div class="form-group">
                         <input class="new_price form-control" type="number" name="price_new" disabled/>

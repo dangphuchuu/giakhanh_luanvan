@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brands;
 use App\Models\Categories;
+use App\Models\Products;
 use App\Models\Subcategories;
 use Illuminate\Http\Request;
 
@@ -19,13 +20,15 @@ class WebController extends Controller
     }
     public function index()
     {
+        $products = Products::all();
         $categories = Categories::all();
         $subcategories = Subcategories::all();
         $brands = Brands::all();
         return view('web/pages/home/index',[
             'categories' => $categories,
             'subcategories' => $subcategories,
-            'brands'=>$brands
+            'brands'=>$brands,
+            'products' => $products
         ]);
     }
 

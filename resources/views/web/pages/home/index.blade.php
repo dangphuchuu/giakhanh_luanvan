@@ -104,7 +104,69 @@
 			<!-- /container -->
 
 			<hr class="mb-0">
-
+			<div class="container margin_60_35">
+				<div class="main_title mb-4">
+					<h2>Products</h2>
+					<span>Products</span>
+					<p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
+				</div>
+				<div class="isotope-wrapper">
+					<div class="row small-gutters">
+						@foreach($products as $pro)
+						<div class="col-6 col-md-4 col-xl-3 isotope-item popular">
+							<div class="grid_item">
+								<span class="ribbon new">New</span>
+								<figure>
+									<a href="product-detail-1.html">
+									@if($pro->image == NULL)
+									<img class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" alt="">
+									<img class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" alt="">
+									@else
+										@if(strstr($pro->image,"https") == "")
+											<img style="width:250px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$pro->image}}.jpg" alt="">
+											<img style="width:250px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$pro->image}}.jpg" alt="">
+										@elseif(strstr($pro->image,"https") != "")
+											<img style="width:250px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="{{$pro->image}}" alt="">
+											<img style="width:250px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="{{$pro->image}}" alt="">
+										@endif
+									@endif
+									</a>
+								</figure>
+								<div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i></div>
+								<a href="product-detail-1.html">
+									<h3>{{$pro->name}}</h3>
+								</a>
+								<div class="price_box">
+									<span class="new_price">
+										@if(isset($pro->price_new))
+											${{$pro->price_new}}
+										@elseif(isset($pro->price))
+										${{$pro->price}}
+										@else
+										{{__("Contact")}}
+										@endif
+									</span>
+								</div>
+								<ul>
+									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to favorites"><i class="ti-heart"></i><span>Add to
+												favorites</span></a></li>
+									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
+												compare</span></a></li>
+									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to
+												cart</span></a></li>
+								</ul>
+							</div>
+							<!-- /grid_item -->
+						</div>
+						@endforeach
+						<!-- /col -->
+					</div>
+					<!-- /row -->
+				</div>
+				<!-- /isotope-wrapper -->
+			</div>
+			
+			<hr class="mb-0">
 			<div class="container margin_60_35">
 				<div class="main_title mb-4">
 					<h2>New Arrival</h2>
