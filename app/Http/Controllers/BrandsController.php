@@ -67,7 +67,8 @@ class BrandsController extends Controller
             
         }
         $brands->name = $request->name;
-        $brands->update($request->all());
+        $brands->image = $request['image'];
+        $brands->save();
         return redirect()->back();
     }
     public function destroy($id){

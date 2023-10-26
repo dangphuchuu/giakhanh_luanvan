@@ -37,4 +37,8 @@ class Products extends Model
     public function subcategories() {
         return $this->belongsTo(Subcategories::class, 'sub_id', 'id');
     }
+    public function Productslibrary()
+    {
+        return $this->hasMany(ProductsLibrary::class,'products_id','id');
+    }
 }

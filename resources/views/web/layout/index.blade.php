@@ -23,7 +23,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-
+	
 	<!-- BASE CSS -->
 	<link href="web_assets/css/bootstrap.custom.min.css" rel="stylesheet">
 	<link href="web_assets/css/style.css" rel="stylesheet">

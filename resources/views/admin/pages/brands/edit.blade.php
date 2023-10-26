@@ -20,7 +20,7 @@ aria-hidden="true">
                     <input type="file" name="Image" class="form-control image-brands">
                     <div class="form-group file-uploader">
                         @if(strstr($brand->image,"https") == "")
-                        <img style="width: 400px" class="img_brands" src="https://res.cloudinary.com/{!! $cloud_name !!}/image/upload/{{ $brand->image }}.jpg" alt="">
+                        <img style="width: 400px" class="img_brands" src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ $brand->image }}.jpg" alt="">
                         @else
                         <img style="width: 400px" class="img_brands" src="{{$brand->image}}" alt="">
                         @endif

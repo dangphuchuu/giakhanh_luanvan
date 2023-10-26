@@ -69,16 +69,17 @@ class ProductsController extends Controller
             if($request->hasFile('Productslibrary'))
             {
                 foreach($request->file('Productslibrary') as $file){
-                    $file = $request->file('Productslibrary');
-                    $img = $request['image_library'] = $file;
-                    // dd($img);
+                    $img = $file;
                     $cloud = Cloudinary::upload($img->getRealPath(), [
                         'folder' => 'Productslibrary',
                         'format' => 'jpg',
                     ])->getPublicId();
                     $request['products_id'] = $products->id;
                     $request['image_library'] = $cloud;
-                    ProductsLibrary::create($request->all());
+                    ProductsLibrary::create([
+                        'products_id'=>$request['products_id'],
+                        'image_library'=>$request['image_library']
+                    ]);
                 }
             }
         }
