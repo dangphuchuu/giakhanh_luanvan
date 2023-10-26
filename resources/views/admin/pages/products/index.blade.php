@@ -10,13 +10,13 @@ active
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Products</h3>
+                <h3>{{__("Products")}}</h3>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class='breadcrumb-header'>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Products</li>
+                        <li class="breadcrumb-item"><a href="/admin">{{__("Dashboard")}}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{__("Products")}}</li>
                     </ol>
                 </nav>
             </div>
@@ -26,7 +26,7 @@ active
         <div class="card">
             <div class="card-header">
             <button type="button" class="btn btn-outline-primary block" data-bs-toggle="modal" data-bs-target="#products_create">
-                       Create
+            {{__("Create")}}
             </button>
             @include('admin/pages/products/create')
             </div>
@@ -35,16 +35,16 @@ active
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>image</th>
-                            <th>Name</th>
-                            <th>Categories</th>
-                            <th>Subcategories</th>
-                            <th>Brands</th>
-                            <th>Staff</th>
-                            <th>featured</th>
-                            <th>Status</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>{{__("Image")}}</th>
+                            <th>{{__("Name")}}</th>
+                            <th>{{__("Categories")}}</th>
+                            <th>{{__("SubCategories")}}</th>
+                            <th>{{__("Brands")}}</th>
+                            <th>{{__("Staff")}}</th>
+                            <th>{{__("Featured")}}</th>
+                            <th>{{__("Status")}}</th>
+                            <th>{{__("Edit")}}</th>
+                            <th>{{__("Delete")}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -88,7 +88,7 @@ active
                                 @include('admin/pages/products/edit')
                             </td>
                             <td>
-                            <a href="admin/products/delete/{{$pro->id}}" onclick="return confirm('Are you sure you want to delete this')">
+                            <a href="admin/products/delete/{{$pro->id}}" onclick="return confirm(`{{__('Are you sure you want to delete this ?')}}`)">
                                     <i data-feather="trash-2"></i>
                              </a> 
                             </td>
@@ -235,12 +235,22 @@ active
 <script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
 <script>
 ClassicEditor
-        .create( document.querySelector( '#content' ) )
+        .create( document.querySelector( '.content' ) )
         .then( content => {
-                console.log( content );
+                // console.log( content );
         } )
         .catch( error => {
-                console.error( error );
+                // console.error( error );
+        } );
+</script>
+<script>
+ClassicEditor
+        .create( document.querySelector( '.content_edit' ) )
+        .then( content => {
+                // console.log( content );
+        } )
+        .catch( error => {
+                // console.error( error );
         } );
 </script>
 @endsection

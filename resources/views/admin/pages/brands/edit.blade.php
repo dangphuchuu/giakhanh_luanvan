@@ -3,7 +3,7 @@ aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="brands_edit">Edit Brands</h5>
+                <h5 class="modal-title" id="brands_edit">{{__("Edit")}} {{__("Brands")}}</h5>
                 <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
                     <i data-feather="x"></i>
                 </button>
@@ -11,12 +11,12 @@ aria-hidden="true">
             <form action="admin/brands/edit/{{$brand->id}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
-                    <label>Name: </label>
+                    <label>{{__("Name")}}: </label>
                     <div class="form-group">
                         <input type="text" class="form-control" name="name" value="{{$brand->name}}" required>
                     </div>
 
-                    <label>Image: </label>
+                    <label>{{__("Image")}}: </label>
                     <input type="file" name="Image" class="form-control image-brands">
                     <div class="form-group file-uploader">
                         @if(strstr($brand->image,"https") == "")
@@ -29,11 +29,11 @@ aria-hidden="true">
                 <div class="modal-footer">
                     <button type="button" class="btn" data-bs-dismiss="modal">
                         <i class="bx bx-x d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Close</span>
+                        <span class="d-none d-sm-block">{{__("Close")}}</span>
                     </button>
                     <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
                         <i class="bx bx-check d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Accept</span>
+                        <span class="d-none d-sm-block">{{__("Accept")}}</span>
                     </button>
                 </div>
             </form>

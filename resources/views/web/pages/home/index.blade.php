@@ -106,14 +106,14 @@
 			<hr class="mb-0">
 			<div class="container margin_60_35">
 				<div class="main_title mb-4">
-					<h2>Products</h2>
-					<span>Products</span>
+					<h2>{{__("Products")}}</h2>
+					<span>{{__("Products")}}</span>
 					<p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
 				</div>
 				<div class="isotope-wrapper">
 					<div class="row small-gutters">
 						@foreach($products as $pro)
-						<div class="col-6 col-md-4 col-xl-3 isotope-item popular">
+						<div class="col-6 col-md-4 col-xl-3 isotope-item popular" style="max-height:440px">
 							<div class="grid_item">
 								<span class="ribbon new">New</span>
 								<figure>
@@ -134,14 +134,14 @@
 								</figure>
 								<div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i></div>
 								<a href="product-detail-1.html" >
-									<h3 class="d-inline-block text-truncate" style="max-width: 150px; max-height:150px">{{$pro->name}}</h3>
+									<h3 class="d-block text-truncate" style="max-width: 250px; height:110px">{{$pro->name}}</h3>
 								</a>
-								<div class="price_box">
+								<div class="price_box ">
 									<span class="new_price">
 										@if(isset($pro->price_new))
-											${{$pro->price_new}}
+											{{number_format($pro->price_new,0,",",".")}} Vnđ
 										@elseif(isset($pro->price))
-										${{$pro->price}}
+										{{number_format($pro->price,0,",",".")}} Vnđ
 										@else
 										{{__("Contact")}}
 										@endif

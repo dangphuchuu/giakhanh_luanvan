@@ -53,8 +53,7 @@ class BrandsController extends Controller
             'name.required'=>"Vui lòng nhập tên danh mục"
         ]);
         if ($request->hasFile('Image')) {
-            $file = $request->file('Image');
-            $img = $request['image'] = $file;
+            $img = $request->file('Image');
             if($brands->image !=''){
                 Cloudinary::destroy($brands->image);
             }
@@ -63,11 +62,9 @@ class BrandsController extends Controller
                 'format' => 'jpg',
 
             ])->getPublicId();
-            $request['image'] = $cloud;
-            
+            $brands->image= $cloud;
         }
         $brands->name = $request->name;
-        $brands->image = $request['image'];
         $brands->save();
         return redirect()->back();
     }

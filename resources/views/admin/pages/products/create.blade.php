@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="products_createTitle">Create Product</h5>
+                <h5 class="modal-title" id="products_createTitle">{{__("Create")}} {{__("Products")}}</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                 <i data-feather="x"></i>
                 </button>
@@ -11,7 +11,7 @@
             <form action="admin/products/create" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
-                    <label>Category: </label>
+                    <label>{{__("Categories")}}: </label>
                     <div class="form-group">
                         <select name="cat_id" class="form-control form-control-primary category" >
                             @foreach($categories as $cat)
@@ -20,7 +20,7 @@
                         </select>
                     </div>
 
-                    <label>Subcategory: </label>
+                    <label>{{__("SubCategories")}}: </label>
                     <div class="form-group">
                         <select name="sub_id" class="form-control form-control-primary subcategory" >
                             @foreach($subcategories as $sub)
@@ -29,7 +29,7 @@
                         </select>
                     </div>
 
-                    <label>Brands: </label>
+                    <label>{{__("Brands")}}: </label>
                     <div class="form-group">
                         <select name="brands_id" class="form-control form-control-primary" id="brands">
                             @foreach($brands as $brand)
@@ -38,18 +38,18 @@
                         </select>
                     </div>
 
-                    <label>Name: </label>
+                    <label>{{__("Name")}}: </label>
                     <div class="form-group">
-                        <input type="text" placeholder="Type...." class="form-control" name="name" required>
+                        <input type="text" placeholder="{{__('Type')}}...." class="form-control" name="name" required>
                     </div>
 
-                    <label>Image: </label>
+                    <label>{{__("Image")}}: </label>
                     <div class="form-group file-uploader">
                         <input type="file" name="Image" class="form-control image-products">
                         <img style="width: 400px" src="" class="img_products d-none" alt="user1">
                     </div>
 
-                    <label>Image Libraries: </label>
+                    <label>{{__("Image Libraries")}}: </label>
                     <div class="form-group file-uploader-library">
                         <input type="file" name="Productslibrary[]" class="form-control image-products-library" multiple>
                         <img style="width: 400px" src="" class="img_products_library d-none" alt="user1">
@@ -60,30 +60,30 @@
                         <input type="text" placeholder="https://www.youtube.com/watch?v=" class="form-control" name="youtube_path">
                     </div>
 
-                    <label>Price: </label>
+                    <label>{{__("Price")}}: </label>
                     <div class="form-group">
                         <input class="form-control" type="number" name="price"/>
                     </div>
+                    <label>{{__("New Price")}}: </label>
                     <input type="checkbox" class="checkPrice" name="changeprice">
-                    <label>New Price: </label>
                     <div class="form-group">
                         <input class="new_price form-control" type="number" name="price_new" disabled/>
                     </div>
 
-                    <label>Content: </label>
+                    <label>{{__("Content")}}: </label>
                     <div class="form-group">
-                        <textarea class="form-control" name="content" id="content"></textarea>
+                        <textarea class="form-control content" name="content" ></textarea>
                     </div>
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                     <i class="bx bx-x d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Close</span>
+                    <span class="d-none d-sm-block">{{__("Close")}}</span>
                     </button>
                     <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
                     <i class="bx bx-check d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Accept</span>
+                    <span class="d-none d-sm-block">{{__("Accept")}}</span>
                     </button>
                 </div>
 

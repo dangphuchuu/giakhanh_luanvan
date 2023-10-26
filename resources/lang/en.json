@@ -29,5 +29,21 @@
     "OR":"OR",
     "Sign In":"Sign In",
     "Please sign in to continue to Voler":"Please sign in to continue to Voler",
-    "Contact":"Contact"
+    "Contact":"Contact",
+    "Close":"Close",
+    "Accept":"Accept",
+    "Name":"Name",
+    "Edit":"Edit",
+    "Delete":"Delete",
+    "Status":"Status",
+    "Search":"Search",
+    "Create":"Create",
+    "Type":"Type",
+    "Are you sure you want to delete this ?":"Are you sure you want to delete this ?",
+    "Image":"Image",
+    "Featured":"Featured",
+    "Image Libraries":"Image Libraries",
+    "Price":"Price",
+    "New Price":"New Price",
+    "Content":"Content"
 }

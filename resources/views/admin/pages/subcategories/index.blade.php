@@ -10,13 +10,13 @@ active
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Subcategories</h3>
+                <h3>{{__("SubCategories")}}</h3>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class='breadcrumb-header'>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Subcategories</li>
+                        <li class="breadcrumb-item"><a href="/admin">{{__("Dashboard")}}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{__("SubCategories")}}</li>
                     </ol>
                 </nav>
             </div>
@@ -26,7 +26,7 @@ active
         <div class="card">
             <div class="card-header">
             <button type="button" class="btn btn-outline-primary block" data-bs-toggle="modal" data-bs-target="#subcategories_create">
-                       Create
+                       {{__("Create")}}
             </button>
             @include('admin/pages/subcategories/create')
             </div>
@@ -34,11 +34,11 @@ active
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
-                            <th>Categories</th>
-                            <th>Name</th>
-                            <th>Status</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>{{__("Categories")}}</th>
+                            <th>{{__("Name")}}</th>
+                            <th>{{__("Status")}}</th>
+                            <th>{{__("Edit")}}</th>
+                            <th>{{__("Delete")}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,7 +60,7 @@ active
                                 @include('admin/pages/subcategories/edit')
                             </td>
                             <td>
-                            <a href="admin/subcategories/delete/{{$sub->id}}" onclick="return confirm('Are you sure you want to delete this')">
+                            <a href="admin/subcategories/delete/{{$sub->id}}" onclick="return confirm(`{{__('Are you sure you want to delete this ?')}}`)">
                                     <i data-feather="trash-2"></i>
                              </a> 
                             </td>
