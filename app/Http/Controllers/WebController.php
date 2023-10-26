@@ -20,10 +20,10 @@ class WebController extends Controller
     }
     public function index()
     {
-        $products = Products::all();
-        $categories = Categories::all();
-        $subcategories = Subcategories::all();
-        $brands = Brands::all();
+        $products = Products::all()->where('status',1)->sortByDesc('created_at')->take(4);
+        $categories = Categories::all()->where('status',1);
+        $subcategories = Subcategories::all()->where('status',1);
+        $brands = Brands::all()->where('status',1);
         return view('web/pages/home/index',[
             'categories' => $categories,
             'subcategories' => $subcategories,

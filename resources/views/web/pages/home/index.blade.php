@@ -123,18 +123,18 @@
 									<img class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" alt="">
 									@else
 										@if(strstr($pro->image,"https") == "")
-											<img style="width:250px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$pro->image}}.jpg" alt="">
-											<img style="width:250px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$pro->image}}.jpg" alt="">
+											<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$pro->image}}.jpg" alt="">
+											<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$pro->image}}.jpg" alt="">
 										@elseif(strstr($pro->image,"https") != "")
-											<img style="width:250px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="{{$pro->image}}" alt="">
-											<img style="width:250px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="{{$pro->image}}" alt="">
+											<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="{{$pro->image}}" alt="">
+											<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="{{$pro->image}}" alt="">
 										@endif
 									@endif
 									</a>
 								</figure>
 								<div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i></div>
-								<a href="product-detail-1.html">
-									<h3>{{$pro->name}}</h3>
+								<a href="product-detail-1.html" >
+									<h3 class="d-inline-block text-truncate" style="max-width: 150px; max-height:150px">{{$pro->name}}</h3>
 								</a>
 								<div class="price_box">
 									<span class="new_price">
