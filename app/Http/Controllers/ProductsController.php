@@ -176,4 +176,10 @@ class ProductsController extends Controller
             echo '<option value="' . $sub->id . '">' . $sub->name . '</option>';
         }
     }
+    public function deleteImages($id){
+        $productsLibrary = ProductsLibrary::find($id);
+        Cloudinary::destroy($productsLibrary->image_library);
+        $productsLibrary->delete();
+        return response()->json(['success'=>"Delete successfully"]);
+    }
 }

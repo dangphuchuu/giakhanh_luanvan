@@ -134,7 +134,7 @@
 								</figure>
 								<div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i></div>
 								<a href="product-detail-1.html" >
-									<h3 class="d-block text-truncate" style="max-width: 250px; height:110px">{{$pro->name}}</h3>
+									<h3 class="d-block" style="max-width: 270px; height:50px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{$pro->name}}</h3>
 								</a>
 								<div class="price_box ">
 									<span class="new_price">

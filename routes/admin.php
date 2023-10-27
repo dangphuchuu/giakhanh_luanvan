@@ -47,6 +47,7 @@ Route::prefix('admin')->middleware('admin','role:admin|staff')->group(function()
         Route::post('/create',[ProductsController::class, 'create']);
         Route::post('/edit/{id}',[ProductsController::class, 'edit']);
         Route::get('/delete/{id}',[ProductsController::class, 'destroy']);
+        Route::delete('/deleteimages/{id}',[ProductsController::class, 'deleteImages']);
         Route::get('/status',[ProductsController::class, 'status']);
         Route::get('/featured',[ProductsController::class, 'featured']);
         Route::get('/subcategory/{cat_id}',[ProductsController::class, 'getSubCategories']);

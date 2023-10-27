@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products_libraries', function (Blueprint $table) {
+            $table->increments('id');
             $table->unsignedInteger('products_id');   
             $table->string('image_library')->nullable();
 

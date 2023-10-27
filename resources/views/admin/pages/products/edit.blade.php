@@ -70,10 +70,15 @@
                     <div class="form-group file-uploader-library">
                         @foreach($pro->Productslibrary as $library)
                             @if(strstr($library->image_library,"https") == "")
-                            <img style="width: 400px" class="img_products_library mb-2" src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ $library->image_library }}.jpg" alt="">
-                            <a href="javascript:void(0)" class="btn text-danger delete-image">X</a> 
+                            <div>
+                                <img style="width: 400px" class="img_products_library mb-2" src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ $library->image_library }}.jpg" alt="">
+                                <a href="javascript:void(0)" data-url="{{ url('admin/products/deleteimages', $library->id ) }}" class="btn text-danger delete-image">X</a> 
+                            </div>
                             @else
+                            <div>
                                 <img style="width: 400px" class="img_products_library mb-2" src="{{$library->image_library}}" alt="">
+                                <a href="javascript:void(0)" data-url="{{ url('admin/products/deleteimages', $library->id ) }}" class="btn text-danger delete-image">X</a> 
+                            </div>
                             @endif
                         @endforeach
                     </div>

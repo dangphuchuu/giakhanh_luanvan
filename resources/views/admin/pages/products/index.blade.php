@@ -215,7 +215,6 @@ active
         });
     }
 </script>
-
 <script>
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -231,7 +230,6 @@ active
         readURL(this);
     });
 </script>
-
 <script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
 <script>
 ClassicEditor
@@ -242,8 +240,6 @@ ClassicEditor
         .catch( error => {
                 // console.error( error );
         } );
-</script>
-<script>
 ClassicEditor
         .create( document.querySelector( '.content_edit' ) )
         .then( content => {
@@ -252,5 +248,34 @@ ClassicEditor
         .catch( error => {
                 // console.error( error );
         } );
+</script>
+<script>
+     $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $('.delete-image').on('click', function() {
+            var userURL = $(this).data('url');
+            var trObj = $(this);
+            if (confirm("Are you sure you want to remove it?") == true) {
+                $.ajax({
+                    url: userURL,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data['success']) {
+                            alert(data.success);
+                            trObj.parent().remove();
+                        } else if (data['error']) {
+                            alert(data.error);
+                        }
+                    }
+                });
+            }
+
+        });
+    });
 </script>
 @endsection
