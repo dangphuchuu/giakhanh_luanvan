@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Brands;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
-use Illuminate\Contracts\Filesystem\Cloud;
 
 class BrandsController extends Controller
 {
@@ -15,8 +14,7 @@ class BrandsController extends Controller
     }
     public function create(Request $request){
         if ($request->hasFile('Image')) {
-            $file = $request->file('Image');
-            $img = $request['image'] = $file;
+            $img = $request->file('Image');
             $cloud = Cloudinary::upload($img->getRealPath(), [
                 'folder' => 'brands',
                 'format' => 'jpg',

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categories;
+use App\Models\Subcategories;
 use Illuminate\Http\Request;
 
 use function Laravel\Prompts\confirm;
@@ -53,8 +54,13 @@ class CategoriesController extends Controller
     public function destroy($id)
     {
         $categories = Categories::find($id);
-        $categories::destroy($id);
-        return redirect()->back();
+        $check = count(Subcategories::where('cat_id',$id)->get());
+        if($check ==0 ){
+            $categories::destroy($id);
+            return redirect()->back();
+        }else{
+            return redirect()->back();
+        } 
     }
     public function status(Request $request)
     {

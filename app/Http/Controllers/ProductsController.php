@@ -45,8 +45,7 @@ class ProductsController extends Controller
         ]);
         $request['users_id'] = Auth::user()->id;
         if($request->hasFile('Image')){
-            $file = $request->file('Image');
-            $img = $request['image'] = $file;
+            $img = $request->file('Image');
             $cloud = Cloudinary::upload($img->getRealPath(), [
                 'folder' => 'products',
                 'format' => 'jpg',
@@ -66,23 +65,24 @@ class ProductsController extends Controller
                 ]
             );
             $products->save();
-            if($request->hasFile('Productslibrary'))
-            {
-                foreach($request->file('Productslibrary') as $file){
-                    $img = $file;
-                    $cloud = Cloudinary::upload($img->getRealPath(), [
-                        'folder' => 'Productslibrary',
-                        'format' => 'jpg',
-                    ])->getPublicId();
-                    $request['products_id'] = $products->id;
-                    $request['image_library'] = $cloud;
-                    ProductsLibrary::create([
-                        'products_id'=>$request['products_id'],
-                        'image_library'=>$request['image_library']
-                    ]);
-                }
+        }
+        if($request->hasFile('Productslibrary'))
+        {
+            foreach($request->file('Productslibrary') as $file){
+                $img = $file;
+                $cloud = Cloudinary::upload($img->getRealPath(), [
+                    'folder' => 'Productslibrary',
+                    'format' => 'jpg',
+                ])->getPublicId();
+                $request['products_id'] = $products->id;
+                $request['image_library'] = $cloud;
+                ProductsLibrary::create([
+                    'products_id'=>$request['products_id'],
+                    'image_library'=>$request['image_library']
+                ]);
             }
         }
+      
         return redirect()->back();
     }
 

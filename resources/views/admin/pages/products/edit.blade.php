@@ -1,6 +1,6 @@
-<div class="modal fade" id="products_edit{{$pro->id}}" tabindex="-1" role="dialog"
+<div class="modal fade " id="products_edit{{$pro->id}}" tabindex="-1" role="dialog"
     aria-labelledby="products_editTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog " role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="products_editTitle">{{__("Edit")}} {{__("Products")}}</h5>

@@ -47,46 +47,25 @@
                     </a>
                 </li>
                 <li class='sidebar-title'>{{__("Information")}}</li>
-                <!-- <li class="sidebar-item  has-sub">
+                <li class="sidebar-item  has-sub">
                     <a href="#" class='sidebar-link'>
                         <i data-feather="info" width="20"></i>
-                        <span>Website</span>
+                        <span> Website</span>
                     </a>
                     <ul class="submenu ">
                         <li>
-                            <a href="auth-login.html">Login</a>
+                            <a href="/admin/banners">{{__("Banners")}}</a>
                         </li>
 
                         <li>
-                            <a href="auth-register.html">Register</a>
+                            <a href="auth-register.html">{{__("Banners Featured")}}</a>
                         </li>
-
                         <li>
-                            <a href="auth-forgot-password.html">Forgot Password</a>
+                            <a href="auth-forgot-password.html">{{__("Information's Website")}}</a>
                         </li>
 
                     </ul>
-                </li> -->
-                <!-- <li class="sidebar-item  has-sub">
-                    <a href="#" class='sidebar-link'>
-                        <i data-feather="alert-circle" width="20"></i>
-                        <span>Errors</span>
-                    </a>
-                    <ul class="submenu ">
-
-                        <li>
-                            <a href="error-403.html">403</a>
-                        </li>
-
-                        <li>
-                            <a href="error-404.html">404</a>
-                        </li>
-
-                        <li>
-                            <a href="error-500.html">500</a>
-                        </li>
-                    </ul>
-                </li> -->
+                </li> 
             </ul>
         </div>
         <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>

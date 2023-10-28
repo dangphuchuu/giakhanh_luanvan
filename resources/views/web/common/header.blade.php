@@ -168,14 +168,14 @@
                 <div class="col-xl-6 col-lg-7 col-md-6 d-none d-md-block">
                     <div class="custom-search-input">
                         <input type="text" placeholder="Search over 10.000 products">
-                        <button type="submit"><i class="header-icon_search_custom"></i></button>
+                        <button type="submit" style="margin-top: -3px;"><i class="ti-search" style="font-size: 20px;"></i></button>
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-2 col-md-3">
                     <ul class="top_tools">
                         <li>
-                            <div class="dropdown dropdown-cart">
-                                <a href="cart.html" class="cart_bt"><strong>2</strong></a>
+                            <div class="dropdown dropdown-cart mt-1">
+                                <a href="cart.html" ><i class="ti-shopping-cart" style="font-size: 22px;"></i></a>
                                 <div class="dropdown-menu">
                                     <ul>
                                         <li>
@@ -202,11 +202,37 @@
                             <!-- /dropdown-cart-->
                         </li>
                         <li>
-                            <a href="#0" class="wishlist"><span>Wishlist</span></a>
+                            <!-- <a href="#0" class="wishlist"><span>Wishlist</span></a> -->
                         </li>
+                        @if(Auth::check())
                         <li>
-                            <div class="dropdown dropdown-access">
-                                <a href="account.html" class="access_link"><span>Account</span></a>
+                            <div class="dropdown dropdown-access mt-1">
+                                <a href="account.html">{{Auth::user()->firstname}}</a>
+                                <div class="dropdown-menu">
+                                    <a class="btn_1">{{Auth::user()->firstname}}</a>
+                                    <ul>
+                                        <li>
+                                            <a href="track-order.html"><i class="ti-truck"></i>Track your
+                                                Order</a>
+                                        </li>
+                                        <li>
+                                            <a href="account.html"><i class="ti-package"></i>My Orders</a>
+                                        </li>
+                                        <li>
+                                            <a href="account.html"><i class="ti-user"></i>My Profile</a>
+                                        </li>
+                                        <li>
+                                            <a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- /dropdown-access-->
+                        </li>
+                        @else
+                        <li>
+                            <div class="dropdown dropdown-access mt-1">
+                                <a href="account.html"><i class="ti-lock" style="font-size: 22px;"></i><span>Account</span></a>
                                 <div class="dropdown-menu">
                                     <a href="account.html" class="btn_1">Sign In or Sign Up</a>
                                     <ul>
@@ -228,8 +254,9 @@
                             </div>
                             <!-- /dropdown-access-->
                         </li>
+                        @endif
                         <li>
-                            <a href="javascript:void(0);" class="btn_search_mob"><span>Search</span></a>
+                            <a href="javascript:void(0);" class="btn_search_mob ti-search" ><span>Search</span></a>
                         </li>
                         <li>
                             <a href="#menu" class="btn_cat_mob">

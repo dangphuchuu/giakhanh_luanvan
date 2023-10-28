@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BannersController;
 use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductsController;
@@ -54,4 +55,12 @@ Route::prefix('admin')->middleware('admin','role:admin|staff')->group(function()
         Route::get('/subcategory_edit/{cat_id}',[ProductsController::class, 'getSubCategories_edit']);
     });
 
+    Route::prefix('banners')->group(function(){
+        Route::get('/',[BannersController::class, 'index']);
+        Route::post('/create',[BannersController::class, 'create']);
+        Route::post('/edit/{id}',[BannersController::class, 'edit']);
+        Route::get('/delete/{id}',[BannersController::class, 'destroy']);
+        Route::get('/status',[BannersController::class, 'status']);
+
+    });
 });

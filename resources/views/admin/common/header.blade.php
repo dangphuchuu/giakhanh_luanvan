@@ -32,10 +32,10 @@
             <li class=" nav-icon me-2">
                 <a href="{{route('lang')}}" class="nav-link nav-link-lg nav-link-user">
                     <div class="d-lg-inline-block">
-                    @if(Session("language") == "vi")
-                    <img src="images/language/vietnam.png" style="height: 30px">
+                    @if(Session("language") == "en")
+                    <img src="images/language/{{__('en')}}.png" style="height: 30px">
                     @else
-                    <img src="images/language/united-states.png" style="height: 30px">
+                    <img src="images/language/{{__('vi')}}.png" style="height: 30px">
                     @endif
                     </div>
                 </a>

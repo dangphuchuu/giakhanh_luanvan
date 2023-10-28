@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Subcategories;
 use App\Models\Categories;
+use App\Models\Products;
 use Illuminate\Http\Request;
 
 class SubCategoriesController extends Controller
@@ -62,8 +63,14 @@ class SubCategoriesController extends Controller
     public function destroy($id)
     {
         $subcategories = SubCategories::find($id);
-        $subcategories::destroy($id);
-        return redirect()->back();
+        $check = count(Products::where('sub_id',$id)->get());
+        if($check ==0){
+            $subcategories::destroy($id);
+            return redirect()->back();
+        }else{
+            return redirect()->back()->with('error',"Lỗi");
+        }
+       
     }
     public function status(Request $request)
     {
