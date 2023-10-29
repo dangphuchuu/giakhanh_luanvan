@@ -29,6 +29,7 @@ class WebController extends Controller
         $banners = Banners::all()->where('status',1);
         $bannersfeatured = BannersFeatured::all()->where('status',1)->take(3);
         $products_featured = Products::all()->where('status',1)->where('featured_product',1);
+        $top_selling = Products::all()->where('status',1)->sortBy('created_at')->take(8);
         return view('web/pages/home/index',[
             'categories' => $categories,
             'subcategories' => $subcategories,
@@ -36,7 +37,8 @@ class WebController extends Controller
             'products' => $products,
             'banners'=>$banners,
             'bannersfeatured'=>$bannersfeatured,
-            'products_featured'=>$products_featured
+            'products_featured'=>$products_featured,
+            'top_selling'=>$top_selling
         ]);
     }
 

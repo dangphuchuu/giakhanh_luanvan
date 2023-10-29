@@ -12,9 +12,11 @@
 						<figure>
 							<a href="product-detail-1.html">
 								@if(strstr($featured->image,"https") == "")
-									<img class="owl-lazy" src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$featured->image}}.jpg" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$featured->image}}.jpg" alt="">
+									<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$featured->image}}.jpg" alt="">
+									<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$featured->image}}.jpg" alt="">
 								@else
-									<img class="owl-lazy" src="{{$featured->image}}" data-src="{{$featured->image}}" alt="">
+									<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="{{$featured->image}}" alt="">
+									<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="{{$featured->image}}" alt="">
 								@endif
 							</a>
 						</figure>

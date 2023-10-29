@@ -60,15 +60,6 @@
 	<!-- SPECIFIC SCRIPTS -->
 	<script src="web_assets/js/modernizr.js"></script>
 	<script src="web_assets/js/video_header.min.js"></script>
-	<script>
-		// Video Header
-		HeaderVideo.init({
-			container: $('.header-video'),
-			header: $('.header-video--media'),
-			videoTrigger: $("#video-trigger"),
-			autoPlayVideo: true
-		});
-	</script>
 	<script src="web_assets/js/isotope.min.js"></script>
 	<script>
 		// Isotope filter
