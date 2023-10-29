@@ -56,7 +56,7 @@
 	<!-- COMMON SCRIPTS -->
 	<script src="web_assets/js/common_scripts.min.js"></script>
 	<script src="web_assets/js/main.js"></script>
-
+	<script src="web_assets/js/carousel-home.min.js"></script>
 	<!-- SPECIFIC SCRIPTS -->
 	<script src="web_assets/js/modernizr.js"></script>
 	<script src="web_assets/js/video_header.min.js"></script>

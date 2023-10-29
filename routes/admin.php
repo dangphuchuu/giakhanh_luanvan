@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BannersController;
+use App\Http\Controllers\BannersFeaturedController;
 use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductsController;
@@ -61,6 +62,14 @@ Route::prefix('admin')->middleware('admin','role:admin|staff')->group(function()
         Route::post('/edit/{id}',[BannersController::class, 'edit']);
         Route::get('/delete/{id}',[BannersController::class, 'destroy']);
         Route::get('/status',[BannersController::class, 'status']);
+
+    });
+    Route::prefix('bannersfeatured')->group(function(){
+        Route::get('/',[BannersFeaturedController::class, 'index']);
+        Route::post('/create',[BannersFeaturedController::class, 'create']);
+        Route::post('/edit/{id}',[BannersFeaturedController::class, 'edit']);
+        Route::get('/delete/{id}',[BannersFeaturedController::class, 'destroy']);
+        Route::get('/status',[BannersFeaturedController::class, 'status']);
 
     });
 });
