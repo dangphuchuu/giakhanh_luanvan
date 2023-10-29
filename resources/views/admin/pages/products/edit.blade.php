@@ -52,7 +52,7 @@
 
                     <label>{{__("Name")}}: </label>
                     <div class="form-group">
-                        <input type="text" value="{{$pro->name}}" class="form-control" name="name" required>
+                        <input type="text" value="{{$pro->name}}" class="form-control" name="name">
                     </div>
 
                     <label>{{__("Image")}}: </label>

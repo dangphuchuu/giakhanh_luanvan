@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
+
     
 Route::prefix('admin')->group(function(){
     Route::get('/login', [AdminController::class, 'login']);

@@ -34,14 +34,15 @@
                                         <div class="form-control-icon">
                                             <i data-feather="user"></i>
                                         </div>
+                                        <!-- @if(Session::has('errors'))
+                                           {{Session::get('errors')->first()}}
+                                        @endif -->
                                     </div>
                                 </div>
                                 <div class="form-group position-relative has-icon-left">
                                     <div class="clearfix">
                                         <label for="password">{{__("Password")}}</label>
-                                        <a href="auth-forgot-password.html" class='float-end'>
-                                            <small>{{__("Forgot Password?")}}</small>
-                                        </a>
+                                      
                                     </div>
                                     <div class="position-relative">
                                         <input type="password" class="form-control" id="password" name="password">
@@ -57,7 +58,7 @@
                                         <label for="checkbox1">{{__("Remember me")}}</label>
                                     </div>
                                     <div class="float-end">
-                                        <a href="auth-register.html">{{__("Don't have an account?")}}</a>
+                                        <a href="/login">{{__("Don't have an account?")}}</a>
                                     </div>
                                 </div>
                                 <div class="clearfix">
@@ -81,6 +82,7 @@
             </div>
         </div>
     </div>
+    @include('sweetalert::alert')
     <script src="admin_assets/js/feather-icons/feather.min.js"></script>
     <script src="admin_assets/js/app.js"></script>
     <script src="admin_assets/js/main.js"></script>

@@ -11,12 +11,10 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 
 class ProductsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $products = Products::all();
@@ -32,17 +30,18 @@ class ProductsController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(Request $request)
     {
-        $request->validate([
-            'name' => 'required|min:1',
-        ], [
-            'name.required' => 'Vui lòng nhập tên sản phẩm',
-            'name.min' => 'Tên sản phẩm ít nhất 1 ký tự',
+        $validate = Validator::make($request->all(),[
+            'name' =>'required'
+        ],[
+            'name.required'=>__("Name field is required")
         ]);
+
+        if($validate->fails()){
+            return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
+        }
+
         $request['users_id'] = Auth::user()->id;
         if($request->hasFile('Image')){
             $img = $request->file('Image');
@@ -65,6 +64,8 @@ class ProductsController extends Controller
                 ]
             );
             $products->save();
+        }else{
+            return redirect()->back()->with('toast_error',__("Please choose image"));
         }
         if($request->hasFile('Productslibrary'))
         {
@@ -83,18 +84,22 @@ class ProductsController extends Controller
             }
         }
       
-        return redirect()->back();
+        return redirect()->back()->with('toast_success',__("Create successfully"));
     }
 
     public function edit(Request $request,$id)
     {
         $products = Products::find($id);
-        $request->validate([
-            'name' => 'required|min:1',
-        ], [
-            'name.required' => 'Vui lòng nhập tên sản phẩm',
-            'name.min' => 'Tên sản phẩm ít nhất 1 ký tự',
+        $validate = Validator::make($request->all(),[
+            'name' =>'required'
+        ],[
+            'name.required'=>__("Name field is required")
         ]);
+
+        if($validate->fails()){
+            return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
+        }
+
         $request['users_id'] = Auth::user()->id;
 
         if($request->hasFile('Image')){
@@ -109,6 +114,7 @@ class ProductsController extends Controller
             // var_dump($cloud);
             $products->image = $cloud;
         }
+
         if($request->hasFile('Productslibrary'))
         {
             foreach($request->file('Productslibrary') as $file){
@@ -135,22 +141,23 @@ class ProductsController extends Controller
         $products->price_new = $request->price_new;
         $products->content = $request->content;
         $products->save();
-        return redirect()->back();
+        return redirect()->back()->with('toast_success',__("Update successfully"));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $products = Products::find($id);
         $productsLibrary= ProductsLibrary::where('products_id',$products->id)->get();
-        Cloudinary::destroy($products->image);
-        foreach($productsLibrary as $productslib){
-            Cloudinary::destroy($productslib->image_library);
+        if($products->status == 0){
+            Cloudinary::destroy($products->image);
+            foreach($productsLibrary as $productslib){
+                Cloudinary::destroy($productslib->image_library);
+            }
+            $products->delete();
+            return redirect()->back()->with('toast_success',__("Delete Successfully"));
+        }else{
+            return redirect()->back()->with('toast_warning',__("Please change status to Inactive to delete"));
         }
-        $products->delete();
-        return redirect()->back();
     }
     public function status(Request $request){
         $products = Products::find($request->status_id);

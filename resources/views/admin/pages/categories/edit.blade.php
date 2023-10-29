@@ -13,7 +13,7 @@
                                         <div class="modal-body">
                                             <label>{{__("Name")}}: </label>
                                             <div class="form-group">
-                                            <input type="text" class="form-control" name="name" value="{{$cat->name}}" required>
+                                            <input type="text" class="form-control" name="name" value="{{$cat->name}}">
                                             </div>
                                         </div>
                                         <div class="modal-footer">

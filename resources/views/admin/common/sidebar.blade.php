@@ -58,7 +58,7 @@
                         </li>
 
                         <li>
-                            <a href="/admin/bannersfeatured">{{__("Banners Featured")}}</a>
+                            <a href="/admin/bannersfeatured">{{__("Banners Collection")}}</a>
                         </li>
                         <li>
                             <a href="auth-forgot-password.html">{{__("Information's Website")}}</a>

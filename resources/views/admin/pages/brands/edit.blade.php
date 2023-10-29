@@ -13,7 +13,7 @@ aria-hidden="true">
                 <div class="modal-body">
                     <label>{{__("Name")}}: </label>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="name" value="{{$brand->name}}" required>
+                        <input type="text" class="form-control" name="name" value="{{$brand->name}}" >
                     </div>
 
                     <label>{{__("Image")}}: </label>

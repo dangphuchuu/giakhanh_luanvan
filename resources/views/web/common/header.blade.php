@@ -222,7 +222,7 @@
                                             <a href="account.html"><i class="ti-user"></i>My Profile</a>
                                         </li>
                                         <li>
-                                            <a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a>
+                                            <a href="help.html"><i class="ti-shift-right"></i>{{__("Logout")}}</a>
                                         </li>
                                     </ul>
                                 </div>

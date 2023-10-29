@@ -32,7 +32,7 @@ class BannersController extends Controller
            
         }
        
-        return redirect()->back();
+        return redirect()->back()->with('toast_success',__("Create successfully"));
     }
     public function edit(Request $request,$id){
         $banners = Banners::find($id);
@@ -49,13 +49,13 @@ class BannersController extends Controller
             $banners->image= $cloud;
             $banners->save();
         }
-        return redirect()->back();
+        return redirect()->back()->with('toast_success',__("Update successfully"));
     }
     public function destroy($id){
         $banners = Banners::find($id);
         Cloudinary::destroy($banners->image);
         $banners->delete();
-        return redirect()->back();
+        return redirect()->back()->with('toast_success',_("Delete Successfully"));
     }
     public function status(Request $request){
         $banners = Banners::find($request->status_id);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BannersFeatured;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Validator;
 
 class BannersFeaturedController extends Controller
 {
@@ -13,6 +14,17 @@ class BannersFeaturedController extends Controller
         return view('admin/pages/bannersfeatured/index',['bannersfeatured' => $bannersfeatured]);
     }
     public function create(Request $request){
+        $validate = Validator::make($request->all(),[
+            'name' =>'required',
+            'link'=>'required'
+        ],[
+            'name.required'=>__("Name field is required"),
+            'link.required'=>__("Link field is required")
+        ]);
+        if($validate->fails()){
+            return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
+        }
+
         if ($request->hasFile('Image')) {
             $img = $request->file('Image');
             $cloud = Cloudinary::upload($img->getRealPath(), [
@@ -28,13 +40,25 @@ class BannersFeaturedController extends Controller
                 ]
             );
             $bannersfeatured->save();   
-            return redirect()->back();
+            return redirect()->back()->with('toast_success',__("Create successfully"));
         }else{
-            return redirect()->back()->with('error','vui lòng thêm hình');
+            return redirect()->back()->with('toast_error',__("Please choose image"));
         }
     }
     public function edit(Request $request,$id){
         $bannersfeatured = BannersFeatured::find($id);
+        $validate = Validator::make($request->all(),[
+            'name' =>'required',
+            'link'=>'required'
+        ],[
+            'name.required'=>__("Name field is required"),
+            'link.required'=>__("Link field is required")
+        ]);
+
+        if($validate->fails()){
+            return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
+        }
+
         if ($request->hasFile('Image')) {
             $img = $request->file('Image');
             if($bannersfeatured->image !=''){
@@ -49,16 +73,17 @@ class BannersFeaturedController extends Controller
             $bannersfeatured->image= $cloud;
            
         }
+
         $bannersfeatured->name = $request->name;
         $bannersfeatured->link = $request->link;
         $bannersfeatured->save();
-        return redirect()->back();
+        return redirect()->back()->with('toast_success',__("Update successfully"));
     }
     public function destroy($id){
         $bannersfeatured = BannersFeatured::find($id);
         Cloudinary::destroy($bannersfeatured->image);
         $bannersfeatured->delete();
-        return redirect()->back();
+        return redirect()->back()->with('toast_success',__("Delete Successfully"));
     }
     public function status(Request $request){
         $bannersfeatured = BannersFeatured::find($request->status_id);

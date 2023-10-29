@@ -6,6 +6,7 @@ use App\Models\Subcategories;
 use App\Models\Categories;
 use App\Models\Products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SubCategoriesController extends Controller
 {
@@ -19,45 +20,40 @@ class SubCategoriesController extends Controller
         return view('admin/pages/subcategories/index',['subcategories' => $subcategories,'categories'=>$categories]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(Request $request)
     {
-        $request->validate([
+        $validate = Validator::make($request->all(),[
             'name' =>'required|unique:subcategories'
         ],[
-            'name.required'=>"Vui lòng nhập tên danh mục con",
-            'name.unique' =>'Tên danh mục con này đã tồn tại'
+            'name.required'=>__("Subcategory field is required"),
+            'name.unique' =>__("Subcategory already exists")
         ]);
         $subcategories = new Subcategories([
             'name'=> $request->name,
             'cat_id'=>$request->cat_id
         ]);
+        if($validate->fails()){
+            return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
+        }
         $subcategories->save();
-        return redirect()->back();
+        return redirect()->back()->with('toast_success',__("Create successfully"));
     }
 
     public function edit(Request $request, $id)
     {
         $subcategories = Subcategories::find($id);
-        $request->validate([
+        $validate = Validator::make($request->all(),[
             'name' =>'required'
         ],[
-            'name.required'=>"Vui lòng nhập tên danh mục con"
+            'name.required'=>__("Subcategory field is required")
         ]);
+        if($validate->fails()){
+            return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
+        }
         $subcategories->name= $request->name;
         $subcategories->cat_id= $request->cat_id;
         $subcategories->update();
-        return redirect()->back();
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        return redirect()->back()->with('toast_success',__("Update successfully"));
     }
 
     public function destroy($id)
@@ -66,9 +62,9 @@ class SubCategoriesController extends Controller
         $check = count(Products::where('sub_id',$id)->get());
         if($check ==0){
             $subcategories::destroy($id);
-            return redirect()->back();
+            return redirect()->back()->with('toast_success',__("Delete Successfully"));
         }else{
-            return redirect()->back()->with('error',"Lỗi");
+            return redirect()->back()->with('toast_error',__("Can't delete because there are products in subcategory"));
         }
        
     }

@@ -40,7 +40,7 @@
 
                     <label>{{__("Name")}}: </label>
                     <div class="form-group">
-                        <input type="text" placeholder="{{__('Type')}}...." class="form-control" name="name" required>
+                        <input type="text" placeholder="{{__('Type')}}...." class="form-control" name="name">
                     </div>
 
                     <label>{{__("Image")}}: </label>

@@ -19,6 +19,7 @@
 
 <body>
     <div id="app">
+    @include('sweetalert::alert')
        @include('admin/common/sidebar')
         <div id="main">
            @include('admin/common/header')

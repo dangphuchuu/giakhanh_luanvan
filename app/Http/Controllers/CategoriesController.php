@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Categories;
 use App\Models\Subcategories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use function Laravel\Prompts\confirm;
 
@@ -19,47 +20,51 @@ class CategoriesController extends Controller
         return view('admin/pages/categories/index',['categories' => $categories]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(Request $request)
     {
-        $request->validate([
+        $validate = Validator::make($request->all(),[
             'name' =>'required|unique:categories'
         ],[
-            'name.required'=>"Vui lòng nhập tên danh mục",
-            'name.unique' =>'Tên danh mục này đã tồn tại'
+            'name.required'=>__("Category field is required"),
+            'name.unique' =>__("Category already exists")
         ]);
         $categories = new Categories([
             'name'=> $request->name,
         ]);
+        if($validate->fails()){
+            return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
+        }
         $categories->save();
-        return redirect()->back();
+        return redirect()->back()->with('toast_success',__("Create successfully"));
     }
 
     public function edit(Request $request, $id) 
     {
         $categories = Categories::find($id);
-        $request->validate([
+        $validate = Validator::make($request->all(),[
             'name' =>'required|unique:categories'
         ],[
-            'name.required'=>"Vui lòng nhập tên danh mục",
-            'name.unique' =>'Tên danh mục này đã tồn tại'
+            'name.required'=>__("Category field is required"),
+            'name.unique' =>__("Category already exists")
         ]);
+        if($validate->fails()){
+            return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
+        }
         $categories->name = $request->name;
         $categories->update();
         
-        return redirect()->back();
+        return redirect()->back()->with('toast_success',__("Update successfully"));
     }
     public function destroy($id)
     {
+       
         $categories = Categories::find($id);
         $check = count(Subcategories::where('cat_id',$id)->get());
         if($check ==0 ){
             $categories::destroy($id);
-            return redirect()->back();
+            return redirect()->back()->with('toast_success',_("Delete Successfully"));
         }else{
-            return redirect()->back();
+            return redirect()->back()->with('toast_error',__("Can't delete because there are subcategories in category"));
         } 
     }
     public function status(Request $request)

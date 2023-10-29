@@ -25,7 +25,7 @@
                                                 </div>
                                             <label>{{__("Name")}}: </label>
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" name="name" value="{{$sub->name}}" required>
+                                                    <input type="text" class="form-control" name="name" value="{{$sub->name}}">
                                                 </div>
                                         </div>
                                         <div class="modal-footer">
