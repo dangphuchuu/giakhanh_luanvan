@@ -2,7 +2,7 @@
 				<div class="main_title mb-4">
 					<h2>{{__("New Products")}}</h2>
 					<span>{{__("New Products")}}</span>
-					<p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
+					<!-- <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p> -->
 				</div>
 				<div class="isotope-wrapper">
 					<div class="row small-gutters">
@@ -13,11 +13,11 @@
 								<figure>
 									<a href="product-detail-1.html">
 										@if(strstr($pro->image,"https") == "")
-											<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$pro->image}}.jpg" alt="">
-											<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$pro->image}}.jpg" alt="">
+											<img style="width:270px; height:250px" class="img-fluid lazy" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$pro->image}}.jpg" alt="">
+											<img style="width:270px; height:250px" class="img-fluid lazy" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$pro->image}}.jpg" alt="">
 										@else
-											<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="{{$pro->image}}" alt="">
-											<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="{{$pro->image}}" alt="">
+											<img style="width:270px; height:250px" class="img-fluid lazy" data-src="{{$pro->image}}" alt="">
+											<img style="width:270px; height:250px" class="img-fluid lazy" data-src="{{$pro->image}}" alt="">
 										@endif
 									</a>
 								</figure>
@@ -36,12 +36,9 @@
 									@endif
 								</div>
 								<ul>
-									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to favorites"><i class="ti-heart"></i><span>Add to
-												favorites</span></a></li>
-									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-												compare</span></a></li>
-									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to
-												cart</span></a></li>
+									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to favorites')}}"><i class="ti-heart"></i><span>{{__('Add to favorites')}}</span></a></li>
+									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to compare')}}"><i class="ti-control-shuffle"></i><span>{{__('Add to compare')}}</span></a></li>
+									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to cart')}}"><i class="ti-shopping-cart"></i><span>{{__('Add to cart')}}</span></a></li>
 								</ul>
 							</div>
 							<!-- /grid_item -->

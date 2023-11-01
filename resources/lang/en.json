@@ -104,5 +104,21 @@
     "City":"City",
     "Telephone":"Telephone",
     "Wrong username or password. Please try again":"Wrong username or password. Please try again",
-    "Only clients have access":"Only clients have access"
+    "Only clients have access":"Only clients have access",
+    "the last name field is required":"The last name field is required",
+    "the first name field is required":"The first name field is required",
+    "the username is already exists":"The username is already exists",
+    "the email field is required":"The email field is required",
+    "the email is already exists":"The email is already exists",
+    "the repassword field is required":"The repassword field is required",
+    "the repassword is incorrect":"The repassword is incorrect",
+    "Sign Up Successfully":"Sign Up Successfully",
+    "The username must be at least 4 characters":"The username must be at least 4 characters",
+    "The username maximum 20 characters":"The username maximum 20 characters",
+    "Search over 10.000 products":"Search over 10.000 products",
+    "Contact Info":"Contact Info",
+    "Filters":"Filters",
+    "Add to favorites":"Add to favorites",
+    "Add to compare":"Add to compare",
+    "Add to cart":"Add to cart"
 }

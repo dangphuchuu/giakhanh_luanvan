@@ -2,7 +2,7 @@
 			<div class="main_title">
 				<h2>{{__("Featured Products")}}</h2>
 				<span>{{__("Featured Products")}}</span>
-				<p>Cum doctus civibus efficiantur in imperdiet deterruisset</p>
+				<!-- <p>Cum doctus civibus efficiantur in imperdiet deterruisset</p> -->
 			</div>
 			<div class="owl-carousel owl-theme products_carousel">
 				@foreach($products_featured as $featured)
@@ -12,11 +12,11 @@
 						<figure>
 							<a href="product-detail-1.html">
 								@if(strstr($featured->image,"https") == "")
-									<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$featured->image}}.jpg" alt="">
-									<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$featured->image}}.jpg" alt="">
+									<img style="width:270px; height:250px" class="img-fluid lazy" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$featured->image}}.jpg" alt="">
+									<img style="width:270px; height:250px" class="img-fluid lazy" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$featured->image}}.jpg" alt="">
 								@else
-									<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="{{$featured->image}}" alt="">
-									<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="{{$featured->image}}" alt="">
+									<img style="width:270px; height:250px" class="img-fluid lazy" data-src="{{$featured->image}}" alt="">
+									<img style="width:270px; height:250px" class="img-fluid lazy" data-src="{{$featured->image}}" alt="">
 								@endif
 							</a>
 						</figure>
@@ -35,9 +35,9 @@
 							@endif
 						</div>
 						<ul>
-							<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a></li>
-							<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to compare</span></a></li>
-							<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
+							<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to favorites')}}"><i class="ti-heart"></i><span>{{__('Add to favorites')}}</span></a></li>
+							<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to compare')}}"><i class="ti-control-shuffle"></i><span>{{__('Add to compare')}}</span></a></li>
+							<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to cart')}}"><i class="ti-shopping-cart"></i><span>{{__('Add to cart')}}</span></a></li>
 						</ul>
 					</div>
 					<!-- /grid_item -->

@@ -105,6 +105,22 @@
     "City":"Thành phố",
     "Telephone":"Số điện thoại",
     "Wrong username or password. Please try again":"Sai tên đăng nhập hoặc mật khẩu. Vui lòng thử lại",
-    "Only clients have access":"Chỉ có khách hàng mới được đăng nhập"
+    "Only clients have access":"Chỉ có khách hàng mới được đăng nhập",
+    "the last name field is required":"Họ không được để trống ",
+    "the first name field is required":"Tên không được để trống",
+    "the username is already exists":"Tên đăng nhập đã tồn tại",
+    "the email field is required":"Email không được để trống",
+    "the email is already exists":"Email đã tồn tại",
+    "the repassword field is required":"Vui lòng nhập lại mật khẩu",
+    "the repassword is incorrect":"Mật khẩu nhập lại không trùng khớp",
+    "Sign Up Successfully":"Đăng ký thành công",
+    "The username must be at least 4 characters":"Tên đăng nhập tối thiểu 4 ký tự",
+    "The username maximum 20 characters":"Tên đăng nhập tối đa 20 ký tự",
+    "Search over 10.000 products":"Tìm kiếm trên 10.000 sản phẩm",
+    "Contact Info":"Thông tin liên hệ",
+    "Filters":"Bộ lọc",
+    "Add to favorites":"Thêm vào yêu thích",
+    "Add to compare":"Thêm vào so sánh",
+    "Add to cart":"Thêm vào giỏ hàng"
     
 }

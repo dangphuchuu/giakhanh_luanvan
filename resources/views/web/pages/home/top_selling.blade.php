@@ -2,7 +2,7 @@
 				<div class="main_title mb-4">
 					<h2>{{__("Top Selling")}}</h2>
 					<span>{{__("Top Selling")}}</span>
-					<p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
+					<!-- <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p> -->
 				</div>
 				<div class="isotope-wrapper">
 					<div class="row small-gutters">
@@ -11,14 +11,14 @@
 						<div class="col-6 col-md-4 col-xl-3 isotope-item sale">
 							<div class="grid_item">
 								<figure>
-									<span class="ribbon off">{{round((($top->price - $top->price_new)/$top->price)*100,0) }} %</span>
+									<span class="ribbon off">-{{round((($top->price - $top->price_new)/$top->price)*100,0) }} %</span>
 									<a href="product-detail-1.html">
 									@if(strstr($top->image,"https") == "")
-										<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$top->image}}.jpg" alt="">
-										<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$top->image}}.jpg" alt="">
+										<img style="width:270px; height:250px" class="img-fluid lazy" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$top->image}}.jpg" alt="">
+										<img style="width:270px; height:250px" class="img-fluid lazy" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$top->image}}.jpg" alt="">
 									@else
-										<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="{{$top->image}}" alt="">
-										<img style="width:270px; height:250px" class="img-fluid lazy" src="web_assets/img/products/product_placeholder_square_medium.jpg" data-src="{{$top->image}}" alt="">
+										<img style="width:270px; height:250px" class="img-fluid lazy" data-src="{{$top->image}}" alt="">
+										<img style="width:270px; height:250px" class="img-fluid lazy" data-src="{{$top->image}}" alt="">
 									@endif
 									</a>
 									<div data-countdown="2013/12/12" class="countdown"></div>
@@ -32,12 +32,9 @@
 									<span class="old_price">{{number_format($top->price,0,",",".")}} Vnđ</span>
 								</div>
 								<ul>
-									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to favorites"><i class="ti-heart"></i><span>Add to
-												favorites</span></a></li>
-									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to
-												compare</span></a></li>
-									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to
-												cart</span></a></li>
+									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to favorites')}}"><i class="ti-heart"></i><span>{{__('Add to favorites')}}</span></a></li>
+									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to compare')}}"><i class="ti-control-shuffle"></i><span>{{__('Add to compare')}}</span></a></li>
+									<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to cart')}}"><i class="ti-shopping-cart"></i><span>{{__('Add to cart')}}</span></a></li>
 								</ul>
 							</div>
 							<!-- /grid_item -->

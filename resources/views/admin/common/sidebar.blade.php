@@ -61,7 +61,7 @@
                             <a href="/admin/bannersfeatured">{{__("Banners Collection")}}</a>
                         </li>
                         <li>
-                            <a href="auth-forgot-password.html">{{__("Information's Website")}}</a>
+                            <a href="auth-forgot-password.html">{{__("Contact Info")}}</a>
                         </li>
 
                     </ul>

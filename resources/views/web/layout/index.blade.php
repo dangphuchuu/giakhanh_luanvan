@@ -58,9 +58,9 @@
 	<script src="web_assets/js/main.js"></script>
 	<script src="web_assets/js/carousel-home.min.js"></script>
 	<!-- SPECIFIC SCRIPTS -->
-	<script src="web_assets/js/modernizr.js"></script>
+	<!-- <script src="web_assets/js/modernizr.js"></script>
 	<script src="web_assets/js/video_header.min.js"></script>
-	<script src="web_assets/js/isotope.min.js"></script>
+	<script src="web_assets/js/isotope.min.js"></script> -->
 	@yield('scripts')
 	<!-- <script>
 		// Isotope filter

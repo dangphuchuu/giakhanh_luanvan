@@ -85,7 +85,7 @@
 								<input type="password" class="form-control" name="repassword" id="password_in_2" value="" placeholder="{{__('Confirm Password')}}*">
 							</div>
 							<div class="form-group">
-								<input type="email" class="form-control" name="email" id="email_2" placeholder="{{__('Email')}}">
+								<input type="email" class="form-control" name="email" id="email_2" placeholder="{{__('Email')}}*">
 							</div>
 							<hr>
 							<div class="private box">
@@ -102,7 +102,7 @@
 									</div>
 									<div class="col-">
 										<div class="form-group">
-											<input type="text" name="address" class="form-control" placeholder="{{__('Address')}}*">
+											<input type="text" name="address" class="form-control" placeholder="{{__('Address')}}">
 										</div>
 									</div>
 								</div>

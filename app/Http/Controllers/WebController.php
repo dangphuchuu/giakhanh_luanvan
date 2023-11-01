@@ -18,10 +18,8 @@ class WebController extends Controller
     public function __construct(){
         $categories = Categories::all()->where('status',1);
         $subcategories = Subcategories::all()->where('status',1);
-        $user = Auth::user();
         view()->share('categories',$categories);
         view()->share('subcategories',$subcategories);
-        view()->share('user',$user);
     }
     public function index()
     {
@@ -81,23 +79,30 @@ class WebController extends Controller
         }
     }
     public function register(Request $request){
-        $credentials = Validator::make($request->all(),[
+         $credentials = Validator::make($request->all(),[
+             'username' => 'required|min:4|max:20|unique:users',
+             'password' => 'required',
+             'repassword'=>'required|same:password',
+             'email'=>'required|unique:users',
+             'firstname'=>'required',
             'lastname'=>'required',
-            'firstname'=>'required',
-            'username' => 'required',
-            'email'=>'unique:users',
-            'password' => 'required',
-            'repassword'=>'required|same:password',
         ],
         [
             'username.required'=>__("the username field is required"),
             'password.required'=>__("the passwords field is required"),
             'lastname.required'=>__("the last name field is required"),
             'firstname.required'=>__("the first name field is required"),
+            'username.unique'=>__("the username is already exists"),
+            'username.min'=>__("The username must be at least 4 characters"),
+            'username.max'=>__("The username maximum 20 characters"),
+            'email.required'=>__("the email field is required"),
             'email.unique'=>__("the email is already exists"),
             'repassword.required'=>__("the repassword field is required"),
-            'repassword.same'=>__("The repassword is incorrect")
+            'repassword.same'=>__("the repassword is incorrect")
         ]);
+        if($credentials->fails()){
+            return back()->with('toast_error', $credentials->messages()->all()[0])->withInput();
+        }
         $user = new User([
             'lastname'=>$request->lastname,
             'firstname'=>$request->firstname,
@@ -108,11 +113,17 @@ class WebController extends Controller
         ]);
         $user->save();
         $user->syncRoles('client');
-        return redirect('')->back()->with('toast_success',__("Sign up successfully"));
+        return redirect()->back()->with('toast_success',__("Sign Up Successfully"));
     }
     public function logout(){
         Auth::logout();
         return redirect()->back()->with('toast_success',__("Logout Successfully"));
+    }
+    public function list_grid(){
+        $products = Products::all()->where('status',1)->take(8);
+        return view('web.pages.products.list_grid',[
+            'products'=>$products
+        ]);
     }
 
 }
