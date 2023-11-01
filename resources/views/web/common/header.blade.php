@@ -1,11 +1,11 @@
 <header class="version_2">
     <div class="layer"></div><!-- Mobile menu overlay mask -->
-    <div class="main_header">
+    <div class="main_header" style=" z-index: 1 !important;">
         <div class="container">
             <div class="row small-gutters">
                 <div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
                     <div id="logo">
-                        <a href="index.html"><img src="web_assets/img/logo_black.svg" alt="" width="100" height="35"></a>
+                        <a href="/" ><img src="web_assets/img/logo_black.svg" alt="" width="100" height="35"></a>
                     </div>
                 </div>
                 <nav class="col-xl-6 col-lg-7">
@@ -121,8 +121,16 @@
                     <!--/main-menu -->
                 </nav>
                 <div class="col-xl-3 col-lg-2 d-lg-flex align-items-center justify-content-end text-end">
-                    <a class="phone_top" href="tel://9438843343"><strong><span>Need Help?</span>+94
-                            423-23-221</strong></a>
+                <a class="phone_top" href="tel://9438843343"><strong><span>Need Help?</span>+94 423-23-221</strong></a>
+                <a href="{{route('lang')}}" class="nav-link nav-link-lg nav-link-user">
+                    <div class="d-lg-inline-block">
+                    @if(Session("language") == "en")
+                    <img src="images/language/{{__('en')}}.png" style="height: 30px">
+                    @else
+                    <img src="images/language/{{__('vi')}}.png" style="height: 30px">
+                    @endif
+                    </div>
+                </a>
                 </div>
             </div>
             <!-- /row -->
@@ -174,6 +182,9 @@
                 <div class="col-xl-3 col-lg-2 col-md-3">
                     <ul class="top_tools">
                         <li>
+                            <!-- <a href="#0" class="wishlist"><span>Wishlist</span></a> -->
+                        </li>
+                        <li>
                             <div class="dropdown dropdown-cart mt-1">
                                 <a href="cart.html" ><i class="ti-shopping-cart" style="font-size: 22px;"></i></a>
                                 <div class="dropdown-menu">
@@ -201,28 +212,38 @@
                             </div>
                             <!-- /dropdown-cart-->
                         </li>
-                        <li>
-                            <!-- <a href="#0" class="wishlist"><span>Wishlist</span></a> -->
-                        </li>
                         @if(Auth::check())
                         <li>
-                            <div class="dropdown dropdown-access mt-1">
-                                <a href="account.html">{{Auth::user()->firstname}}</a>
-                                <div class="dropdown-menu">
-                                    <a class="btn_1">{{Auth::user()->firstname}}</a>
+                            <div class="dropdown dropdown-access mt-1" >
+                            <a href="javascript:void(0)"><i class="ti-unlock" style="font-size: 22px;"></i></a>
+                                <div class="dropdown-menu" style="display: none;">
+                                    @if(isset(Auth::user()->image))
+                                    
+                                        @if(strstr(Auth::user()->image,"https") != "")
+                                            <img src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ Auth::user()->image }}.jpg"   class=" me-2" style="border-radius:50%!important; width:15%">
+                                        @else
+                                            <img src='images/avatar/{{Auth::user()->image}}.png'  class=" me-2" style="border-radius:50%!important; width:15%">
+                                        @endif
+
+                                    @endif
+
+                                            @if(Session("language") == "en")
+                                                {{Auth::user()->firstname}} {{Auth::user()->lastname}}
+                                            @else
+                                                {{Auth::user()->lastname}} {{Auth::user()->firstname}}
+                                            @endif
                                     <ul>
                                         <li>
-                                            <a href="track-order.html"><i class="ti-truck"></i>Track your
-                                                Order</a>
+                                            <a href="account.html"><i class="ti-user"></i>{{__("My Profile")}}</a>
                                         </li>
                                         <li>
-                                            <a href="account.html"><i class="ti-package"></i>My Orders</a>
+                                            <a href="account.html"><i class="ti-package"></i>{{__("My Orders")}}</a>
                                         </li>
                                         <li>
-                                            <a href="account.html"><i class="ti-user"></i>My Profile</a>
+                                            <a href="track-order.html"><i class="ti-truck"></i>{{__("Track your Order")}}</a>
                                         </li>
                                         <li>
-                                            <a href="help.html"><i class="ti-shift-right"></i>{{__("Logout")}}</a>
+                                            <a href="/logout"><i class="ti-shift-right"></i>{{__("Logout")}}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -232,25 +253,8 @@
                         @else
                         <li>
                             <div class="dropdown dropdown-access mt-1">
-                                <a href="account.html"><i class="ti-lock" style="font-size: 22px;"></i><span>Account</span></a>
-                                <div class="dropdown-menu">
-                                    <a href="account.html" class="btn_1">Sign In or Sign Up</a>
-                                    <ul>
-                                        <li>
-                                            <a href="track-order.html"><i class="ti-truck"></i>Track your
-                                                Order</a>
-                                        </li>
-                                        <li>
-                                            <a href="account.html"><i class="ti-package"></i>My Orders</a>
-                                        </li>
-                                        <li>
-                                            <a href="account.html"><i class="ti-user"></i>My Profile</a>
-                                        </li>
-                                        <li>
-                                            <a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <a href="/signin_signup"><i class="ti-lock" style="font-size: 22px;"></i><span>Account</span></a>
+                                
                             </div>
                             <!-- /dropdown-access-->
                         </li>
@@ -280,4 +284,5 @@
         <!-- /search_mobile -->
     </div>
     <!-- /main_nav -->
+    
 </header>

@@ -60,7 +60,7 @@ active
                                 @include('admin/pages/categories/edit')
                             </td>
                             <td>
-                            <a href="admin/categories/delete/{{$cat->id}}" data-confirm-delete="true" onclick="return confirm(`{{__('Are you sure you want to delete this ?')}}`)">
+                            <a href="admin/categories/delete/{{$cat->id}}" onclick="return confirm(`{{__('Are you sure you want to delete this ?')}}`)">
                                     <i data-feather="trash-2"></i>
                              </a> 
                             </td>

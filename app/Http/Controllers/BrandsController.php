@@ -89,7 +89,7 @@ class BrandsController extends Controller
                 Cloudinary::destroy($brands->image);
             }
             $brands->delete();
-            return redirect()->back()->with('toast_success',_("Delete Successfully"));
+            return redirect()->back()->with('toast_success',__("Delete Successfully"));
         }else{
             return redirect()->back()->with('toast_error',__("Can't delete because there are products in brand"));
         }

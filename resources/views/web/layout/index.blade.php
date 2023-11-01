@@ -27,7 +27,7 @@
 	<!-- BASE CSS -->
 	<link href="web_assets/css/bootstrap.custom.min.css" rel="stylesheet">
 	<link href="web_assets/css/style.css" rel="stylesheet">
-
+	@yield('css')
 	<!-- SPECIFIC CSS -->
 	<link href="web_assets/css/home_1.css" rel="stylesheet">
 
@@ -39,7 +39,7 @@
 <body>
 
 	<div id="page">
-
+		@include('sweetalert::alert')
 		@include('web.common.header')
 		<!-- /header -->
 
@@ -61,7 +61,8 @@
 	<script src="web_assets/js/modernizr.js"></script>
 	<script src="web_assets/js/video_header.min.js"></script>
 	<script src="web_assets/js/isotope.min.js"></script>
-	<script>
+	@yield('scripts')
+	<!-- <script>
 		// Isotope filter
 		$(window).on('load', function() {
 			var $container = $('.isotope-wrapper');
@@ -76,7 +77,7 @@
 				filter: selector
 			});
 		});
-	</script>
+	</script> -->
 	@yield('script')
 </body>
 

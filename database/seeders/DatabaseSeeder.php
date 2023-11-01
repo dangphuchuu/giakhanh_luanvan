@@ -10,6 +10,8 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -24,7 +26,7 @@ class DatabaseSeeder extends Seeder
             'lastname' => 'Nguyễn',
             'firstname' => 'Gia Khánh',
             'username' => 'admin',
-            'password' => bcrypt('1'),
+            'password' => Hash::make('1'),
             'email'=>'admin@gmail.com',
             'phone' => '123456',
             'email_verified'=> 1,
@@ -36,7 +38,7 @@ class DatabaseSeeder extends Seeder
             'lastname' => 'Nguyễn',
             'firstname' => 'Gia Khánh',
             'username' => 'giakhanh',
-            'password' => bcrypt('1'),
+            'password' => Hash::make('1'),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);

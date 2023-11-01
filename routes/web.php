@@ -29,8 +29,8 @@ Route::get('lang',function(){
 Route::middleware('language')->group(function(){
     require 'admin.php';
     Route::get('/', [WebController::class, 'index']);
-    // Route::prefix('/')->middleware()->group(function(){
-
-    // });
-
+    Route::get('/signin_signup', [WebController::class, 'signin_signup']);
+    Route::post('/handle_login',[WebController::class, 'handle_login']);
+    Route::post('/register',[WebController::class, 'register']);
+    Route::get('/logout',[WebController::class, 'logout']);
 });

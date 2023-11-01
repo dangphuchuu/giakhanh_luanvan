@@ -7,7 +7,6 @@ use App\Models\Subcategories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-use function Laravel\Prompts\confirm;
 
 class CategoriesController extends Controller
 {
@@ -62,7 +61,7 @@ class CategoriesController extends Controller
         $check = count(Subcategories::where('cat_id',$id)->get());
         if($check ==0 ){
             $categories::destroy($id);
-            return redirect()->back()->with('toast_success',_("Delete Successfully"));
+            return redirect()->back()->with('toast_success',__("Delete Successfully"));
         }else{
             return redirect()->back()->with('toast_error',__("Can't delete because there are subcategories in category"));
         } 

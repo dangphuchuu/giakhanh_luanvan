@@ -55,7 +55,7 @@ class BannersController extends Controller
         $banners = Banners::find($id);
         Cloudinary::destroy($banners->image);
         $banners->delete();
-        return redirect()->back()->with('toast_success',_("Delete Successfully"));
+        return redirect()->back()->with('toast_success',__("Delete Successfully"));
     }
     public function status(Request $request){
         $banners = Banners::find($request->status_id);

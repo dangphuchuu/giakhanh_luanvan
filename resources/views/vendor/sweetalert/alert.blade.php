@@ -22,7 +22,7 @@
                             form.method = 'POST';
                             form.innerHTML = `
                     @csrf
-                    @method('DELETE')
+                    @method('GET')
                 `;
                             document.body.appendChild(form);
                             form.submit();
