@@ -119,11 +119,23 @@ class WebController extends Controller
         Auth::logout();
         return redirect()->back()->with('toast_success',__("Logout Successfully"));
     }
+   
+    //! Products
     public function list_grid(){
-        $products = Products::all()->where('status',1)->take(8);
+        $products = Products::orderBy('id', 'DESC')->where('status',1)->paginate(8);
         return view('web.pages.products.list_grid',[
             'products'=>$products
         ]);
+    }
+    public function search(Request $request){
+        if($request->search){
+            $products = Products::where('status',1)->where('name','LIKE','%' . $request->search . '%')->latest()->paginate(8);
+            return view('web.pages.products.list_grid',[
+                'products'=>$products
+            ]);
+        }else{
+            return redirect()->back()->with('toast_error',__("Empty Search"));
+        }
     }
 
 }

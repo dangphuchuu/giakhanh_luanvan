@@ -69,8 +69,8 @@
                 </div>
                 <div class="col-xl-6 col-lg-7 col-md-6 d-none d-md-block">
                     <div class="custom-search-input">
-                        <form action="" method="GET">
-                            <input type="text" placeholder="{{__('Search over 10.000 products')}}">
+                        <form action="/search" method="GET">
+                            <input type="text" name="search" value="{{Request::get('search')}}" placeholder="{{__('Search over 10.000 products')}}">
                             <button type="submit" style="margin-top: -3px;"><i class="ti-search" style="font-size: 20px;"></i></button>
                         </form>
                     </div>

@@ -4,23 +4,7 @@
 @endsection
 @section('content')
 <main>
-		<div class="top_banner">
-			<div class="opacity-mask d-flex align-items-center" data-opacity-mask="rgba(0, 0, 0, 0.3)">
-				<div class="container">
-					<div class="breadcrumbs">
-						<ul>
-							<li><a href="#">Home</a></li>
-							<li><a href="#">Category</a></li>
-							<li>Page active</li>
-						</ul>
-					</div>
-					<h1>Shoes - Grid listing</h1>
-				</div>
-			</div>
-			<img src="web_assets/img/bg_cat_shoes.jpg" class="img-fluid" alt="">
-		</div>
 		<!-- /top_banner -->
-		
 			<div id="stick_here"></div>		
 			<div class="toolbox elemento_stick">
 				<div class="container">
@@ -268,20 +252,9 @@
 				
 			<div class="pagination__wrapper">
 				<ul class="pagination">
-					<li><a href="#0" class="prev" title="previous page">&#10094;</a></li>
 					<li>
-						<a href="#0" class="active">1</a>
+						{{$products->links()}}
 					</li>
-					<li>
-						<a href="#0">2</a>
-					</li>
-					<li>
-						<a href="#0">3</a>
-					</li>
-					<li>
-						<a href="#0">4</a>
-					</li>
-					<li><a href="#0" class="next" title="next page">&#10095;</a></li>
 				</ul>
 			</div>
 				

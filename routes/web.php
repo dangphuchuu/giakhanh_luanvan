@@ -34,4 +34,5 @@ Route::middleware('language')->group(function(){
     Route::post('/register',[WebController::class, 'register']);
     Route::get('/logout',[WebController::class, 'logout']);
     Route::get('/list-grid',[WebController::class, 'list_grid']);
+    Route::get('/search',[WebController::class, 'search']);
 });
