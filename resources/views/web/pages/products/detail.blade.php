@@ -10,8 +10,8 @@
 </style>
 <main>
 	    <div class="container margin_30">
-	        <div class="countdown_inner">-{{round((($products->price - $products->price_new)/$products->price)*100,0) }}% {{__("This offer ends in")}} <div data-countdown="2023/11/11" class="countdown"></div>
-	        </div>
+	        <!-- <div class="countdown_inner">-{{round((($products->price - $products->price_new)/$products->price)*100,0) }}% {{__("This offer ends in")}} <div data-countdown="2023/11/11" class="countdown"></div>
+	        </div> -->
             <div class="row">
 	            <div class="col-md-6">
 	                <div class="all">
@@ -65,7 +65,7 @@
 	                            <label class="col-xl-5 col-lg-5  col-md-6 col-6"><strong>{{__("Quantity")}}</strong></label>
 	                            <div class="col-xl-4 col-lg-5 col-md-6 col-6">
 	                                <div class="numbers-row">
-	                                    <input type="text" value="1" id="quantity_1" class="qty2" name="quantity_1">
+	                                    <input type="text" value="1"  id="quantity_1" class="qty2" name="quantity">
 	                                </div>
 	                            </div>
 	                        </div>

@@ -28,6 +28,9 @@ Route::get('lang',function(){
 
 Route::middleware('language')->group(function(){
     require 'admin.php';
+    Route::get('/errors/404',function(){
+        return view('errors.404');
+    });
     Route::get('/', [WebController::class, 'index']);
     Route::get('/signin_signup', [WebController::class, 'signin_signup']);
     Route::post('/handle_login',[WebController::class, 'handle_login']);
@@ -36,7 +39,7 @@ Route::middleware('language')->group(function(){
     Route::get('/list',[WebController::class, 'list']);
     Route::get('/search',[WebController::class, 'search']);
     Route::get('/detail/{id}',[WebController::class, 'detail']);
-    Route::get('/errors/404',function(){
-        return view('errors.404');
-    });
+    Route::get('/category/{id}',[WebController::class, 'category']);
+    Route::get('/subcategory/{id}',[WebController::class, 'subcategory']);
+   
 });

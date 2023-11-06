@@ -145,6 +145,7 @@
 
 			<div class="container margin_30">
 			<div class="row small-gutters">
+				@if(count($products)>0 )
                 @foreach($products as $pro)
 					@foreach($pro->ProductsImage as $img)
 						@if($loop->first)
@@ -165,7 +166,7 @@
 												<img style="width:290px; height: 290px;" class="img-fluid lazy" data-src="{{$img->image}}" alt="">
 												@endif
 											</a>
-											<!-- <div data-countdown="2019/05/15" class="countdown"></div> -->
+											<div data-countdown="2019/05/15" class="countdown"></div>
 										</figure>
 										<a href="/detail/{{$pro->id}}">
 											<h3 class="d-block" style="max-width: 270px; height:50px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{$pro->name}}</h3>
@@ -197,6 +198,9 @@
 						@endif
 					@endforeach
                 @endforeach
+				@else
+				<h1 class="text-center">{{__("No Products!")}}</h1>
+				@endif
 				<!-- /col -->		
 			</div>
 			<!-- /row -->

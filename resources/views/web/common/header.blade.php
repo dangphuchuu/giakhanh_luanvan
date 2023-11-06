@@ -51,11 +51,11 @@
                                 <div id="menu">
                                     <ul>
                                         @foreach($categories as $cat)
-                                        <li><span><a href="">{{$cat->name}}</a></span>
+                                        <li><span><a href="/category/{{$cat->id}}">{{$cat->name}}</a></span>
                                             <ul class="fix_long">
                                                 @foreach($cat->Subcategories as $sub)
                                                 @if($sub->status == 1)
-                                                <li><a href="">{{$sub->name}}</a></li>
+                                                <li><a href="/subcategory/{{$sub->id}}">{{$sub->name}}</a></li>
                                                 @endif
                                                 @endforeach
                                             </ul>

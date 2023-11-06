@@ -150,4 +150,22 @@ class WebController extends Controller
             'related'=>$related
         ]);
     }
+
+    public function category($id){
+        $category = Categories::find($id);
+        $products = Products::where('cat_id',$id)->where('status',1)->orderBy('id', 'ASC')->Paginate(12);
+        return view('web.pages.categories.index',[
+            'category'=>$category,
+            'products'=>$products
+        ]);
+    }
+
+    public function subcategory($id){
+        $subcategory = Subcategories::find($id);
+        $products = Products::where('sub_id',$id)->where('status',1)->orderBy('id', 'ASC')->Paginate(12);
+        return view('web.pages.subcategories.index',[
+            'subcategory'=>$subcategory,
+            'products'=>$products
+        ]);
+    }
 }

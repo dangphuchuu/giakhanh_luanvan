@@ -37,7 +37,7 @@
                         <div class="col-xl-7 col-lg-9">
                             <img src="web_assets/img/404.svg" alt="" class="img-fluid" width="400" height="212">
                             <p>{{__("The page you're looking is not founded!")}}</p>
-                            <a href="/" class="btn btn-outline-primary">Back</a>
+                            <a href="/" class="btn btn-outline-primary">{{__("Back")}}</a>
                         </div>
                     </div>
                     <!-- /row -->
