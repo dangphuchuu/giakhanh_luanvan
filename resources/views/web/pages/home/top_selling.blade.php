@@ -23,7 +23,7 @@
 													<img style="width:270px; height:250px" class="img-fluid lazy" data-src="{{$img->image}}" alt="">
 												@endif
 												</a>
-												<div data-countdown="2013/12/12" class="countdown"></div>
+												<!-- <div data-countdown="2013/12/12" class="countdown"></div> -->
 											</figure>
 											<!-- <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i></div> -->
 											<a href="/detail/{{$pro->id}}">
