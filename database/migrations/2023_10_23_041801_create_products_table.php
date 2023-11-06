@@ -22,7 +22,6 @@ return new class extends Migration
             $table->foreignIdFor(Brands::class,'brands_id');
             $table->foreignIdFor(Subcategories::class, 'sub_id');
             $table->string('name');
-            $table->string('image');
             $table->string('youtube_path')->nullable();
             $table->float('price',0)->nullable();
             $table->float('price_new',0)->nullable();    

@@ -14,7 +14,6 @@ class Products extends Model
         'brands_id',
         'sub_id',
         'name',
-        'image',
         'youtube_path',
         'price',
         'price_new',
@@ -37,8 +36,8 @@ class Products extends Model
     public function subcategories() {
         return $this->belongsTo(Subcategories::class, 'sub_id', 'id');
     }
-    public function Productslibrary()
+    public function ProductsImage()
     {
-        return $this->hasMany(ProductsLibrary::class,'products_id','id');
+        return $this->hasMany(ProductsImage::class,'products_id','id');
     }
 }

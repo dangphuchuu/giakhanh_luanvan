@@ -28,7 +28,7 @@ class WebController extends Controller
         $banners = Banners::all()->where('status',1);
         $bannersfeatured = BannersFeatured::all()->where('status',1)->take(3);
         $products_featured = Products::all()->where('status',1)->where('featured_product',1);
-        $top_selling = Products::all()->where('status',1)->sortBy('created_at')->take(8);
+        $top_selling = Products::all()->where('status',1)->sortBy('created_at')->take(5);
         return view('web/pages/home/index',[
             'brands'=>$brands,
             'products' => $products,
@@ -121,16 +121,17 @@ class WebController extends Controller
     }
    
     //! Products
-    public function list_grid(){
+    public function list(){
         $products = Products::orderBy('id', 'DESC')->where('status',1)->paginate(8);
-        return view('web.pages.products.list_grid',[
+        return view('web.pages.products.list',[
             'products'=>$products
         ]);
     }
+
     public function search(Request $request){
         if($request->search){
             $products = Products::where('status',1)->where('name','LIKE','%' . $request->search . '%')->latest()->paginate(8);
-            return view('web.pages.products.list_grid',[
+            return view('web.pages.products.list',[
                 'products'=>$products
             ]);
         }else{
@@ -138,4 +139,15 @@ class WebController extends Controller
         }
     }
 
+    public function detail($id){
+        $products = Products::find($id);
+        if(!$products){
+            abort(404);
+        }
+        $related = Products::where('sub_id',$products->sub_id)->take(4)->get();
+        return view('web.pages.products.detail',[
+            'products'=>$products,
+            'related'=>$related
+        ]);
+    }
 }

@@ -48,6 +48,7 @@ Route::prefix('admin')->middleware('admin','role:admin|staff')->group(function()
     Route::prefix('products')->group(function(){
         Route::get('/',[ProductsController::class, 'index']);
         Route::post('/create',[ProductsController::class, 'create']);
+        Route::get('/edit/{id}',[ProductsController::class, 'edit_pages']);
         Route::post('/edit/{id}',[ProductsController::class, 'edit']);
         Route::get('/delete/{id}',[ProductsController::class, 'destroy']);
         Route::delete('/deleteimages/{id}',[ProductsController::class, 'deleteImages']);

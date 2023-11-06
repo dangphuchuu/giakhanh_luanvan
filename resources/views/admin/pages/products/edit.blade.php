@@ -1,124 +1,201 @@
-<div class="modal fade " id="products_edit{{$pro->id}}" tabindex="-1" role="dialog"
-    aria-labelledby="products_editTitle" aria-hidden="true">
-    <div class="modal-dialog " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="products_editTitle">{{__("Edit")}} {{__("Products")}}</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                <i data-feather="x"></i>
-                </button>
+@extends('admin/layout/index')
+@section('manage_products')
+active
+@endsection
+@section('content')
+<div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <form method="post" action="/admin/products/edit/{{$products->id}}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="card-body">
+                            <button type="submit" class="btn btn-primary ml-1 float-end ">{{__("Edit")}}</button>
+                            <br>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>{{__("Categories")}}: </label>
+                                    <div class="form-group">
+                                        <select name="cat_id" class="form-control form-control-primary category" >
+                                            @foreach($categories as $cat)
+                                            <option
+                                                @if($products->cat_id == $cat->id)
+                                                selected 
+                                                @endif
+                                            value="{{$cat->id}}">{{$cat->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>{{__("SubCategories")}}: </label>
+                                    <div class="form-group">
+                                        <select name="sub_id" class="form-control form-control-primary subcategory" >
+                                            @foreach($subcategories as $sub)
+                                            <option 
+                                                @if($products->sub_id == $sub->id)
+                                                selected
+                                                @endif
+                                            value="{{$sub->id}}">{{$sub->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>{{__("Brands")}}: </label>
+                                    <div class="form-group">
+                                        <select name="brands_id" class="form-control form-control-primary" id="brands">
+                                            @foreach($brands as $brand)
+                                            <option 
+                                                @if($products->brands_id == $brand->id)
+                                                selected
+                                                @endif
+                                            value="{{$brand->id}}">{{$brand->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                             
+                                <div class="col-md-12">
+                                    <label>{{__("Name")}}: </label>
+                                    <div class="form-group">
+                                        <input type="text" value="{{$products->name}}" class="form-control" name="name">
+                                    </div>
+                                </div>
+                               
+
+                                <div class="col-md-6">
+                                     <label>Video: </label>
+                                     <div class="form-group">
+                                        <input type="text" placeholder="https://www.youtube.com/watch?v=" value="{{$products->youtube_path}}" class="form-control" name="youtube_path">
+                                        <iframe style="height: 400px;" width="700px" src="@if(isset($products->youtube_path)) 
+                                                            https://www.youtube.com/embed/{{$products->youtube_path}}
+                                                            @endif" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                     </div>
+                                </div>
+
+                                <div class="col-md-7">
+                                    <label>{{__("Image")}}: </label>
+                                    <input type="file" name="ProductsImage[]" class="form-control" multiple>
+                                    <div class="form-group file-uploader-library">
+                                        <div class="row">
+                                            @foreach($products->ProductsImage as $img)
+                                            <div class="col-md-6">
+                                                @if(strstr($img->image,"https") == "")
+                                                <div>
+                                                    <img style="width: 370px; height: 370px;"class="img_products_library mb-2" src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ $img->image }}.jpg" alt="">
+                                                    <a href="javascript:void(0)" data-url="{{ url('admin/products/deleteimages', $img->id ) }}" class="btn text-danger delete-image">X</a> 
+                                                </div>
+                                                @else
+                                                <div>
+                                                    <img style="width: 370px; height: 370px;" class="img_products_library mb-2" src="{{$img->image}}" alt="">
+                                                    <a href="javascript:void(0)" data-url="{{ url('admin/products/deleteimages', $img->id ) }}" class="btn text-danger delete-image">X</a> 
+                                                </div>
+                                                @endif
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label>{{__("Price")}}: </label>
+                                    <div class="form-group">
+                                        <input class="form-control" type="number" name="price" value="{{$products->price}}"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label>{{__("New Price")}}: </label>
+                                    <input type="checkbox" class="checkPrice" name="changeprice">
+                                    <div class="form-group">
+                                        <input class="new_price form-control" type="number" name="price_new" value="{{$products->price_new}}" disabled/>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label>{{__("Content")}}: </label>
+                                    <div class="form-group">
+                                        <textarea class="content form-control" name="content" >{{$products->content}}</textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <form action="admin/products/edit/{{$pro->id}}" method="post" enctype="multipart/form-data">
-                @csrf
-                <div class="modal-body">
-                    <label>{{__("Categories")}}: </label>
-                    <div class="form-group">
-                        <select name="cat_id" class="form-control form-control-primary category_edit" >
-                            @foreach($categories as $cat)
-                            <option
-                                @if($pro->cat_id == $cat->id)
-                                selected 
-                                @endif
-                            value="{{$cat->id}}">{{$cat->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <label>{{__("SubCategories")}}: </label>
-                    <div class="form-group">
-                        <select name="sub_id" class="form-control form-control-primary subcategory_edit" >
-                            @foreach($subcategories as $sub)
-                            <option 
-                                @if($pro->sub_id == $sub->id)
-                                selected
-                                @endif
-                            value="{{$sub->id}}">{{$sub->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <label>{{__("Brands")}}: </label>
-                    <div class="form-group">
-                        <select name="brands_id" class="form-control form-control-primary" id="brands">
-                            @foreach($brands as $brand)
-                            <option 
-                                @if($pro->brands_id == $brand->id)
-                                selected
-                                @endif
-                            value="{{$brand->id}}">{{$brand->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <label>{{__("Name")}}: </label>
-                    <div class="form-group">
-                        <input type="text" value="{{$pro->name}}" class="form-control" name="name">
-                    </div>
-
-                    <label>{{__("Image")}}: </label>
-                    <div class="form-group file-uploader">
-                        <input type="file" name="Image" class="form-control image-products">
-                        @if(strstr($pro->image,"https") == "")
-                        <img style="width: 400px" class="img_products" src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ $pro->image }}.jpg" alt="">
-                        @else
-                        <img style="width: 400px" class="img_products" src="{{$pro->image}}" alt="">
-                        @endif
-                    </div>
-
-                    <label>{{__("Image Libraries")}}: </label>
-                    <input type="file" name="Productslibrary[]" class="form-control image-products-library" multiple>
-                    <div class="form-group file-uploader-library">
-                        @foreach($pro->Productslibrary as $library)
-                            @if(strstr($library->image_library,"https") == "")
-                            <div>
-                                <img style="width: 400px" class="img_products_library mb-2" src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ $library->image_library }}.jpg" alt="">
-                                <a href="javascript:void(0)" data-url="{{ url('admin/products/deleteimages', $library->id ) }}" class="btn text-danger delete-image">X</a> 
-                            </div>
-                            @else
-                            <div>
-                                <img style="width: 400px" class="img_products_library mb-2" src="{{$library->image_library}}" alt="">
-                                <a href="javascript:void(0)" data-url="{{ url('admin/products/deleteimages', $library->id ) }}" class="btn text-danger delete-image">X</a> 
-                            </div>
-                            @endif
-                        @endforeach
-                    </div>
-
-                    <label>Video: </label>
-                    <div class="form-group">
-                        <input type="text" placeholder="https://www.youtube.com/watch?v=" value="{{$pro->youtube_path}}" class="form-control" name="youtube_path">
-                        <iframe style="height: 350px;" width="470px" src="@if(isset($pro->youtube_path)) 
-                                            https://www.youtube.com/embed/{{$pro->youtube_path}}
-                                            @endif" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-
-                    <label>{{__("Price")}}: </label>
-                    <div class="form-group">
-                        <input class="form-control" type="number" name="price" value="{{$pro->price}}"/>
-                    </div>
-                    <label>{{__("New Price")}}: </label>
-                    <input type="checkbox" class="checkPrice_edit" name="changeprice">
-                    <div class="form-group">
-                        <input class="new_price_edit form-control" type="number" name="price_new" value="{{$pro->price_new}}" disabled/>
-                    </div>
-
-                    <label>{{__("Content")}}: </label>
-                    <div class="form-group">
-                        <textarea class="content_edit form-control" name="content" >{{$pro->content}}</textarea>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                    <i class="bx bx-x d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">{{__("Close")}}</span>
-                    </button>
-                    <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                    <i class="bx bx-check d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">{{__("Accept")}}</span>
-                    </button>
-                </div>
-
-            </form>
         </div>
     </div>
-</div>
+@endsection
+@section('scripts')
+<script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
+
+<script>
+ClassicEditor
+.create( document.querySelector( '.content' ) )
+.then( content => {
+        // console.log( content );
+} )
+.catch( error => {
+        // console.error( error );
+} );
+</script>
+<script>
+$(document).ready(function(){
+    $('.checkPrice').change(function(){
+    if($(this).is(":checked"))
+    {
+        $('.new_price').removeAttr('disabled');
+    }
+    else 
+    {
+        $('.new_price').attr('disabled','');
+    }
+    });
+
+    
+
+    //change category to subcategory create
+    $(".category").change(function(){
+        var cat_id = $(this).val();
+        $.get("admin/products/subcategory/"+cat_id,function(data){
+            $(".subcategory").html(data);
+        });
+    });
+
+});
+</script>
+<script>
+     $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $('.delete-image').on('click', function() {
+            var userURL = $(this).data('url');
+            var trObj = $(this);
+            if (confirm("Are you sure you want to remove it?") == true) {
+                $.ajax({
+                    url: userURL,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data['success']) {
+                            alert(data.success);
+                            trObj.parent().remove();
+                        } else if (data['error']) {
+                            alert(data.error);
+                        }
+                    }
+                });
+            }
+
+        });
+    });
+</script>
+@endsection

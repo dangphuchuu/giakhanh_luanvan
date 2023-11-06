@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categories;
+use App\Models\Products;
 use App\Models\Subcategories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -58,8 +59,8 @@ class CategoriesController extends Controller
     {
        
         $categories = Categories::find($id);
-        $check = count(Subcategories::where('cat_id',$id)->get());
-        if($check ==0 ){
+        $subcategories = count(Subcategories::where('cat_id',$id)->get());
+        if($subcategories ==0){
             $categories::destroy($id);
             return redirect()->back()->with('toast_success',__("Delete Successfully"));
         }else{

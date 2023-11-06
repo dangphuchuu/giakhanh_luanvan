@@ -33,6 +33,10 @@ Route::middleware('language')->group(function(){
     Route::post('/handle_login',[WebController::class, 'handle_login']);
     Route::post('/register',[WebController::class, 'register']);
     Route::get('/logout',[WebController::class, 'logout']);
-    Route::get('/list-grid',[WebController::class, 'list_grid']);
+    Route::get('/list',[WebController::class, 'list']);
     Route::get('/search',[WebController::class, 'search']);
+    Route::get('/detail/{id}',[WebController::class, 'detail']);
+    Route::get('/errors/404',function(){
+        return view('errors.404');
+    });
 });

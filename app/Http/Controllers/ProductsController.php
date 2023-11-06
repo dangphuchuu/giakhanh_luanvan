@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brands;
 use App\Models\Categories;
 use App\Models\Products;
-use App\Models\ProductsLibrary;
+use App\Models\ProductsImage;
 use App\Models\Subcategories;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
@@ -29,7 +29,18 @@ class ProductsController extends Controller
             'brands' => $brands
         ]);
     }
-
+    public function edit_pages($id){
+        $products = Products::find($id);
+        $categories = Categories::all();
+        $subcategories = Subcategories::all();
+        $brands = Brands::all();
+        return view('admin.pages.products.edit',[
+            'products' => $products,
+            'categories'=> $categories,
+            'subcategories' => $subcategories,
+            'brands' => $brands
+        ]);
+    }
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(),[
@@ -41,49 +52,37 @@ class ProductsController extends Controller
         if($validate->fails()){
             return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
         }
+            $request['users_id'] = Auth::user()->id;
+            if($request->hasFile('ProductsImage'))
+            {
+                $products = new Products(
+                    [
+                        'cat_id' => $request->cat_id,
+                        'users_id'=>$request->users_id,
+                        'brands_id'=>$request->brands_id,
+                        'sub_id'=>$request->sub_id,
+                        'name'=>$request->name,
+                        'youtube_path'=>$request->youtube_path,
+                        'price'=>$request->price,
+                        'price_new'=>$request->price_new,
+                        'content'=>$request->content,
+                    ]
+                );
+                $products->save();
 
-        $request['users_id'] = Auth::user()->id;
-        if($request->hasFile('Image')){
-            $img = $request->file('Image');
-            $cloud = Cloudinary::upload($img->getRealPath(), [
-                'folder' => 'products',
-                'format' => 'jpg',
-            ])->getPublicId();
-            $products = new Products(
-                [
-                    'cat_id' => $request->cat_id,
-                    'users_id'=>$request->users_id,
-                    'brands_id'=>$request->brands_id,
-                    'sub_id'=>$request->sub_id,
-                    'name'=>$request->name,
-                    'image'=>$cloud,
-                    'youtube_path'=>$request->youtube_path,
-                    'price'=>$request->price,
-                    'price_new'=>$request->price_new,
-                    'content'=>$request->content,
-                ]
-            );
-            $products->save();
-        }else{
-            return redirect()->back()->with('toast_error',__("Please choose image"));
-        }
-        if($request->hasFile('Productslibrary'))
-        {
-            foreach($request->file('Productslibrary') as $file){
-                $img = $file;
-                $cloud = Cloudinary::upload($img->getRealPath(), [
-                    'folder' => 'Productslibrary',
-                    'format' => 'jpg',
-                ])->getPublicId();
-                $request['products_id'] = $products->id;
-                $request['image_library'] = $cloud;
-                ProductsLibrary::create([
-                    'products_id'=>$request['products_id'],
-                    'image_library'=>$request['image_library']
-                ]);
+                foreach($request->file('ProductsImage') as $file){
+                    $cloud = Cloudinary::upload($file->getRealPath(), [
+                        'folder' => 'products',
+                        'format' => 'jpg',
+                    ])->getPublicId();
+                    ProductsImage::create([
+                        'products_id'=>$products->id,
+                        'image'=> $cloud
+                    ]);
+                }
+            }else{
+                return redirect()->back()->with('toast_error',__("Please choose image"));
             }
-        }
-      
         return redirect()->back()->with('toast_success',__("Create successfully"));
     }
 
@@ -102,32 +101,16 @@ class ProductsController extends Controller
 
         $request['users_id'] = Auth::user()->id;
 
-        if($request->hasFile('Image')){
-            $img = $request->file('Image');
-            if($products->image !=''){
-                Cloudinary::destroy($products->image);
-            }
-            $cloud = Cloudinary::upload($img->getRealPath(), [
-                'folder' => 'products',
-                'format' => 'jpg',
-            ])->getPublicId();
-            // var_dump($cloud);
-            $products->image = $cloud;
-        }
-
-        if($request->hasFile('Productslibrary'))
+        if($request->hasFile('ProductsImage'))
         {
-            foreach($request->file('Productslibrary') as $file){
-                $img = $file;
-                $cloud = Cloudinary::upload($img->getRealPath(), [
-                    'folder' => 'Productslibrary',
+            foreach($request->file('ProductsImage') as $file){
+                $cloud = Cloudinary::upload($file->getRealPath(), [
+                    'folder' => 'products',
                     'format' => 'jpg',
                 ])->getPublicId();
-                $request['products_id'] = $products->id;
-                $request['image_library'] = $cloud;
-                ProductsLibrary::create([
-                    'products_id'=>$request['products_id'],
-                    'image_library'=>$request['image_library']
+                ProductsImage::create([
+                    'products_id'=>$products->id,
+                    'image'=> $cloud
                 ]);
             }
         }
@@ -141,17 +124,16 @@ class ProductsController extends Controller
         $products->price_new = $request->price_new;
         $products->content = $request->content;
         $products->save();
-        return redirect()->back()->with('toast_success',__("Update successfully"));
+        return redirect('/admin/products')->with('toast_success',__("Update successfully"));
     }
 
     public function destroy($id)
     {
         $products = Products::find($id);
-        $productsLibrary= ProductsLibrary::where('products_id',$products->id)->get();
+        $productsImage= ProductsImage::where('products_id',$products->id)->get();
         if($products->status == 0){
-            Cloudinary::destroy($products->image);
-            foreach($productsLibrary as $productslib){
-                Cloudinary::destroy($productslib->image_library);
+            foreach($productsImage as $pro){
+                Cloudinary::destroy($pro->image);
             }
             $products->delete();
             return redirect()->back()->with('toast_success',__("Delete Successfully"));
@@ -184,9 +166,9 @@ class ProductsController extends Controller
         }
     }
     public function deleteImages($id){
-        $productsLibrary = ProductsLibrary::find($id);
-        Cloudinary::destroy($productsLibrary->image_library);
-        $productsLibrary->delete();
+        $productsImage = ProductsImage::find($id);
+        Cloudinary::destroy($productsImage->image);
+        $productsImage->delete();
         return response()->json(['success'=>"Delete successfully"]);
     }
 }

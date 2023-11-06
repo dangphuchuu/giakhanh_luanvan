@@ -41,18 +41,12 @@
                     <label>{{__("Name")}}: </label>
                     <div class="form-group">
                         <input type="text" placeholder="{{__('Type')}}...." class="form-control" name="name">
-                    </div>
+                    </div> 
 
                     <label>{{__("Image")}}: </label>
-                    <div class="form-group file-uploader">
-                        <input type="file" name="Image" class="form-control image-products">
-                        <img style="width: 400px" src="" class="img_products d-none" alt="user1">
-                    </div>
-
-                    <label>{{__("Image Libraries")}}: </label>
-                    <div class="form-group file-uploader-library">
-                        <input type="file" name="Productslibrary[]" class="form-control image-products-library" multiple>
-                        <img style="width: 400px" src="" class="img_products_library d-none" alt="user1">
+                    <div class="form-group ">
+                        <input type="file" name="ProductsImage[]" class="form-control " multiple>
+                        <img style="width: 400px" src="" class="d-none" alt="user1">
                     </div>
 
                     <label>Video: </label>

@@ -33,13 +33,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class='sidebar-title'>{{__("Staff")}} &amp; {{__("Clients")}}</li>
-                <li class="sidebar-item  ">
-                    <a href="form-layout.html" class='sidebar-link'>
-                        <i data-feather="user-check" width="20"></i>
-                        <span>{{__("Staff")}}</span>
-                    </a>
-                </li>
+                <li class='sidebar-title'>{{__("Clients")}}</li>
                 <li class="sidebar-item  ">
                     <a href="form-layout.html" class='sidebar-link'>
                         <i data-feather="users" width="20"></i>

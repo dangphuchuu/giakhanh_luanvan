@@ -52,15 +52,19 @@ active
                         <tr>
                             <td>{{$key+1}}</td>
                             <td>
-                                @if($pro->image == NULL)
-                                    <img style="width: 150px">
-                                @else
-                                    @if(strstr($pro->image,"https") == "")
-                                        <img style="width: 150px" src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$pro->image}}.jpg" >
-                                    @elseif(strstr($pro->image,"https") != "")
-                                        <img style="width: 150px" src="{{$pro->image}}" >
+                                @foreach($pro->ProductsImage as $img)
+                                    @if($loop ->first)
+                                        @if($img->image == NULL)
+                                            <img style="width: 150px">
+                                        @else
+                                            @if(strstr($img->image,"https") == "")
+                                                <img style="width: 150px" src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$img->image}}.jpg" >
+                                            @elseif(strstr($img->image,"https") != "")
+                                                <img style="width: 150px" src="{{$img->image}}" >
+                                            @endif
+                                        @endif 
                                     @endif
-                                @endif 
+                                @endforeach
                             </td>
                             <td class="text-truncate" style="max-width: 130px;">{{$pro->name}}</td>
                             <td>{{$pro->categories->name}}</td>
@@ -82,10 +86,9 @@ active
                                 @endif
                             </td>
                             <td>
-                            <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#products_edit{{$pro->id}}">
+                            <a href="admin/products/edit/{{$pro->id}}">
                                 <i data-feather="edit"></i>
                              </a>
-                                @include('admin/pages/products/edit')
                             </td>
                             <td>
                             <a href="admin/products/delete/{{$pro->id}}" onclick="return confirm(`{{__('Are you sure you want to delete this ?')}}`)">
@@ -118,17 +121,7 @@ active
         }
         });
 
-        //edit
-        $('.checkPrice_edit').change(function(){
-        if($(this).is(":checked"))
-        {
-            $('.new_price_edit').removeAttr('disabled');
-        }
-        else 
-        {
-            $('.new_price_edit').attr('disabled','');
-        }
-        });
+     
 
         //change category to subcategory create
         $(".category").change(function(){
@@ -138,13 +131,6 @@ active
             });
         });
 
-        //change category to subcategory edit
-        $(".category_edit").change(function(){
-            var cat_id = $(this).val();
-            $.get("admin/products/subcategory_edit/"+cat_id,function(data){
-                $(".subcategory_edit").html(data);
-            });
-        });
     });
 </script>
 <script>
@@ -215,21 +201,6 @@ active
         });
     }
 </script>
-<script>
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('.file-uploader .img_products').attr('src', e.target.result).removeClass('d-none');
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    $(".image-products").change(function() {
-        readURL(this);
-    });
-</script>
 <script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
 <script>
 ClassicEditor
@@ -240,42 +211,6 @@ ClassicEditor
         .catch( error => {
                 // console.error( error );
         } );
-ClassicEditor
-        .create( document.querySelector( '.content_edit' ) )
-        .then( content => {
-                // console.log( content );
-        } )
-        .catch( error => {
-                // console.error( error );
-        } );
-</script>
-<script>
-     $(document).ready(function() {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $('.delete-image').on('click', function() {
-            var userURL = $(this).data('url');
-            var trObj = $(this);
-            if (confirm("Are you sure you want to remove it?") == true) {
-                $.ajax({
-                    url: userURL,
-                    type: 'DELETE',
-                    dataType: 'json',
-                    success: function(data) {
-                        if (data['success']) {
-                            alert(data.success);
-                            trObj.parent().remove();
-                        } else if (data['error']) {
-                            alert(data.error);
-                        }
-                    }
-                });
-            }
 
-        });
-    });
 </script>
 @endsection

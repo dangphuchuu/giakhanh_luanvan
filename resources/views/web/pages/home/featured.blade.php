@@ -5,33 +5,41 @@
 				<!-- <p>Cum doctus civibus efficiantur in imperdiet deterruisset</p> -->
 			</div>
 			<div class="owl-carousel owl-theme products_carousel">
-				@foreach($products_featured as $featured)
+				@foreach($products_featured as $pro)
+				@foreach($pro->ProductsImage as $img)
+				@if($loop ->first)
 				<div class="item">
 					<div class="grid_item">
 						<span class="ribbon hot">Hot</span>
 						<figure>
-							<a href="product-detail-1.html">
-								@if(strstr($featured->image,"https") == "")
-									<img style="width:270px; height:250px" class="img-fluid lazy" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$featured->image}}.jpg" alt="">
-									<img style="width:270px; height:250px" class="img-fluid lazy" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$featured->image}}.jpg" alt="">
+							<a href="/detail/{{$pro->id}}">
+								@if(strstr($img->image,"https") == "")
+									<img style="width:270px; height:250px" class="img-fluid lazy" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$img->image}}.jpg" alt="">
+									<img style="width:270px; height:250px" class="img-fluid lazy" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$img->image}}.jpg" alt="">
 								@else
-									<img style="width:270px; height:250px" class="img-fluid lazy" data-src="{{$featured->image}}" alt="">
-									<img style="width:270px; height:250px" class="img-fluid lazy" data-src="{{$featured->image}}" alt="">
+									<img style="width:270px; height:250px" class="img-fluid lazy" data-src="{{$img->image}}" alt="">
+									<img style="width:270px; height:250px" class="img-fluid lazy" data-src="{{$img->image}}" alt="">
 								@endif
 							</a>
 						</figure>
 						<!-- <div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i></div> -->
-						<a href="product-detail-1.html">
-						<h3 class="d-block" style="max-width: 270px; height:50px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{$featured->name}}</h3>
+						<a href="/detail/{{$pro->id}}">
+						<h3 class="d-block" style="max-width: 270px; height:50px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{$pro->name}}</h3>
 						</a>
 						<div class="price_box">
-							@if(isset($featured->price_new))
-							<span class="new_price">{{number_format($featured->price_new,0,",",".")}} Vnđ</span>
-							<span class="old_price">{{number_format($featured->price,0,",",".")}} Vnđ</span>
-							@elseif(!isset($featured->price_new))
-							<span class="new_price">{{number_format($featured->price,0,",",".")}} Vnđ</span>
+							@if(isset($pro->price_new) && isset($pro->price))
+							<span class="new_price">{{number_format($pro->price_new,0,",",".")}} Vnđ</span>
+							<span class="old_price">{{number_format($pro->price,0,",",".")}} Vnđ</span>
+
+							@elseif(!isset($pro->price_new) && isset($pro->price))
+							<span class="new_price">{{number_format($pro->price,0,",",".")}} Vnđ</span>
+
+							@elseif(!isset($pro->price) && isset($pro->price_new))
+							<span class="new_price">{{number_format($pro->price_new,0,",",".")}} Vnđ</span>
+
 							@else
 							<span class="new_price">{{__("Contact")}}</span>
+							
 							@endif
 						</div>
 						<ul>
@@ -42,6 +50,8 @@
 					</div>
 					<!-- /grid_item -->
 				</div>
+				@endif
+				@endforeach
 				@endforeach
 			</div>
 			<!-- /products_carousel -->
