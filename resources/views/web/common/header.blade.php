@@ -5,7 +5,7 @@
             <div class="row small-gutters">
                 <div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
                     <div id="logo">
-                        <a href="/" ><img src="web_assets/img/logo_black.svg" alt="" width="100" height="35"></a>
+                        <a href="/" ><img src="images/favicon/{{$info->logo}}" alt="" width="100" height="35"></a>
                     </div>
                 </div>
                 <nav class="col-xl-6 col-lg-7">
@@ -15,7 +15,7 @@
                     <!--/main-menu -->
                 </nav>
                 <div class="col-xl-3 col-lg-2 d-lg-flex align-items-center justify-content-end text-end">
-                <a class="phone_top" href="tel://9438843343"><strong><span>{{__("Contact")}}</span>+94 423-23-221</strong></a>
+                <a class="phone_top" href="tel://{{$info->phone}}"><strong><span>{{__("Contact")}}</span>+{{$info->phone}}</strong></a>
                 <a href="{{route('lang')}}" class="nav-link nav-link-lg nav-link-user">
                     <div class="d-lg-inline-block">
                     @if(Session("language") == "en")
@@ -118,7 +118,7 @@
                                         @if(strstr(Auth::user()->image,"https") == "")
                                             <img src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ Auth::user()->image }}.jpg"   class=" me-2" style="border-radius:50%!important; width:15%">
                                         @else
-                                            <img src='images/avatar/{{Auth::user()->image}}.png'  class=" me-2" style="border-radius:50%!important; width:15%">
+                                            <img src='{{Auth::user()->image}}'  class=" me-2" style="border-radius:50%!important; width:15%">
                                         @endif
                                     @else
                                     <img src='images/avatar/avatar.png'  class=" me-2" style="border-radius:50%!important; width:15%">

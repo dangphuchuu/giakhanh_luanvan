@@ -5,6 +5,7 @@ use App\Http\Controllers\BannersController;
 use App\Http\Controllers\BannersFeaturedController;
 use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\InfoController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SubCategoriesController;
 use Illuminate\Support\Facades\Route;
@@ -74,4 +75,15 @@ Route::prefix('admin')->middleware('admin','role:admin|staff')->group(function()
         Route::get('/status',[BannersFeaturedController::class, 'status']);
 
     });
+    Route::prefix('clients')->group(function(){
+        Route::get('/',[AdminController::class, 'clients']);
+        Route::get('/status',[AdminController::class, 'status_clients']);
+
+    });
+    Route::prefix('info')->group(function(){
+        Route::get('/',[InfoController::class, 'index']);
+        Route::post('/',[InfoController::class, 'info']);
+
+    });
+    
 });

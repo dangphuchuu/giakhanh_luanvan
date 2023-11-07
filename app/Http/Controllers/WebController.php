@@ -6,6 +6,7 @@ use App\Models\Banners;
 use App\Models\BannersFeatured;
 use App\Models\Brands;
 use App\Models\Categories;
+use App\Models\Info;
 use App\Models\Products;
 use App\Models\Subcategories;
 use App\Models\User;
@@ -20,8 +21,10 @@ class WebController extends Controller
     public function __construct(){
         $categories = Categories::all()->where('status',1);
         $subcategories = Subcategories::all()->where('status',1);
+        $info = Info::find(1);
         view()->share('categories',$categories);
         view()->share('subcategories',$subcategories);
+        view()->share('info',$info);
     }
     public function index()
     {
@@ -110,7 +113,7 @@ class WebController extends Controller
             'firstname'=>$request->firstname,
             'username'=>$request->username,
             'email'=>$request->email,
-            'image'=>'avatar',
+            'image'=>'https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper.png',
             'password'=>Hash::make($request->password)
         ]);
         $user->save();

@@ -34,14 +34,14 @@
                     </ul>
                 </li>
                 <li class='sidebar-title'>{{__("Clients")}}</li>
-                <li class="sidebar-item  ">
-                    <a href="form-layout.html" class='sidebar-link'>
+                <li class="sidebar-item @yield('manage_clients') ">
+                    <a href="/admin/clients" class='sidebar-link'>
                         <i data-feather="users" width="20"></i>
                         <span>{{__("Clients")}}</span>
                     </a>
                 </li>
                 <li class='sidebar-title'>{{__("Information")}}</li>
-                <li class="sidebar-item  has-sub">
+                <li class="sidebar-item  has-sub @yield('info')">
                     <a href="#" class='sidebar-link'>
                         <i data-feather="info" width="20"></i>
                         <span> Website</span>
@@ -55,7 +55,7 @@
                             <a href="/admin/bannersfeatured">{{__("Banners Collection")}}</a>
                         </li>
                         <li>
-                            <a href="auth-forgot-password.html">{{__("Contact Info")}}</a>
+                            <a href="/admin/info">{{__("Contact Info")}}</a>
                         </li>
 
                     </ul>

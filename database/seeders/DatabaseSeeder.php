@@ -19,6 +19,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('infos')->insert([
+            'logo'=>'web_assets/img/logo_black.svg',
+            'name'=>'Gkcomputer',
+            'phone'=>'0123456789',
+            'email'=>'Gkcomputer@gmail.com',
+            'facebook'=>'https://www.facebook.com/khanhLotuss',
+            'twitter'=>'http://www.twitter.com',
+            'youtube'=>'http://www.youtube.com',
+            'address'=>'180 Cao Lỗ',
+            'worktime'=>'7:00 - 21:00',
+            'copyright'=>'GkComputer'
+        ]);
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'staff']);
         Role::create(['name' => 'client']);
