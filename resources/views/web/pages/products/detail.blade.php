@@ -156,7 +156,9 @@
 	                            <div class="row justify-content-center ">
 	                                  	
 										{!! $products->content !!}
-	                          
+	                          		@if(isset($products->youtube_path))
+									  <iframe style="height: 700px;" width="100%" src="https://www.youtube.com/embed/{{$products->youtube_path}} " title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+									@endif
 	                            </div>
 	                        </div>
 	                    </div>

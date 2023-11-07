@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+
 class WebController extends Controller
 {
     public function __construct(){
@@ -117,7 +119,7 @@ class WebController extends Controller
     }
     public function logout(){
         Auth::logout();
-        return redirect()->back()->with('toast_success',__("Logout Successfully"));
+        return redirect('/signin_signup')->with('toast_success',__("Logout Successfully"));
     }
    
     //! Products
@@ -167,5 +169,63 @@ class WebController extends Controller
             'subcategory'=>$subcategory,
             'products'=>$products
         ]);
+    }
+
+    public function profile(){
+        $user = Auth::user();
+        if(Auth::check()){
+            return view('web.pages.account.profile',[
+                'user'=>$user
+            ]);
+        }
+        abort(404);
+    }
+
+    public function editProfile(Request $request){
+        $user = User::find(Auth::user()->id);
+        if($request->changepassword == 'on'){
+            $validate = Validator::make($request->all(),[
+                'password' => 'required',
+                'repassword'=>'required|same:password',
+            ],[
+                'password.required'=>__("the passwords field is required"),
+                'repassword.required'=>__("the repassword field is required"),
+                'repassword.same'=>__("the repassword is incorrect")
+            ]);
+    
+            if($validate->fails()){
+                return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
+            }
+            $request['password'] = Hash::make($request->password);
+            $user->password = $request['password'];
+        }
+        $user->firstname = $request->firstname;
+        $user->lastname = $request->lastname;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->district = $request->district;
+        $user->city = $request->city;
+        $user->save();
+        return redirect()->back()->with('toast_success',__("Update successfully"));
+    }
+
+    public function imageProfile(Request $request){
+        
+        $user = User::find(Auth::user()->id);
+        if ($request->hasFile('Image')) {
+            $img = $request->file('Image');
+            if($user->image !=''){
+                Cloudinary::destroy($user->image);
+            }
+            $cloud = Cloudinary::upload($img->getRealPath(), [
+                'folder' => 'user',
+                'format' => 'jpg',
+
+            ])->getPublicId();
+            $user->image= $cloud;
+        }
+        $user->save();
+        return redirect()->back()->with('toast_success',__("Update successfully"));
     }
 }

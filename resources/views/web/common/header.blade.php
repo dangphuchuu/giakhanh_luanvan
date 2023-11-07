@@ -115,12 +115,13 @@
                                 <div class="dropdown-menu" style="display: none;">
                                     @if(isset(Auth::user()->image))
                                     
-                                        @if(strstr(Auth::user()->image,"https") != "")
+                                        @if(strstr(Auth::user()->image,"https") == "")
                                             <img src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ Auth::user()->image }}.jpg"   class=" me-2" style="border-radius:50%!important; width:15%">
                                         @else
                                             <img src='images/avatar/{{Auth::user()->image}}.png'  class=" me-2" style="border-radius:50%!important; width:15%">
                                         @endif
-
+                                    @else
+                                    <img src='images/avatar/avatar.png'  class=" me-2" style="border-radius:50%!important; width:15%">
                                     @endif
 
                                             @if(Session("language") == "en")
@@ -130,7 +131,7 @@
                                             @endif
                                     <ul>
                                         <li>
-                                            <a href="account.html"><i class="ti-user"></i>{{__("My Profile")}}</a>
+                                            <a href="/profile"><i class="ti-user"></i>{{__("My Profile")}}</a>
                                         </li>
                                         <li>
                                             <a href="account.html"><i class="ti-package"></i>{{__("My Orders")}}</a>

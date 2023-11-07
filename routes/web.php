@@ -41,5 +41,8 @@ Route::middleware('language')->group(function(){
     Route::get('/detail/{id}',[WebController::class, 'detail']);
     Route::get('/category/{id}',[WebController::class, 'category']);
     Route::get('/subcategory/{id}',[WebController::class, 'subcategory']);
+    Route::get('/profile/',[WebController::class, 'profile']);
+    Route::post('/profile',[WebController::class, 'editProfile']);
+    Route::post('/imageProfile',[WebController::class, 'imageProfile']);
    
 });
