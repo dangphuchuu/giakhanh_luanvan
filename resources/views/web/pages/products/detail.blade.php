@@ -10,8 +10,6 @@
 </style>
 <main>
 	    <div class="container margin_30">
-	        <!-- <div class="countdown_inner">-{{round((($products->price - $products->price_new)/$products->price)*100,0) }}% {{__("This offer ends in")}} <div data-countdown="2023/11/11" class="countdown"></div>
-	        </div> -->
             <div class="row">
 	            <div class="col-md-6">
 	                <div class="all">
@@ -54,59 +52,62 @@
 	                    </ul>
 	                </div>
 	                <!-- /page_header -->
-	                <div class="prod_info">
-	                    <h1>{{$products->name}}</h1>
-	                    <!-- <span class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i><em>4 reviews</em></span> -->
-	                    <p><small>{{$products->categories->name}}: {{$products->subcategories->name}}-{{$products->id}}</small>
-						<!-- <br>Sed ex labitur adolescens scriptorem. Te saepe verear tibique sed. Et wisi ridens vix, lorem iudico blandit mel cu. Ex vel sint zril oportere, amet wisi aperiri te cum. -->
-						</p>
-	                    <div class="prod_options">
-	                        <div class="row">
-	                            <label class="col-xl-5 col-lg-5  col-md-6 col-6"><strong>{{__("Quantity")}}</strong></label>
-	                            <div class="col-xl-4 col-lg-5 col-md-6 col-6">
-	                                <div class="numbers-row">
-	                                    <input type="text" value="1"  id="quantity_1" class="qty2" name="quantity">
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                    <div class="row">
-	                        <div class="col-lg-5 col-md-6">
-								@if($products->status == 1)
-									@if(isset($products->price) && isset($products->price_new))
-									<div class="price_main"><span class="new_price">{{number_format($products->price_new,0,",",".")}} Vnđ</span><span class="percentage">-{{round((($products->price - $products->price_new)/$products->price)*100,0) }}%</span> <span class="old_price">{{number_format($products->price,0,",",".")}} Vnđ</span></div>
+					<form action="/cart" method="post">
+						@csrf
+						<div class="prod_info">
+							<h1>{{$products->name}}</h1>
+							<!-- <span class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i><em>4 reviews</em></span> -->
+							<p><small>{{$products->categories->name}}: {{$products->subcategories->name}}-{{$products->id}}</small>
+							<!-- <br>Sed ex labitur adolescens scriptorem. Te saepe verear tibique sed. Et wisi ridens vix, lorem iudico blandit mel cu. Ex vel sint zril oportere, amet wisi aperiri te cum. -->
+							</p>
+							<div class="prod_options">
+								<div class="row">
+									<label class="col-xl-5 col-lg-5  col-md-6 col-6"><strong>{{__("Quantity")}}</strong></label>
+									<div class="col-xl-4 col-lg-5 col-md-6 col-6">
+										<div class="numbers-row">
+											<input type="text" value="1"  id="quantity_1" class="qty2" name="quantity">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-5 col-md-6">
+									@if($products->status == 1)
+										@if(isset($products->price) && isset($products->price_new))
+										<div class="price_main"><span class="new_price">{{number_format($products->price_new,0,",",".")}} Vnđ</span><span class="percentage">-{{round((($products->price - $products->price_new)/$products->price)*100,0) }}%</span> <span class="old_price">{{number_format($products->price,0,",",".")}} Vnđ</span></div>
 
-									@elseif(!isset($products->price) && isset($products->price_new))
-									<div class="price_main"><span class="new_price">{{number_format($products->price_new,0,",",".")}} Vnđ</span></div>
+										@elseif(!isset($products->price) && isset($products->price_new))
+										<div class="price_main"><span class="new_price">{{number_format($products->price_new,0,",",".")}} Vnđ</span></div>
 
-									@elseif(isset($products->price) && !isset($products->price_new))
-									<div class="price_main"><span class="new_price">{{number_format($products->price,0,",",".")}} Vnđ</span></div>
+										@elseif(isset($products->price) && !isset($products->price_new))
+										<div class="price_main"><span class="new_price">{{number_format($products->price,0,",",".")}} Vnđ</span></div>
 
+										@else
+										<div class="price_main"><span class="new_price" style="color: red !important">{{__("Contact")}}</span></div>
+
+										@endif
+										
 									@else
-									<div class="price_main"><span class="new_price" style="color: red !important">{{__("Contact")}}</span></div>
+									<div class="price_main"><span class="new_price" style="color: red !important">{{__("Out Stock")}}</span></div>
 
 									@endif
-									
-								@else
-								<div class="price_main"><span class="new_price" style="color: red !important">{{__("Out Stock")}}</span></div>
-
+								</div>
+								@if($products->status == 1)
+									@if(Auth::check())
+										<div class="col-lg-4 col-md-6">
+											<div class="btn_add_to_cart"><button type="submit" class="btn_1">{{__("Add to Cart")}}</button></div>
+										</div>
+										<input type="hidden" name="products_id" value="{{$products->id}}"/>
+									@else
+										<div class="col-lg-4 col-md-6">
+											<div class="btn_add_to_cart"><a href="/signin_signup" class="btn_1">{{__("Login")}}</a></div>
+										</div>
+										
+									@endif
 								@endif
-	                        </div>
-							@if($products->status == 1)
-								@if(Auth::check())
-									<div class="col-lg-4 col-md-6">
-										<div class="btn_add_to_cart"><a href="#0" class="btn_1">{{__("Add to Cart")}}</a></div>
-									</div>
-
-								@else
-									<div class="col-lg-4 col-md-6">
-										<div class="btn_add_to_cart"><a href="/signin_signup" class="btn_1">{{__("Login")}}</a></div>
-									</div>
-									
-								@endif
-							@endif
-	                    </div>
-	                </div>
+							</div>
+						</div>
+					</form>
 	                <!-- /prod_info -->
 	                <div class="product_actions">
 	                    <ul>

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class WebController extends Controller
 {
@@ -26,8 +27,7 @@ class WebController extends Controller
         view()->share('subcategories',$subcategories);
         view()->share('info',$info);
     }
-    public function index()
-    {
+    public function index(){
         $products = Products::all()->where('status',1)->sortByDesc('created_at')->take(4);
         $brands = Brands::all()->where('status',1);
         $banners = Banners::all()->where('status',1);
@@ -43,6 +43,9 @@ class WebController extends Controller
             'top_selling'=>$top_selling
         ]);
     }
+
+
+    // !Authentication
     public function signin_signup(){
         return view('web/common/signin_signup');
     }
@@ -125,23 +128,13 @@ class WebController extends Controller
         return redirect('/signin_signup')->with('toast_success',__("Logout Successfully"));
     }
    
+    
     //! Products
     public function list(){
         $products = Products::orderBy('id', 'DESC')->where('status',1)->paginate(8);
         return view('web.pages.products.list',[
             'products'=>$products
         ]);
-    }
-
-    public function search(Request $request){
-        if($request->search){
-            $products = Products::where('status',1)->where('name','LIKE','%' . $request->search . '%')->latest()->paginate(8);
-            return view('web.pages.products.list',[
-                'products'=>$products
-            ]);
-        }else{
-            return redirect()->back()->with('toast_error',__("Empty Search"));
-        }
     }
 
     public function detail($id){
@@ -174,6 +167,19 @@ class WebController extends Controller
         ]);
     }
 
+    public function search(Request $request){
+        if($request->search){
+            $products = Products::where('status',1)->where('name','LIKE','%' . $request->search . '%')->latest()->paginate(8);
+            return view('web.pages.products.list',[
+                'products'=>$products
+            ]);
+        }else{
+            return redirect()->back()->with('toast_error',__("Empty Search"));
+        }
+    }
+
+
+    //TODO Profile
     public function profile(){
         $user = Auth::user();
         if(Auth::check()){
@@ -230,5 +236,64 @@ class WebController extends Controller
         }
         $user->save();
         return redirect()->back()->with('toast_success',__("Update successfully"));
+    }
+
+    //! Cart
+    public function cart(){
+        return view('web.pages.cart.index');
+    }
+
+    public function handle_cart(Request $request){
+        $id = $request->products_id;
+        $quantity = $request->quantity;
+        $products = Products::where('id',$id)->first();
+        foreach($products->ProductsImage as $value){
+            $img[] = $value->image;
+        }
+        // dd($img[0]);
+        if($quantity == 0){
+            return redirect()->back()->with('toast_warning',__("Please choose product at least 1 !"));
+        }
+        Cart::add([
+            'id'=>$id,
+            'name'=> $products->name,
+            'qty'=> $request->quantity,
+            'price'=> $products->price,
+            'options'=>[
+                'price_new'=>$products->price_new,
+                'image'=>  $img[0],
+            ]
+        ]);
+        // Cart::destroy();
+        // dd(Cart::content());
+        return redirect('/cart')->with('toast_success',__("Order Successfully !"));
+    }
+
+    public function update(Request $request){
+        $qty = $request->qty;
+        $id = $request->cartId;
+        $cart = Cart::get($id);
+
+        if($cart->options->price_new != null){
+            $subtotal = $cart->options->price_new*$qty;
+        }else{
+            $subtotal = $cart->price*$qty;
+        }
+
+        Cart::update($id,$qty);
+        return response()->json(['subtotal'=>$subtotal],200);
+            // $data = $request->all();
+            // print_r($data);
+            // Cart::update($request->cartId);
+            // return response();
+
+       
+    }
+
+    public function deleteCart(Request $request){
+        $id = $request->cartId;
+        Cart::remove($id);
+        return response()->json(200);
+        
     }
 }

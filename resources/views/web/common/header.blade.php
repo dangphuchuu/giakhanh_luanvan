@@ -82,7 +82,7 @@
                         </li>
                         <li>
                             <div class="dropdown dropdown-cart mt-1">
-                                <a href="cart.html" ><i class="ti-shopping-cart" style="font-size: 22px;"></i></a>
+                                <a href="/cart" ><i class="ti-shopping-cart" style="font-size: 22px;"></i></a>
                                 <div class="dropdown-menu">
                                     <ul>
                                         <li>

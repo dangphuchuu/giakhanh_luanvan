@@ -59,6 +59,27 @@
 	<script src="web_assets/js/common_scripts.min.js"></script>
 	<script src="web_assets/js/main.js"></script>
 	<script src="web_assets/js/carousel-home.min.js"></script>
+
+	//! Quantity of product detail and cart
+	<script>
+    $(".numbers-row").append('<div class="inc button_inc">+</div><div class="dec button_inc">-</div>');
+	$(".button_inc").on("click", function () {
+		var $button = $(this);
+		var oldValue = $button.parent().find("input").val();
+		if ($button.text() == "+") {
+			var newVal = parseFloat(oldValue) + 1;
+			// alert(newVal);
+		} else {
+			// Don't allow decrementing below zero
+			if (oldValue > 1) {
+				var newVal = parseFloat(oldValue) - 1;
+			} else {
+				newVal = 1;
+			}
+		}
+		$button.parent().find("input").val(newVal);
+	});
+	</script>
 	<!-- SPECIFIC SCRIPTS -->
 	<!-- <script src="web_assets/js/modernizr.js"></script>
 	<script src="web_assets/js/video_header.min.js"></script>

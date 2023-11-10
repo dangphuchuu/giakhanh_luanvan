@@ -142,6 +142,17 @@
     "Created at":"Ngày tạo",
     "Not Support":"Không hỗ trợ",
     "Copyright":"Quyền sở hữu ",
-    "Work time":"Thời gian làm việc"
+    "Work time":"Thời gian làm việc",
+    "Cart":"Giỏ hàng",
+    "Subtotal":"Tổng",
+    "Unit Price":"Đơn giá",
+    "Update Cart":"Cập nhật giỏ hàng",
+    "Promo code":"Mã khuyến mãi",
+    "Apply Coupon":"Áp dụng mã",
+    "Total":"Tổng thanh toán",
+    "Proceed to Checkout":"Tiến hành kiểm tra",
+    "Tax":"Thuế",
+    "Please choose product at least 1 !":"Vui lòng chọn ít nhất 1 sản phẩm",
+    "Order Successfully !":"Đặt hàng thành công"
 
 }

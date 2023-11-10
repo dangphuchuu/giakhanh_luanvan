@@ -32,17 +32,31 @@ Route::middleware('language')->group(function(){
         return view('errors.404');
     });
     Route::get('/', [WebController::class, 'index']);
+
+    // !Authentication
     Route::get('/signin_signup', [WebController::class, 'signin_signup']);
     Route::post('/handle_login',[WebController::class, 'handle_login']);
     Route::post('/register',[WebController::class, 'register']);
     Route::get('/logout',[WebController::class, 'logout']);
+
+    //TODO Products
     Route::get('/list',[WebController::class, 'list']);
-    Route::get('/search',[WebController::class, 'search']);
     Route::get('/detail/{id}',[WebController::class, 'detail']);
+    Route::get('/search',[WebController::class, 'search']);
+
+    //! Categories
     Route::get('/category/{id}',[WebController::class, 'category']);
     Route::get('/subcategory/{id}',[WebController::class, 'subcategory']);
+
+    //TODO Profile
     Route::get('/profile/',[WebController::class, 'profile']);
     Route::post('/profile',[WebController::class, 'editProfile']);
     Route::post('/imageProfile',[WebController::class, 'imageProfile']);
    
+    //! Carts
+    Route::get('/cart',[WebController::class, 'cart']);
+    Route::post('/cart',[WebController::class, 'handle_cart']);
+    Route::post('/updateCart',[WebController::class, 'update']);
+    Route::delete('/deleteCart',[WebController::class, 'deleteCart']);
+
 });
