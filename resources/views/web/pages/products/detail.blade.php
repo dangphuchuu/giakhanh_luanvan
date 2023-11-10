@@ -60,6 +60,7 @@
 							<p><small>{{$products->categories->name}}: {{$products->subcategories->name}}-{{$products->id}}</small>
 							<!-- <br>Sed ex labitur adolescens scriptorem. Te saepe verear tibique sed. Et wisi ridens vix, lorem iudico blandit mel cu. Ex vel sint zril oportere, amet wisi aperiri te cum. -->
 							</p>
+							@if(isset($products->price) || isset($products->price_new))
 							<div class="prod_options">
 								<div class="row">
 									<label class="col-xl-5 col-lg-5  col-md-6 col-6"><strong>{{__("Quantity")}}</strong></label>
@@ -70,6 +71,7 @@
 									</div>
 								</div>
 							</div>
+							@endif
 							<div class="row">
 								<div class="col-lg-5 col-md-6">
 									@if($products->status == 1)
@@ -94,10 +96,12 @@
 								</div>
 								@if($products->status == 1)
 									@if(Auth::check())
+										@if(isset($products->price) || isset($products->price_new))
 										<div class="col-lg-4 col-md-6">
 											<div class="btn_add_to_cart"><button type="submit" class="btn_1">{{__("Add to Cart")}}</button></div>
 										</div>
 										<input type="hidden" name="products_id" value="{{$products->id}}"/>
+										@endif
 									@else
 										<div class="col-lg-4 col-md-6">
 											<div class="btn_add_to_cart"><a href="/signin_signup" class="btn_1">{{__("Login")}}</a></div>

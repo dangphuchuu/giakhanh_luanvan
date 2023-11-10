@@ -32,12 +32,9 @@ $carts = Cart::content();
     line-height: 38px;
     text-align: center;
     z-index: 2;
-    fontSize: 26px;
+    font-size: 26px;
     font-weight: 300!important;
     color: #999;
-    &:hover {
-        color: $color-1;
-    }
 }
 </style>
 <main class="bg_gray">
@@ -89,7 +86,7 @@ $carts = Cart::content();
                         </td>
                         <td>
                             <strong>
-                                @if($cart->options->price_new != null)
+                                @if($cart->options->price_new)
                                     {{number_format($cart->options->price_new,0,",",".")}}
                                 @else
                                     {{number_format($cart->price,0,",",".")}}
@@ -105,11 +102,15 @@ $carts = Cart::content();
                         </td>
                         <td>
                             <strong id="subtotal_{{$cart->rowId}}">
-                                @if($cart->options->price_new != null)
-                                    {{number_format(($cart->options->price_new)*($cart->qty),0,",",".")}}
-                                @else
-                                    {{number_format(($cart->price)*($cart->qty),0,",",".")}} 
-                                @endif
+                               <?php
+                                if($cart->options->price_new ){
+                                    $cart->price = $cart->options->price_new;
+                                    $sum = $cart->price * $cart->qty;
+                                }else{
+                                    $sum = $cart->price * $cart->qty;
+                                }
+                               ?>
+                               {{number_format($sum,0,',','.')}}
                             </strong>
                         </td>
                         <td class="options">
@@ -150,8 +151,10 @@ $carts = Cart::content();
                     <ul>
                         <li>
                             <span>{{__("Subtotal")}}</span> 
-
-                            <p id="subtotal">$240.00</p>
+                            
+                            <p id="sumSubtotal">
+                            {{Cart::subtotal(0,',','.');}}
+                            </p>
                         </li>
                         <!-- <li>
                             <span >{{__("Tax")}}</span> $7.00
@@ -175,7 +178,6 @@ $carts = Cart::content();
 @section('scripts')
 <script>
     $(document).ready(function() {
-        let $sum =0;
         $(".button_cart").on("click", function () {
             var $button = $(this);
             var oldValue = $button.parent().find("input").val();
@@ -208,6 +210,8 @@ $carts = Cart::content();
                 type: "post",
                 success: function(data){
                     $("#subtotal_"+ cartId).text(data.subtotal.toLocaleString('vi-VN'));
+                    // alert($s);
+                    $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN'));
                 },error: function(){
                     alert("error");
                 }
@@ -233,9 +237,10 @@ $carts = Cart::content();
                     cartId:cartId
                 },
                 dataType: 'json',
-                success: function(){
+                success: function(data){
                     // alert('ok')
                     Obj.parents('tr').remove();
+                    $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN'));
                 },error: function(){
                     alert("error");
 

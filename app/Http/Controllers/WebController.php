@@ -273,15 +273,17 @@ class WebController extends Controller
         $qty = $request->qty;
         $id = $request->cartId;
         $cart = Cart::get($id);
-
-        if($cart->options->price_new != null){
+        if($cart->options->price_new){
             $subtotal = $cart->options->price_new*$qty;
         }else{
             $subtotal = $cart->price*$qty;
         }
-
         Cart::update($id,$qty);
-        return response()->json(['subtotal'=>$subtotal],200);
+        $sum = Cart::subtotal(0,',','.'); 
+        return response()->json([
+            'subtotal'=>$subtotal,
+            'sum'=>$sum
+        ],200);
             // $data = $request->all();
             // print_r($data);
             // Cart::update($request->cartId);
@@ -293,7 +295,10 @@ class WebController extends Controller
     public function deleteCart(Request $request){
         $id = $request->cartId;
         Cart::remove($id);
-        return response()->json(200);
+        $sum = Cart::subtotal(0,',','.'); 
+        return response()->json([
+            'sum'=>$sum
+        ],200);
         
     }
 }
