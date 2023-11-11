@@ -150,19 +150,22 @@ $carts = Cart::content();
                 <div class="col-xl-4 col-lg-4 col-md-6">
                     <ul>
                         <li>
-                            <span>{{__("Subtotal")}}</span> 
+                            <span>{{__("Total quantity")}}</span> 
                             
+                            <p id="totalQuantity">
+                            {{Cart::count()}}
+                            </p>
+                        </li>
+                        <li>
+                            <span >{{__("Subtotal")}}</span> 
                             <p id="sumSubtotal">
                             {{Cart::subtotal(0,',','.');}}
                             </p>
                         </li>
-                        <!-- <li>
-                            <span >{{__("Tax")}}</span> $7.00
-                        </li> -->
                         <li>
                             <span>{{__("Total")}}</span> 
 
-                            <p id="total">$247.00</p>
+                            <p id="total">{{Cart::subtotal(0,',','.');}}</p>
                         </li>
                     </ul>
                     <a href="cart-2.html" class="btn_1 full-width cart">{{__("Proceed to Checkout")}}</a>
@@ -212,6 +215,8 @@ $carts = Cart::content();
                     $("#subtotal_"+ cartId).text(data.subtotal.toLocaleString('vi-VN'));
                     // alert($s);
                     $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN'));
+                    $('#total').text(data.total.toLocaleString('vi-VN'));
+                    $('#totalQuantity').text(data.totalQuantity.toLocaleString('vi-VN'));
                 },error: function(){
                     alert("error");
                 }
@@ -241,6 +246,8 @@ $carts = Cart::content();
                     // alert('ok')
                     Obj.parents('tr').remove();
                     $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN'));
+                    $('#total').text(data.total.toLocaleString('vi-VN'));
+                    $('#totalQuantity').text(data.totalQuantity.toLocaleString('vi-VN'));
                 },error: function(){
                     alert("error");
 

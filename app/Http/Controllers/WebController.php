@@ -280,9 +280,13 @@ class WebController extends Controller
         }
         Cart::update($id,$qty);
         $sum = Cart::subtotal(0,',','.'); 
+        $total = Cart::subtotal(0,',','.'); 
+        $totalQuantity = Cart::count();
         return response()->json([
             'subtotal'=>$subtotal,
-            'sum'=>$sum
+            'sum'=>$sum,
+            'total'=>$total,
+            'totalQuantity'=>$totalQuantity
         ],200);
             // $data = $request->all();
             // print_r($data);
@@ -296,8 +300,12 @@ class WebController extends Controller
         $id = $request->cartId;
         Cart::remove($id);
         $sum = Cart::subtotal(0,',','.'); 
+        $total = Cart::subtotal(0,',','.'); 
+        $totalQuantity = Cart::count();
         return response()->json([
-            'sum'=>$sum
+            'sum'=>$sum,
+            'total'=>$total,
+            'totalQuantity'=>$totalQuantity
         ],200);
         
     }
