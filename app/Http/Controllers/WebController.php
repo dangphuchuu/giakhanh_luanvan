@@ -254,7 +254,7 @@ class WebController extends Controller
         if($quantity == 0){
             return redirect()->back()->with('toast_warning',__("Please choose product at least 1 !"));
         }
-        Cart::add([
+        Cart::instance('cart')->instance('cart')->add([
             'id'=>$id,
             'name'=> $products->name,
             'qty'=> $request->quantity,
@@ -264,33 +264,33 @@ class WebController extends Controller
                 'image'=>  $img[0],
             ]
         ]);
-        // Cart::destroy();
-        // dd(Cart::content());
+        // Cart::instance('cart')->destroy();
+        // dd(Cart::instance('cart')->content());
         return redirect('/cart')->with('toast_success',__("Order Successfully !"));
     }
 
     public function update(Request $request){
         $qty = $request->qty;
         $id = $request->cartId;
-        $cart = Cart::get($id);
+        $cart = Cart::instance('cart')->get($id);
         if($cart->options->price_new){
             $subtotal = $cart->options->price_new*$qty;
         }else{
             $subtotal = $cart->price*$qty;
         }
-        Cart::update($id,$qty);
-        $sum = Cart::subtotal(0,',','.'); 
-        $total = Cart::subtotal(0,',','.'); 
-        $totalQuantity = Cart::count();
+        Cart::instance('cart')->update($id,$qty);
+        $sum = Cart::instance('cart')->subtotal(0,',','.'); 
+        $total = Cart::instance('cart')->total(0,',','.'); 
+        $tax = Cart::instance('cart')->tax(0,',','.','',);
         return response()->json([
             'subtotal'=>$subtotal,
             'sum'=>$sum,
             'total'=>$total,
-            'totalQuantity'=>$totalQuantity
+            'tax'=>$tax
         ],200);
             // $data = $request->all();
             // print_r($data);
-            // Cart::update($request->cartId);
+            // Cart::instance('cart')->update($request->cartId);
             // return response();
 
        
@@ -298,14 +298,14 @@ class WebController extends Controller
 
     public function deleteCart(Request $request){
         $id = $request->cartId;
-        Cart::remove($id);
-        $sum = Cart::subtotal(0,',','.'); 
-        $total = Cart::subtotal(0,',','.'); 
-        $totalQuantity = Cart::count();
+        Cart::instance('cart')->remove($id);
+        $sum = Cart::instance('cart')->subtotal(0,',','.'); 
+        $total = Cart::instance('cart')->total(0,',','.'); 
+        $tax = Cart::instance('cart')->tax(0,',','.');
         return response()->json([
             'sum'=>$sum,
             'total'=>$total,
-            'totalQuantity'=>$totalQuantity
+            'tax'=>$tax
         ],200);
         
     }

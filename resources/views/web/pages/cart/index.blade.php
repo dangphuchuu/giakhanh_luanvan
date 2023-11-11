@@ -5,7 +5,7 @@
 @section('content')
 <?php
 use Gloudemans\Shoppingcart\Facades\Cart;
-$carts = Cart::content(); 
+$carts = Cart::instance('cart')->content(); 
 // Cart::destroy();
 
 // dd($carts);
@@ -149,23 +149,24 @@ $carts = Cart::content();
             <div class="row justify-content-end">
                 <div class="col-xl-4 col-lg-4 col-md-6">
                     <ul>
-                        <li>
-                            <span>{{__("Total quantity")}}</span> 
-                            
-                            <p id="totalQuantity">
-                            {{Cart::count()}}
-                            </p>
-                        </li>
+                       
                         <li>
                             <span >{{__("Subtotal")}}</span> 
                             <p id="sumSubtotal">
-                            {{Cart::subtotal(0,',','.');}}
+                            {{Cart::instance('cart')->subtotal(0,',','.');}}
+                            </p>
+                        </li>
+                        <li>
+                            <span>{{__("Tax")}}</span> 
+                            
+                            <p id="tax">
+                            {{Cart::instance('cart')->tax(0,',','.')}}
                             </p>
                         </li>
                         <li>
                             <span>{{__("Total")}}</span> 
 
-                            <p id="total">{{Cart::subtotal(0,',','.');}}</p>
+                            <p id="total">{{Cart::instance('cart')->total(0,',','.');}}</p>
                         </li>
                     </ul>
                     <a href="cart-2.html" class="btn_1 full-width cart">{{__("Proceed to Checkout")}}</a>
@@ -216,7 +217,7 @@ $carts = Cart::content();
                     // alert($s);
                     $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN'));
                     $('#total').text(data.total.toLocaleString('vi-VN'));
-                    $('#totalQuantity').text(data.totalQuantity.toLocaleString('vi-VN'));
+                    $('#tax').text(data.tax.toLocaleString('vi-VN'));
                 },error: function(){
                     alert("error");
                 }
@@ -247,7 +248,7 @@ $carts = Cart::content();
                     Obj.parents('tr').remove();
                     $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN'));
                     $('#total').text(data.total.toLocaleString('vi-VN'));
-                    $('#totalQuantity').text(data.totalQuantity.toLocaleString('vi-VN'));
+                    $('#tax').text(data.tax.toLocaleString('vi-VN'));
                 },error: function(){
                     alert("error");
 
