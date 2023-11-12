@@ -145,6 +145,7 @@
 
 			<div class="container margin_30">
 			<div class="row small-gutters">
+				@if(count($products)>0 )
                 @foreach($products as $pro)
 					@foreach($pro->ProductsImage as $img)
 						@if($loop->first)
@@ -189,16 +190,7 @@
 										<ul>
 											<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to favorites')}}"><i class="ti-heart"></i><span>{{__("Add to favorites")}}</span></a></li>
 											<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to compare')}}"><i class="ti-control-shuffle"></i><span>{{__("Add to compare")}}</span></a></li>
-											@if($pro->price || $pro->price_new)
-												<li>
-													<form action="/cart" method="post" id="formSubmitCart_{{$pro->id}}">
-														@csrf
-														<a href="javascript:void(0)"  onclick="document.getElementById('formSubmitCart_{{$pro->id}}').submit();" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to cart')}}"><i class="ti-shopping-cart"></i><span>{{__('Add to cart')}}</span></a>
-														<input type="hidden" name="products_id" value="{{$pro->id}}"/>
-														<input type="hidden" name="quantity" value="1"/>
-													</form>
-												</li>
-											@endif
+											<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to cart')}}"><i class="ti-shopping-cart"></i><span>{{__("Add to cart")}}</span></a></li>
 										</ul>
 									</div>
 								</div>
@@ -206,6 +198,9 @@
 						@endif
 					@endforeach
                 @endforeach
+				@else
+				<h1 class="text-center">{{__("No Products!")}}</h1>
+				@endif
 				<!-- /col -->		
 			</div>
 			<!-- /row -->

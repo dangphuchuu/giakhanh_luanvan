@@ -76,13 +76,13 @@
 								<div class="col-lg-5 col-md-6">
 									@if($products->status == 1)
 										@if(isset($products->price) && isset($products->price_new))
-										<div class="price_main"><span class="new_price">{{number_format($products->price_new,0,",",".")}} Vnđ</span><span class="percentage">-{{round((($products->price - $products->price_new)/$products->price)*100,0) }}%</span> <span class="old_price">{{number_format($products->price,0,",",".")}} Vnđ</span></div>
+										<div class="price_main"><span class="new_price">{{number_format($products->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></span><span class="percentage">-{{round((($products->price - $products->price_new)/$products->price)*100,0) }}%</span> <span class="old_price">{{number_format($products->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></span></div>
 
 										@elseif(!isset($products->price) && isset($products->price_new))
-										<div class="price_main"><span class="new_price">{{number_format($products->price_new,0,",",".")}} Vnđ</span></div>
+										<div class="price_main"><span class="new_price">{{number_format($products->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></span></div>
 
 										@elseif(isset($products->price) && !isset($products->price_new))
-										<div class="price_main"><span class="new_price">{{number_format($products->price,0,",",".")}} Vnđ</span></div>
+										<div class="price_main"><span class="new_price">{{number_format($products->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></span></div>
 
 										@else
 										<div class="price_main"><span class="new_price" style="color: red !important">{{__("Contact")}}</span></div>

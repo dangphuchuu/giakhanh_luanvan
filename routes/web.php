@@ -47,6 +47,7 @@ Route::middleware('language')->group(function(){
     //! Categories
     Route::get('/category/{id}',[WebController::class, 'category']);
     Route::get('/subcategory/{id}',[WebController::class, 'subcategory']);
+    Route::get('/brands/{id}',[WebController::class, 'brands']);
 
     //TODO Profile
     Route::get('/profile/',[WebController::class, 'profile']);
@@ -58,5 +59,7 @@ Route::middleware('language')->group(function(){
     Route::post('/cart',[WebController::class, 'handle_cart']);
     Route::post('/updateCart',[WebController::class, 'update']);
     Route::delete('/deleteCart',[WebController::class, 'deleteCart']);
+    Route::get('/checkout',[WebController::class, 'checkout']);
+    Route::post('/checkout',[WebController::class, 'handle_checkout']);
 
 });

@@ -108,6 +108,9 @@
     "Only clients have access":"Chỉ có khách hàng mới được đăng nhập",
     "the last name field is required":"Họ không được để trống ",
     "the first name field is required":"Tên không được để trống",
+    "the address field is required":"Địa chỉ không được để trống",
+    "the district field is required":"Quận không được để trống",
+    "the phone field is required":"Số điện thoại không được để trống",
     "the username is already exists":"Tên đăng nhập đã tồn tại",
     "the email field is required":"Email không được để trống",
     "the email is already exists":"Email đã tồn tại",
@@ -150,10 +153,19 @@
     "Promo code":"Mã khuyến mãi",
     "Apply Coupon":"Áp dụng mã",
     "Total":"Tổng thanh toán",
-    "Proceed to Checkout":"Tiến hành kiểm tra",
+    "Proceed to Checkout":"Xác nhận thông tin",
     "Tax":"Thuế",
     "Please choose product at least 1 !":"Vui lòng chọn ít nhất 1 sản phẩm",
     "Order Successfully !":"Đặt hàng thành công",
-    "Total quantity":"Tổng số lượng đơn hàng"
+    "Total quantity":"Tổng số lượng đơn hàng",
+    "Please place an order":"Vui lòng đặt hàng",
+    "Checkout":"Đặt hàng",
+    "User info and Delivery address":"Thông tin cá nhân và địa chỉ giao hàng",
+    "Order Summary":"Đơn hàng của bạn",
+    "Confirm and Pay":"Xác nhận đặt hàng",
+    "Shipping":"Phí vận chuyển",
+    "Free":"Miễn phí",
+    "Please choose a city":"Vui lòng chọn thành phố",
+    "Order Successfully":"Đặt hàng thành công"
 
 }

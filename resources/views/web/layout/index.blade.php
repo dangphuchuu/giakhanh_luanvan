@@ -41,9 +41,12 @@
 <body>
 	<?php
 	use Gloudemans\Shoppingcart\Facades\Cart;
-	$carts = Cart::instance('cart')->content(); 
-	// Cart::destroy();
+	use Illuminate\Support\Facades\Auth;
+	if(isset(Auth::user()->id)){
 
+		$carts = Cart::instance(Auth::user()->id)->content(); 
+	}
+	// Cart::destroy();
 	// dd($carts);
 	?>
 	<div id="page">

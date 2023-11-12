@@ -125,7 +125,7 @@ class WebController extends Controller
     }
     public function logout(){
         Auth::logout();
-        Cart::instance('cart')->destroy();
+        // Cart::instance(Auth::user()->id)->destroy();
         return redirect('/signin_signup')->with('toast_success',__("Logout Successfully"));
     }
    
@@ -164,6 +164,15 @@ class WebController extends Controller
         $products = Products::where('sub_id',$id)->where('status',1)->orderBy('id', 'ASC')->Paginate(12);
         return view('web.pages.subcategories.index',[
             'subcategory'=>$subcategory,
+            'products'=>$products
+        ]);
+    }
+
+    public function brands($id){
+        $brands = Brands::find($id);
+        $products = Products::where('brands_id',$id)->where('status',1)->orderBy('id', 'ASC')->Paginate(12);
+        return view('web.pages.brands.index',[
+            'brands'=>$brands,
             'products'=>$products
         ]);
     }
@@ -257,7 +266,7 @@ class WebController extends Controller
         if($quantity == 0){
             return redirect()->back()->with('toast_warning',__("Please choose product at least 1 !"));
         }
-        Cart::instance('cart')->add([
+        Cart::instance(Auth::user()->id)->add([
             'id'=>$id,
             'name'=> $products->name,
             'qty'=> $request->quantity,
@@ -267,24 +276,24 @@ class WebController extends Controller
                 'image'=>  $img[0],
             ]
         ]);
-        // Cart::instance('cart')->destroy();
-        // dd(Cart::instance('cart')->content());
+        // Cart::instance(Auth::user()->id)->destroy();
+        // dd(Cart::instance(Auth::user()->id)->content());
         return redirect('/cart')->with('toast_success',__("Order Successfully !"));
     }
 
     public function update(Request $request){
         $qty = $request->qty;
         $id = $request->cartId;
-        $cart = Cart::instance('cart')->get($id);
+        $cart = Cart::instance(Auth::user()->id)->get($id);
         if($cart->options->price_new){
             $subtotal = $cart->options->price_new*$qty;
         }else{
             $subtotal = $cart->price*$qty;
         }
-        Cart::instance('cart')->update($id,$qty);
-        $sum = Cart::instance('cart')->subtotal(0,',','.'); 
-        $tax = Cart::instance('cart')->tax(0,',','.');
-        $total = Cart::instance('cart')->total(0,',','.'); 
+        Cart::instance(Auth::user()->id)->update($id,$qty);
+        $sum = Cart::instance(Auth::user()->id)->subtotal(0,',','.'); 
+        $tax = Cart::instance(Auth::user()->id)->tax(0,',','.');
+        $total = Cart::instance(Auth::user()->id)->total(0,',','.'); 
         return response()->json([
             'subtotal'=>$subtotal,
             'sum'=>$sum,
@@ -293,7 +302,7 @@ class WebController extends Controller
         ],200);
             // $data = $request->all();
             // print_r($data);
-            // Cart::instance('cart')->update($request->cartId);
+            // Cart::instance(Auth::user()->id)->update($request->cartId);
             // return response();
 
        
@@ -301,15 +310,47 @@ class WebController extends Controller
 
     public function deleteCart(Request $request){
         $id = $request->cartId;
-        Cart::instance('cart')->remove($id);
-        $sum = Cart::instance('cart')->subtotal(0,',','.'); 
-        $total = Cart::instance('cart')->total(0,',','.'); 
-        $tax = Cart::instance('cart')->tax(0,',','.');
+        Cart::instance(Auth::user()->id)->remove($id);
+        $sum = Cart::instance(Auth::user()->id)->subtotal(0,',','.'); 
+        $total = Cart::instance(Auth::user()->id)->total(0,',','.'); 
+        $tax = Cart::instance(Auth::user()->id)->tax(0,',','.');
         return response()->json([
             'sum'=>$sum,
             'total'=>$total,
             'tax'=>$tax
         ],200);
         
+    }
+
+    public function checkout(){
+        return view('web.pages.cart.checkout');
+    }
+
+    public function handle_checkout(Request $request){
+        $credentials = Validator::make($request->all(),[
+            'lastname' => 'required',
+            'firstname' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+            'district' => 'required',
+            'phone' => 'required',
+        ],
+        [
+            'lastname.required'=>__("the last name field is required"),
+            'firstname.required'=>__("the first name field is required"),
+            'email.required'=>__("the email field is required"),
+            'address.required'=>__("the address field is required"),
+            'district.required'=>__("the district field is required"),
+            'phone.required'=>__("the phone field is required")
+        ]);
+
+        if($credentials->fails()){
+            return back()->with('toast_error', $credentials->messages()->all()[0])->withInput();
+        }
+        if($request->city == null){
+            return back()->with('toast_error',__('Please choose a city'));
+        }
+        // dd($request->all());
+        return redirect()->back()->with('toast_success',__('Order Successfully !'));
     }
 }

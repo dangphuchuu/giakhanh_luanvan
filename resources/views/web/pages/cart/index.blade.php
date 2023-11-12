@@ -5,12 +5,12 @@
 @section('content')
 <?php
 use Gloudemans\Shoppingcart\Facades\Cart;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Auth;
 
-$carts = Cart::instance('cart')->content(); 
+$carts = Cart::instance(Auth::user()->id); 
 // Cart::destroy();
 // dd( Request::path()=="cart");
-// dd(Cart::instance('cart')->total(0,',','.'));
+// dd($carts->count());
 ?>
 <style>
     .numbers-cart {
@@ -73,7 +73,7 @@ $carts = Cart::instance('cart')->content();
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($carts as $key =>$cart)
+                    @foreach($carts->content() as $key =>$cart)
                     <tr>
                         <td>
                             <div class="thumb_cart">
@@ -89,9 +89,9 @@ $carts = Cart::instance('cart')->content();
                         <td>
                             <strong>
                                 @if($cart->options->price_new)
-                                    {{number_format($cart->options->price_new,0,",",".")}}
+                                    {{number_format($cart->options->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                                 @else
-                                    {{number_format($cart->price,0,",",".")}}
+                                    {{number_format($cart->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                                 @endif
                             </strong>
                         </td>
@@ -155,25 +155,30 @@ $carts = Cart::instance('cart')->content();
                         <li>
                             <span >{{__("Subtotal")}}</span> 
                             <p id="sumSubtotal">
-                            {{Cart::instance('cart')->subtotal(0,',','.');}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                            {{$carts->subtotal(0,',','.');}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                             </p>
                         </li>
                         <li>
                             <span>{{__("Tax")}}</span> 
                             
                             <p id="tax">
-                            {{Cart::instance('cart')->tax(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                            {{$carts->tax(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                             </p>
                         </li>
                         <li>
                             <span>{{__("Total")}}</span> 
 
                             <p id="totalCart">
-                            {{Cart::instance('cart')->total(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                            {{$carts->total(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                             </p>
                         </li>
                     </ul>
-                    <a href="cart-2.html" class="btn_1 full-width cart">{{__("Proceed to Checkout")}}</a>
+                    @if($carts->content()->count()!=0)
+                    <a href="/checkout" class="btn_1 full-width cart">{{__("Proceed to Checkout")}}</a>
+                    @else
+                    <a href="/list" class="btn_1 full-width cart">{{__("Please place an order")}}</a>
+
+                    @endif
                 </div>
             </div>
         </div>
