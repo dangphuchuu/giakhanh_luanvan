@@ -125,6 +125,7 @@ class WebController extends Controller
     }
     public function logout(){
         Auth::logout();
+        Cart::instance('cart')->destroy();
         return redirect('/signin_signup')->with('toast_success',__("Logout Successfully"));
     }
    
@@ -245,8 +246,10 @@ class WebController extends Controller
 
     public function handle_cart(Request $request){
         $id = $request->products_id;
+        // dd($id);
         $quantity = $request->quantity;
         $products = Products::where('id',$id)->first();
+        // dd($products);
         foreach($products->ProductsImage as $value){
             $img[] = $value->image;
         }
@@ -254,7 +257,7 @@ class WebController extends Controller
         if($quantity == 0){
             return redirect()->back()->with('toast_warning',__("Please choose product at least 1 !"));
         }
-        Cart::instance('cart')->instance('cart')->add([
+        Cart::instance('cart')->add([
             'id'=>$id,
             'name'=> $products->name,
             'qty'=> $request->quantity,
@@ -280,13 +283,13 @@ class WebController extends Controller
         }
         Cart::instance('cart')->update($id,$qty);
         $sum = Cart::instance('cart')->subtotal(0,',','.'); 
+        $tax = Cart::instance('cart')->tax(0,',','.');
         $total = Cart::instance('cart')->total(0,',','.'); 
-        $tax = Cart::instance('cart')->tax(0,',','.','',);
         return response()->json([
             'subtotal'=>$subtotal,
             'sum'=>$sum,
-            'total'=>$total,
-            'tax'=>$tax
+            'tax'=>$tax,
+            'total'=>$total
         ],200);
             // $data = $request->all();
             // print_r($data);

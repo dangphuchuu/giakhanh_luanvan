@@ -5,10 +5,12 @@
 @section('content')
 <?php
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Request;
+
 $carts = Cart::instance('cart')->content(); 
 // Cart::destroy();
-
-// dd($carts);
+// dd( Request::path()=="cart");
+// dd(Cart::instance('cart')->total(0,',','.'));
 ?>
 <style>
     .numbers-cart {
@@ -110,7 +112,7 @@ $carts = Cart::instance('cart')->content();
                                     $sum = $cart->price * $cart->qty;
                                 }
                                ?>
-                               {{number_format($sum,0,',','.')}}
+                               {{number_format($sum,0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                             </strong>
                         </td>
                         <td class="options">
@@ -153,20 +155,22 @@ $carts = Cart::instance('cart')->content();
                         <li>
                             <span >{{__("Subtotal")}}</span> 
                             <p id="sumSubtotal">
-                            {{Cart::instance('cart')->subtotal(0,',','.');}}
+                            {{Cart::instance('cart')->subtotal(0,',','.');}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                             </p>
                         </li>
                         <li>
                             <span>{{__("Tax")}}</span> 
                             
                             <p id="tax">
-                            {{Cart::instance('cart')->tax(0,',','.')}}
+                            {{Cart::instance('cart')->tax(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                             </p>
                         </li>
                         <li>
                             <span>{{__("Total")}}</span> 
 
-                            <p id="total">{{Cart::instance('cart')->total(0,',','.');}}</p>
+                            <p id="totalCart">
+                            {{Cart::instance('cart')->total(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                            </p>
                         </li>
                     </ul>
                     <a href="cart-2.html" class="btn_1 full-width cart">{{__("Proceed to Checkout")}}</a>
@@ -213,11 +217,11 @@ $carts = Cart::instance('cart')->content();
                 url:'/updateCart',
                 type: "post",
                 success: function(data){
-                    $("#subtotal_"+ cartId).text(data.subtotal.toLocaleString('vi-VN'));
-                    // alert($s);
-                    $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN'));
-                    $('#total').text(data.total.toLocaleString('vi-VN'));
-                    $('#tax').text(data.tax.toLocaleString('vi-VN'));
+                    $("#subtotal_"+ cartId).text(data.subtotal.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    // alert(data.total.toLocaleString('vi-VN'));
                 },error: function(){
                     alert("error");
                 }
@@ -244,10 +248,9 @@ $carts = Cart::instance('cart')->content();
                 },
                 dataType: 'json',
                 success: function(data){
-                    // alert('ok')
                     Obj.parents('tr').remove();
                     $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN'));
-                    $('#total').text(data.total.toLocaleString('vi-VN'));
+                    $('#totalCart').text(data.total.toLocaleString('vi-VN'));
                     $('#tax').text(data.tax.toLocaleString('vi-VN'));
                 },error: function(){
                     alert("error");

@@ -39,7 +39,13 @@
 </head>
 
 <body>
+	<?php
+	use Gloudemans\Shoppingcart\Facades\Cart;
+	$carts = Cart::instance('cart')->content(); 
+	// Cart::destroy();
 
+	// dd($carts);
+	?>
 	<div id="page">
 		@include('sweetalert::alert')
 		@include('web.common.header')

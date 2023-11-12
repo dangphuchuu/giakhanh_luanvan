@@ -80,31 +80,49 @@
                         <li>
                             <!-- <a href="#0" class="wishlist"><span>Wishlist</span></a> -->
                         </li>
+                       
                         <li>
                             <div class="dropdown dropdown-cart mt-1">
-                                <a href="/cart" ><i class="ti-shopping-cart" style="font-size: 22px;"></i></a>
-                                <div class="dropdown-menu">
-                                    <ul>
-                                        <li>
-                                            <a href="product-detail-1.html">
-                                                <figure><img src="img/products/product_placeholder_square_small.jpg" data-src="img/products/shoes/thumb/1.jpg" alt="" width="50" height="50" class="lazy"></figure>
-                                                <strong><span>1x Armor Air x Fear</span>$90.00</strong>
-                                            </a>
-                                            <a href="#0" class="action"><i class="ti-trash"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="product-detail-1.html">
-                                                <figure><img src="img/products/product_placeholder_square_small.jpg" data-src="img/products/shoes/thumb/2.jpg" alt="" width="50" height="50" class="lazy"></figure>
-                                                <strong><span>1x Armor Okwahn II</span>$110.00</strong>
-                                            </a>
-                                            <a href="0" class="action"><i class="ti-trash"></i></a>
-                                        </li>
-                                    </ul>
-                                    <div class="total_drop">
-                                        <div class="clearfix"><strong>Total</strong><span>$200.00</span></div>
-                                        <a href="cart.html" class="btn_1 outline">View Cart</a><a href="checkout.html" class="btn_1">Checkout</a>
+                                @if( Request::path() !="cart")
+                                    <a href="/cart" ><i class="ti-shopping-cart" style="font-size: 22px;"></i></a>
+                                    <div class="dropdown-menu">
+                                        <ul>
+                                            @foreach($carts as $key =>$cart)
+                                            <li>
+                                                <a href="/detail/{{$cart->id}}">
+                                                    @if(strstr($cart->image,"https") == "")
+                                                    <figure><img src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$cart->options->image}}.jpg" alt="" width="50" height="50" class="lazy"></figure>
+                                                    @else
+                                                    <figure><img src="{{$cart->options->image}}" alt="" width="50" height="50" class="lazy"></figure>
+                                                    @endif
+                                                    <strong>
+                                                        <span style="max-width: 150px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">X{{$cart->qty}} {{$cart->name}}</span>
+                                                        @if($cart->options->price_new)
+                                                            {{number_format($cart->options->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                                                        @else
+                                                            {{number_format($cart->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                                                        @endif
+                                                        
+                                                    </strong>
+                                                </a>
+                                                <a href="javascript:void(0)" data-id="{{$cart->rowId}}" class="action delete-cart"><i class="ti-trash"></i></a>
+                                            </li>
+                                            @endforeach
+                                        </ul>
+                                        <div class="total_drop">
+                                            <div class="clearfix">
+                                                <strong>{{__("Subtotal")}}</strong>
+                                         
+                                                <span id="total">
+                                                    {{Cart::instance('cart')->total(0,',','.');}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                                                </span> 
+                                        
+
+                                            </div>
+                                            <a href="/cart" class="btn_1 outline">View Cart</a><a href="/checkout" class="btn_1">Checkout</a>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                             <!-- /dropdown-cart-->
                         </li>
@@ -178,8 +196,8 @@
         <!-- Search mobile -->
 
         <div class="search_mob_wp">
-            <form action="">
-                <input type="text" class="form-control" placeholder="{{__('Search over 10.000 products')}}">
+            <form action="/search" method="get">
+                <input type="text" name="search" value="{{Request::get('search')}}" class="form-control" placeholder="{{__('Search over 10.000 products')}}">
                 <input type="submit" class="btn_1 full-width" value="Search">
             </form>
         </div>
@@ -188,3 +206,34 @@
     <!-- /main_nav -->
     
 </header>
+@section('scripts')
+<script>
+    $(document).ready(function(){
+        $('.delete-cart').on('click',function(){
+            var Obj = $(this);
+            // alert(Obj);
+            var cartId = $(this).data('id');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url:'/deleteCart',
+                type:'DELETE',
+                data:{
+                    cartId:cartId
+                },
+                dataType: 'json',
+                success: function(data){
+                    Obj.parent().remove();
+                    // $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    $('#total').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    // $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                },error: function(){
+                    alert("error");
+
+                }
+            })
+        });
+    });
+</script>
+@endsection
