@@ -6,7 +6,6 @@
 <?php
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
-
 $carts = Cart::instance(Auth::user()->id); 
 ?>
 <main class="bg_gray">
@@ -43,12 +42,16 @@ $carts = Cart::instance(Auth::user()->id);
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <input type="email" value="{{Auth::user()->email}}" name="email" class="form-control" placeholder="Email">
-                                    </div>
+                                    <div class="row no-gutters">
+                                        <div class="col-6 form-group pl-1">
+                                            <input type="email" value="{{Auth::user()->email}}" name="email" class="form-control" placeholder="Email">
+                                        </div>
 
+                                        <div class="col-6 form-group pr-1">
+                                            <input type="text" class="form-control" value="{{Auth::user()->phone}}" name="phone" placeholder="{{__('Telephone')}}">
+                                        </div>
+                                    </div>
                                     <hr>
-                                
                                     <!-- /row -->
                                     <div class="form-group">
                                         <input type="text" value="{{Auth::user()->address}}" name="address" class="form-control" placeholder="{{__('Address')}}">
@@ -60,20 +63,20 @@ $carts = Cart::instance(Auth::user()->id);
                                         <div class="col-md-6 form-group pr-1">
                                             <div class="custom-select-form">
                                                 <select class="wide add_bottom_15" name="city" id="country">
-                                                    <option value="" selected>{{__("City")}}</option>
-                                                    <option value="hcm">Hồ Chí Minh</option>
-                                                    <option value="hn">Hà Nội</option>
-                                                    <option value="dn">Đà Nẵng</option>
-                                                    <option value="vt">Vũng Tàu</option>
-                                                    <option value="ct">Cần Thơ</option>
-                                                    <option value="bd">Bình Dương</option>
+                                                <option value="">{{__("City")}}</option>
+                                                <option @if(Auth::user()->city == 'hcm') selected @endif value="hcm">Hồ Chí Minh</option>
+                                                <option @if(Auth::user()->city == 'hn') selected @endif value="hn">Hà Nội</option>
+                                                <option @if(Auth::user()->city == 'dn') selected @endif value="dn">Đà Nẵng</option>
+                                                <option @if(Auth::user()->city == 'vt') selected @endif value="vt">Vũng Tàu</option>
+                                                <option @if(Auth::user()->city == 'ct') selected @endif value="ct">Cần Thơ</option>
+                                                <option @if(Auth::user()->city == 'bd') selected @endif value="bd">Bình Dương</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- /row -->
                                     <div class="form-group">
-                                        <input type="text" class="form-control" value="{{Auth::user()->phone}}" name="phone" placeholder="{{__('Telephone')}}">
+                                        <input type="text" value="" name="content" class="form-control" placeholder="{{__('Notes for orders')}}">
                                     </div>
                               
                             </div>
@@ -135,7 +138,11 @@ $carts = Cart::instance(Auth::user()->id);
 						<div class="total clearfix">{{__("Total")}} 
                             <span>{{$carts->total(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></span>
                         </div>
-						<a href="javascript:void(0)" onclick="document.getElementById('confirmCheckout').submit();" class="btn_1 full-width">{{__("Confirm and Pay")}}</a>
+                        @if($carts->content()->count() >0)
+						    <a href="javascript:void(0)" onclick="document.getElementById('confirmCheckout').submit();" class="btn_1 full-width">{{__("Confirm and Pay")}}</a>
+                        @else
+                            <a href="/list" class="btn_1 full-width">{{__("Please place an order")}}</a>
+                        @endif
 					</div>
 					<!-- /box_general -->
 					</div>

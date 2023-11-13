@@ -7,6 +7,8 @@ use App\Models\BannersFeatured;
 use App\Models\Brands;
 use App\Models\Categories;
 use App\Models\Info;
+use App\Models\Orders;
+use App\Models\Orders_Detail;
 use App\Models\Products;
 use App\Models\Subcategories;
 use App\Models\User;
@@ -218,6 +220,9 @@ class WebController extends Controller
             $request['password'] = Hash::make($request->password);
             $user->password = $request['password'];
         }
+        if($request->city == null){
+            return back()->with('toast_error',__('Please choose a city'));
+        }
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
         $user->email = $request->email;
@@ -250,7 +255,11 @@ class WebController extends Controller
 
     //! Cart
     public function cart(){
-        return view('web.pages.cart.index');
+        if(Auth::check()){
+            return view('web.pages.cart.index');
+        }else{
+            abort(404);
+        }
     }
 
     public function handle_cart(Request $request){
@@ -323,7 +332,11 @@ class WebController extends Controller
     }
 
     public function checkout(){
-        return view('web.pages.cart.checkout');
+        if(Auth::check()){
+            return view('web.pages.cart.checkout');
+        }else{
+            abort(404);
+        }
     }
 
     public function handle_checkout(Request $request){
@@ -350,7 +363,35 @@ class WebController extends Controller
         if($request->city == null){
             return back()->with('toast_error',__('Please choose a city'));
         }
-        // dd($request->all());
-        return redirect()->back()->with('toast_success',__('Order Successfully !'));
+        $user = User::find(Auth::user()->id);
+        $cart = Cart::instance(Auth::user()->id);
+
+
+        $user->lastname = $request->lastname;
+        $user->firstname = $request->firstname;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->district = $request->district;
+        $user->city = $request->city;
+        $user->save();
+        // dd((int)preg_replace("/[,]+/", "", $cart->total()));
+        $orders = new Orders([
+            'users_id'=> Auth::user()->id,
+            'content'=>$request->content,
+            'total'=> (int)preg_replace("/[,]+/", "", $cart->total(0))
+        ]);
+        $orders->save();
+        // dd($cart->content());
+        foreach($cart->content() as $carts){
+            $orders_detail = new Orders_Detail([
+                'orders_id'=>$orders->id,
+                'products_id'=> $carts->id,
+                'quantity'=>$carts->qty
+            ]);
+            $orders_detail->save();
+        }
+        $cart->destroy();
+        return view('web.pages.cart.confirm');
     }
 }

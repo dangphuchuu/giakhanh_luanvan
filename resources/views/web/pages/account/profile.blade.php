@@ -36,10 +36,10 @@
                             @csrf
                             <div class="d-flex flex-column align-items-center text-center">
                                 @if($user->image == NULL)
-                                <img src="images/avatar/avatar.png" class="rounded-circle p-1 bg-primary" width="110">
+                                <img src="images/avatar/avatar.png" class="rounded-circle p-1 bg-primary " width="110">
                                 @else
                                     @if(strstr($user->image,"https") == "")
-                                    <img src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$user->image}}.jpg" class="rounded-circle p-1 bg-primary" height="100" width="100">
+                                    <img src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$user->image}}.jpg" class="rounded-circle p-1 bg-primary mb-2" height="100" width="100">
                                     @else
                                     <img src="images/avatar/avatar.png" class="rounded-circle p-1 bg-primary" width="110">
                                     @endif
@@ -54,7 +54,7 @@
                                     <p class="text-secondary mb-1">{{__("Username")}}: {{$user->username}}</p>
                                     <!-- <p class="text-secondary mb-1">Email: {{$user->email}}</p>
                                     <p class="text-muted font-size-sm">Phone: {{$user->phone}}</p> -->
-                                    <button type="submit" class="btn btn-outline-primary">{{__("Update")}}</button>
+                                    <button type="submit" class="btn btn-outline-primary">{{__("Update Image")}}</button>
                                 </div>
                             </div>
                         </form>
@@ -68,47 +68,47 @@
                         @csrf
                     <div class="card-body">
                         <div class="row mb-3">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">{{__("First Name")}}</h6>
+                            <div class="col-sm-3 mt-2">
+                                <h6>{{__("First Name")}}</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
                                 <input type="text" name="firstname" class="form-control" value="{{$user->firstname}}">
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">{{__("Last Name")}}</h6>
+                            <div class="col-sm-3 mt-2">
+                                <h6>{{__("Last Name")}}</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
                                 <input type="text" name="lastname" class="form-control" value="{{$user->lastname}}">
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">Email</h6>
+                            <div class="col-sm-3 mt-2">
+                                <h6>Email</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
                                 <input type="text" name="email" class="form-control" value="{{$user->email}}">
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">{{__("Phone")}}</h6>
+                            <div class="col-sm-3 mt-2">
+                                <h6>{{__("Phone")}}</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
                                 <input type="text" name="phone" class="form-control" value="{{$user->phone}}">
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">{{__("Address")}}</h6>
+                            <div class="col-sm-3 mt-2">
+                                <h6>{{__("Address")}}</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
                                 <input type="text" name="address" class="form-control" value="{{$user->address}}">
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-sm-3">
+                            <div class="col-sm-3 mt-2">
                                 <h6 class="mb-0">{{__("District")}}</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
@@ -116,11 +116,21 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">{{__("City")}}</h6>
+                            <div class="col-sm-3 mt-2">
+                                <h6 class="mt-1">{{__("City")}}</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary">
-                                <input type="text" name="city" class="form-control" value="{{$user->city}}">
+                            <div class="col-sm-9">
+                                <div class="custom-select-form">
+                                    <select class="wide add_bottom_15" name="city" id="city">
+                                        <option value="">{{__("City")}}</option>
+                                        <option @if($user->city == 'hcm') selected @endif value="hcm">Hồ Chí Minh</option>
+                                        <option @if($user->city == 'hn') selected @endif value="hn">Hà Nội</option>
+                                        <option @if($user->city == 'dn') selected @endif value="dn">Đà Nẵng</option>
+                                        <option @if($user->city == 'vt') selected @endif value="vt">Vũng Tàu</option>
+                                        <option @if($user->city == 'ct') selected @endif value="ct">Cần Thơ</option>
+                                        <option @if($user->city == 'bd') selected @endif value="bd">Bình Dương</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <input type="checkbox" class="checkPassword" name="changepassword">
@@ -156,6 +166,11 @@
 </div>
 @endsection
 @section('scripts')
+<!-- <script>
+    $(document).ready(function(){
+       $("#city option[value='{{$user->city}}']").prop("selected",true);
+    });
+</script> -->
 <script>
     $(document).ready(function(){
         $('.checkPassword').change(function(){
@@ -170,4 +185,5 @@
         });
     });
 </script>
+
 @endsection

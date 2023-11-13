@@ -60,7 +60,7 @@
 									</div>
 									<div class="float-end"><a id="forgot" href="javascript:void(0);">{{__("Forgot Password?")}}</a></div>
 								</div>
-								<div class="text-center"><input type="submit" value="Log In" class="btn_1 full-width"></div>
+								<div class="text-center"><input type="submit" value="{{__('Sign In')}}" class="btn_1 full-width"></div>
 							</form>
 							@include('web.common.forgot_password')
 						</div>
