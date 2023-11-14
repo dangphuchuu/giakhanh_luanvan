@@ -69,7 +69,6 @@
 	<script src="web_assets/js/main.js"></script>
 	<script src="web_assets/js/carousel-home.min.js"></script>
 
-	//! Quantity of product detail and cart
 	<script>
     $(".numbers-row").append('<div class="inc button_inc">+</div><div class="dec button_inc">-</div>');
 	$(".button_inc").on("click", function () {

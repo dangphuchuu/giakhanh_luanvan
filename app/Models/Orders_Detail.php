@@ -13,4 +13,5 @@ class Orders_Detail extends Model
         'products_id',
         'quantity'
     ];
+
 }

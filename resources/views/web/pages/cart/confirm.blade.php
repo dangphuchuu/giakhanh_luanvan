@@ -6,7 +6,7 @@
 <main class="bg_gray">
 		<div class="container">
             <div class="row justify-content-center">
-				<div class="col-md-5">
+				<div class="col-md-12">
 					<div id="confirm">
 						<div class="icon icon--order-success svg add_bottom_15">
 							<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72">
@@ -26,4 +26,11 @@
 		<!-- /container -->
 		
 	</main>
+@endsection
+@section('scripts')
+<script>
+    window.setTimeout(function(){
+		window.location.href = "/myOrder";
+	}, 5000);
+</script>
 @endsection

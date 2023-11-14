@@ -8,8 +8,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
 $carts = Cart::instance(Auth::user()->id); 
 ?>
-<main class="bg_gray">
-	
+<main class="bg_gray">	
 	<div class="container margin_30">
 		<div class="page_header">
 			<div class="breadcrumbs">
@@ -99,7 +98,7 @@ $carts = Cart::instance(Auth::user()->id);
                                     @else
                                     <img src="{{$cart->options->image}}" width="50" height="50" class="lazy" alt="Image">
                                     @endif
-                                    {{$cart->qty}}x {{$cart->name}}
+                                    {{$cart->qty}} x {{$cart->name}}
                                 </em>  
                                 </a>
                                 <span style="margin-top:15px">
@@ -153,17 +152,6 @@ $carts = Cart::instance(Auth::user()->id);
 			<!-- /row -->
 	</div>
 		<!-- /container -->
-	</main>
+</main>
 	<!--/main-->
-@endsection
-@section('scripts')
-<script>
-    	// Other address Panel
-		$('#other_addr input').on("change", function (){
-	        if(this.checked)
-	            $('#other_addr_c').fadeIn('fast');
-	        else
-	            $('#other_addr_c').fadeOut('fast');
-	    });
-	</script>
 @endsection

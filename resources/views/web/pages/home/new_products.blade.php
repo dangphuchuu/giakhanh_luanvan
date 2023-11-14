@@ -1,7 +1,9 @@
 <div class="container margin_60_35">
 				<div class="main_title mb-4">
+				<a href="/list">
 					<h2>{{__("New Products")}}</h2>
 					<span>{{__("New Products")}}</span>
+				</a>
 					<!-- <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p> -->
 				</div>
 				<div class="isotope-wrapper">

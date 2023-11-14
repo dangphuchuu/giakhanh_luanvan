@@ -1,7 +1,9 @@
 <div class="container margin_60_35">
 			<div class="main_title">
+			<a href="/list">
 				<h2>{{__("Featured Products")}}</h2>
 				<span>{{__("Featured Products")}}</span>
+			</a>
 				<!-- <p>Cum doctus civibus efficiantur in imperdiet deterruisset</p> -->
 			</div>
 			<div class="owl-carousel owl-theme products_carousel">

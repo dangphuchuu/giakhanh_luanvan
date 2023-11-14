@@ -378,7 +378,9 @@ class WebController extends Controller
         // dd((int)preg_replace("/[,]+/", "", $cart->total()));
         $orders = new Orders([
             'users_id'=> Auth::user()->id,
-            'content'=>$request->content,
+            'content'=> $request->content,
+            'tax'=> (int)preg_replace("/[,]+/", "", $cart->tax(0)),
+            'subtotal'=> (int)preg_replace("/[,]+/", "", $cart->subtotal(0)),
             'total'=> (int)preg_replace("/[,]+/", "", $cart->total(0))
         ]);
         $orders->save();
@@ -393,5 +395,28 @@ class WebController extends Controller
         }
         $cart->destroy();
         return view('web.pages.cart.confirm');
+    }
+
+    public function myOrder(){
+        if(Auth::check()){
+        $orders = Orders::where('users_id',Auth::user()->id)->orderBy('id', 'DESC')->paginate(5);
+            // dd($orders);
+            return view('web.pages.account.my-order',[
+                'orders'=>$orders
+            ]);
+        }else{
+            abort(404);
+        }
+    }
+
+    public function trackOrder(){
+        if(Auth::check()){
+        $products = Products::all()->where('status',1)->sortByDesc('created_at')->take(8);
+            return view('web.pages.account.track-order',[
+                'products'=>$products
+            ]);
+        }else{
+            abort(404);
+        }
     }
 }

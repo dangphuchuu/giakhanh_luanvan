@@ -61,5 +61,7 @@ Route::middleware('language')->group(function(){
     Route::delete('/deleteCart',[WebController::class, 'deleteCart']);
     Route::get('/checkout',[WebController::class, 'checkout']);
     Route::post('/checkout',[WebController::class, 'handle_checkout']);
+    Route::get('/myOrder',[WebController::class, 'myOrder']);
+    Route::get('/trackOrder',[WebController::class, 'trackOrder']);
 
 });

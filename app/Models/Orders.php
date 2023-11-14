@@ -11,13 +11,15 @@ class Orders extends Model
     protected $fillable = [
         'users_id',
         'content',
+        'tax',
+        'subtotal',
         'total',
         'status'
     ];
     public function user(){
         return $this->belongsTo(User::class,'users_id','id');
     }
-    public function orders_details(){
-        return $this->hasMany(Orders_Detail::class,'id','orders_id');
+    public function products(){
+        return $this->belongsToMany(Products::class,'orders__details','orders_id','products_id')->withPivot('quantity');
     }
 }

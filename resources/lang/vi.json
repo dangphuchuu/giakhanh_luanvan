@@ -147,7 +147,7 @@
     "Copyright":"Quyền sở hữu ",
     "Work time":"Thời gian làm việc",
     "Cart":"Giỏ hàng",
-    "Subtotal":"Tổng",
+    "Subtotal":"Tổng tạm tính",
     "Unit Price":"Đơn giá",
     "Update Cart":"Cập nhật giỏ hàng",
     "Promo code":"Mã khuyến mãi",
@@ -170,6 +170,10 @@
     "Update Image":"Cập nhật hình ảnh",
     "Notes for orders":"Ghi chú cho đơn hàng",
     "You will receive a confirmation email soon!":"Vui lòng kiểm tra email!",
-    "Order completed!":"Đặt hàng thành công!"
+    "Order completed!":"Đặt hàng thành công!",
+    "Your Order":"Đơn hàng của bạn",
+    "Quick Tracking Order":"Theo dõi đơn hàng của bạn",
+    "Invoice ID":"ID hóa đơn",
+    "New Entries":"Sản phẩm mới"
 
 }

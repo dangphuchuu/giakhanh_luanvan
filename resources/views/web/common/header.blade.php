@@ -96,7 +96,7 @@
                                                     <figure><img src="{{$cart->options->image}}" alt="" width="50" height="50" class="lazy"></figure>
                                                     @endif
                                                     <strong>
-                                                        <span style="max-width: 150px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{$cart->qty}}x {{$cart->name}}</span>
+                                                        <span style="max-width: 150px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{$cart->qty}} x {{$cart->name}}</span>
                                                         @if($cart->options->price_new)
                                                             {{number_format($cart->options->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                                                         @else
@@ -151,10 +151,10 @@
                                             <a href="/profile"><i class="ti-user"></i>{{__("My Profile")}}</a>
                                         </li>
                                         <li>
-                                            <a href="account.html"><i class="ti-package"></i>{{__("My Orders")}}</a>
+                                            <a href="/myOrder"><i class="ti-package"></i>{{__("My Orders")}}</a>
                                         </li>
                                         <li>
-                                            <a href="track-order.html"><i class="ti-truck"></i>{{__("Track your Order")}}</a>
+                                            <a href="/trackOrder"><i class="ti-truck"></i>{{__("Track your Order")}}</a>
                                         </li>
                                         <li>
                                             <a href="/logout"><i class="ti-shift-right"></i>{{__("Logout")}}</a>

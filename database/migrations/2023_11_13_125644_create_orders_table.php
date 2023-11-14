@@ -15,6 +15,8 @@ return new class extends Migration
             $table->increments('id');
             $table->unsignedInteger('users_id');
             $table->longtext('content')->nullable();
+            $table->integer('tax');
+            $table->integer('subtotal');
             $table->integer('total');
             $table->integer('status')->default(1);
             $table->timestamps();
