@@ -83,8 +83,10 @@ $carts = Cart::instance(Auth::user()->id);
                                 <img src="{{$cart->options->image}}" class="lazy" alt="Image">
                                 @endif
                             </div>
+                            <a href="/detail/{{$cart->id}}" style="color:black !important;">
                             <span class="item_cart">{{$cart->name}}</span>
                             <input type="hidden" name="cartId" value="{{$cart->id}}"/>
+                            </a>
                         </td>
                         <td>
                             <strong>

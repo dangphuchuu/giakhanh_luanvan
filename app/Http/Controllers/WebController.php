@@ -378,6 +378,13 @@ class WebController extends Controller
         // dd((int)preg_replace("/[,]+/", "", $cart->total()));
         $orders = new Orders([
             'users_id'=> Auth::user()->id,
+            'lastname'=>$request->lastname,
+            'firstname'=>$request->firstname,
+            'email'=>$request->email,
+            'phone'=>$request->phone,
+            'address'=>$request->address,
+            'district'=>$request->district,
+            'city'=>$request->city,
             'content'=> $request->content,
             'tax'=> (int)preg_replace("/[,]+/", "", $cart->tax(0)),
             'subtotal'=> (int)preg_replace("/[,]+/", "", $cart->subtotal(0)),

@@ -14,6 +14,13 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('users_id');
+            $table->string('lastname', 255);
+            $table->string('firstname', 255);
+            $table->string('email', 255)->unique()->nullable();
+            $table->string('phone', 12)->unique()->nullable();
+            $table->string('address', 255)->nullable();
+            $table->string('district', 255)->nullable();
+            $table->string('city', 255)->nullable();
             $table->longtext('content')->nullable();
             $table->integer('tax');
             $table->integer('subtotal');
