@@ -1,4 +1,4 @@
-<footer class="revealed">
+<footer class="">
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-6">

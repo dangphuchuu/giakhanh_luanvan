@@ -52,7 +52,11 @@
 												<li>
 													<form action="/cart" method="post" id="formSubmitCart_{{$new->id}}">
 														@csrf
+														@if(Auth::check())
 														<a href="javascript:void(0)"  onclick="document.getElementById('formSubmitCart_{{$new->id}}').submit();" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to cart')}}"><i class="ti-shopping-cart"></i><span>{{__('Add to cart')}}</span></a>
+														@else
+														<a href="/signin_signup" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to cart')}}"><i class="ti-shopping-cart"></i><span>{{__('Add to cart')}}</span></a>
+														@endif
 														<input type="hidden" name="products_id" value="{{$new->id}}"/>
 														<input type="hidden" name="quantity" value="1"/>
 													</form>

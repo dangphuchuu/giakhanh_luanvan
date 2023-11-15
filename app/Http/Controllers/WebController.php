@@ -369,11 +369,11 @@ class WebController extends Controller
 
         $user->lastname = $request->lastname;
         $user->firstname = $request->firstname;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->address = $request->address;
-        $user->district = $request->district;
-        $user->city = $request->city;
+        // $user->email = $request->email;
+        // $user->phone = $request->phone;
+        // $user->address = $request->address;
+        // $user->district = $request->district;
+        // $user->city = $request->city;
         $user->save();
         // dd((int)preg_replace("/[,]+/", "", $cart->total()));
         $orders = new Orders([

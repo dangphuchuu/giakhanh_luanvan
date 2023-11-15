@@ -27,7 +27,7 @@ $carts = Cart::instance(Auth::user()->id);
                 @foreach($orders as $key => $order)
 				<div class="col-lg-12 col-md-12">
 					<div class="step first">
-						<h3>ID: {{$order->id}}</h3>
+						<h3>{{__("Order Number")}}: {{date('d/m/Y')}}-{{$order->id}}</h3>
 					<div class="box_general summary">
 						<ul>
                             @foreach($order->products as $orderPro)
