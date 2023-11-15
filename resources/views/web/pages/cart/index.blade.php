@@ -153,7 +153,6 @@ $carts = Cart::instance(Auth::user()->id);
             <div class="row justify-content-end">
                 <div class="col-xl-4 col-lg-4 col-md-6">
                     <ul>
-                       
                         <li>
                             <span >{{__("Subtotal")}}</span> 
                             <p id="sumSubtotal">
@@ -161,10 +160,15 @@ $carts = Cart::instance(Auth::user()->id);
                             </p>
                         </li>
                         <li>
-                            <span>{{__("Tax")}}</span> 
-                            
+                            <span>{{__("Tax")}} ({{env('TAX',0)}}%)</span> 
                             <p id="tax">
                             {{$carts->tax(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                            </p>
+                        </li>
+                        <li>
+                            <span>{{__("Shipping")}}</span> 
+                            <p >
+                            {{__("Free")}}
                             </p>
                         </li>
                         <li>

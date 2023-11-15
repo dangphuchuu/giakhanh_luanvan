@@ -46,7 +46,6 @@ class WebController extends Controller
         ]);
     }
 
-
     // !Authentication
     public function signin_signup(){
         return view('web/common/signin_signup');
@@ -131,7 +130,6 @@ class WebController extends Controller
         return redirect('/signin_signup')->with('toast_success',__("Logout Successfully"));
     }
    
-    
     //! Products
     public function list(){
         $products = Products::orderBy('id', 'DESC')->where('status',1)->paginate(8);
@@ -189,7 +187,6 @@ class WebController extends Controller
             return redirect()->back()->with('toast_error',__("Empty Search"));
         }
     }
-
 
     //TODO Profile
     public function profile(){
@@ -375,7 +372,6 @@ class WebController extends Controller
         // $user->district = $request->district;
         // $user->city = $request->city;
         $user->save();
-        // dd((int)preg_replace("/[,]+/", "", $cart->total()));
         $orders = new Orders([
             'users_id'=> Auth::user()->id,
             'lastname'=>$request->lastname,
@@ -391,14 +387,14 @@ class WebController extends Controller
             'total'=> (int)preg_replace("/[,]+/", "", $cart->total(0))
         ]);
         $orders->save();
-        // dd($cart->content());
         foreach($cart->content() as $carts){
-            $orders_detail = new Orders_Detail([
-                'orders_id'=>$orders->id,
-                'products_id'=> $carts->id,
-                'quantity'=>$carts->qty
-            ]);
-            $orders_detail->save();
+            $orders->products()->attach($carts->id,['quantity'=>$carts->qty]);
+            // $orders_detail = new Orders_Detail([
+            //     'orders_id'=>$orders->id,
+            //     'products_id'=> $carts->id,
+            //     'quantity'=>$carts->qty
+            // ]);
+            // $orders_detail->save();
         }
         $cart->destroy();
         return view('web.pages.cart.confirm');
