@@ -1,7 +1,9 @@
 <div id="sidebar" class='active'>
     <div class="sidebar-wrapper active">
         <div class="sidebar-header">
-            <img src="admin_assets/images/logo.svg" alt="" srcset="">
+            <a href="/admin">
+            <img src="admin_assets/images/logo.svg">
+            </a>
         </div>
         <div class="sidebar-menu">
             <ul class="menu">
