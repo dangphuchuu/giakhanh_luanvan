@@ -29,32 +29,41 @@ active
                 <table class='table table-striped text-nowrap' id="table1">
                     <thead>
                         <tr>
-                            <th>{{__("Orders ID")}}</th>
+                            <th>{{__("Order Number")}}</th>
                             <th>{{__("Name")}}</th>
                             <th>Email</th>
                             <th>{{__("Phone")}}</th>
-                            <th>{{__("Content")}}</th>
+                            <!-- <th>{{__("Content")}}</th> -->
                             <th>{{__("Status")}}</th>
                             <th>{{__("Detail")}}</th>
-                            <th>{{__("Updated at")}}</th>
+                            <th>{{__("Update Date")}}</th>
                         </tr>
                     </thead>
-                    <tbody >
+                    <tbody>
                         @foreach($orders as $key => $order)
                         <tr>
                             <td>{{$order->id}}</td>
                             <td>{{$order->firstname}}</td>
                             <td>{{$order->email}}</td>
                             <td>{{$order->phone}}</td>
-                            <td>{{$order->content}}</td>
+                            <!-- <td>{{$order->content}}</td> -->
                             <td id="status{{$order->id}}">
                                 @if($order->status == 1)
-                                <a href="javascript:void(0)" onclick="status({{$order->id}},0)"><span class="badge bg-success">Active</span></a>
+                                <a href="javascript:void(0)" onclick="status({{$order->id}},2)"><span class="badge bg-warning">{{__("In Progress")}}</span></a>
+                                @elseif($order->status == 2)
+                                <a href="javascript:void(0)" onclick="status({{$order->id}},3)"><span class="badge bg-info">{{__("Delivery in Progress")}}</span></a>
+                                @elseif($order->status == 3)
+                                <a href="javascript:void(0)" onclick="status({{$order->id}},0)"><span class="badge bg-success">{{__("Delivered")}}</span></a>
                                 @else
-                                <a href="javascript:void(0)" onclick="status({{$order->id}},1)"><span class="badge bg-danger">Inactive</span></a>
+                                <a href="javascript:void(0)" onclick="status({{$order->id}},1)"><span class="badge bg-danger">{{__("Cancelled")}}</span></a>
                                 @endif
                             </td>
-                            <td><a class="btn btn-ghost">{{__("Detail")}}</a></td>
+                            <td>
+                                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#order_detail{{$order->id}}">
+                                    <i data-feather="search"></i>
+                                </a>
+                                @include('admin/pages/orders/detail')
+                            </td>
                             <td>{{$order->updated_at->format('d/m/Y - H:i')}}</td>
                         </tr>
                         @endforeach
@@ -72,12 +81,20 @@ active
 <script>
     function status(status_id, active) {
         if (active === 1) {
-            $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',0)">\
-                <span class="badge bg-success">Active</span>\
+            $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',2)">\
+                <span class="badge bg-warning">{{__("In Progress")}}</span>\
             </a>')
-        } else {
+        }else if(active === 2){
+            $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',3)">\
+                <span class="badge bg-info">{{__("Delivery in Progress")}}</span>\
+            </a>')
+        } else if(active === 3){
+            $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',0)">\
+                <span class="badge bg-success">{{__("Delivered")}}</span>\
+            </a>')
+        }else{
             $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',1)">\
-                <span class="badge bg-danger">Inactive</span>\
+                <span class="badge bg-danger">{{__("Cancelled")}}</span>\
             </a>')
         }
         $.ajaxSetup({

@@ -43,7 +43,7 @@ class AdminController extends Controller
     }
 
     public function clients(){
-        $user = User::role('client')->get();
+        $user = User::role('client')->orderBy('id', 'DESC')->get();
         return view('admin/pages/clients/index',[
             'user'=>$user
         ]);

@@ -92,5 +92,7 @@ Route::prefix('admin')->middleware('admin','role:admin|staff')->group(function()
     Route::prefix('orders')->group(function(){
         Route::get('/',[OrdersController::class, 'index']);
         Route::post('/',[OrdersController::class, 'orders']);
+        Route::get('/status',[OrdersController::class, 'status']);
+
     });
 });

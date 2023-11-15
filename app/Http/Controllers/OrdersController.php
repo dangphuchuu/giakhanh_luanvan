@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class OrdersController extends Controller
 {
     public function index(){
-        $orders = Orders::all();
+        $orders = Orders::orderBy('id', 'DESC')->get();
         return view('admin.pages.orders.index',[
             'orders' => $orders
         ]);
@@ -16,5 +16,11 @@ class OrdersController extends Controller
     
     public function orders(){
 
+    }
+    public function status(Request $request){
+        $orders = Orders::find($request->status_id);
+        $orders->status = $request->active;
+        $orders->save();
+        return response('success',200);
     }
 }

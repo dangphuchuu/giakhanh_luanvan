@@ -284,7 +284,7 @@ class WebController extends Controller
         ]);
         // Cart::instance(Auth::user()->id)->destroy();
         // dd(Cart::instance(Auth::user()->id)->content());
-        return redirect('/cart')->with('toast_success',__("Order Successfully !"));
+        return redirect()->back()->with('toast_success',__("Order Successfully !"));
     }
 
     public function update(Request $request){

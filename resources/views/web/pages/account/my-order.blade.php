@@ -72,7 +72,7 @@ $carts = Cart::instance(Auth::user()->id);
 
 							<li class="clearfix">
                                 <em>
-                                    <strong>{{__("Tax")}}</strong>
+                                    <strong>{{__("Tax")}} ({{env('TAX',0)}}%)</strong>
                                 </em> 
                                 <span>{{number_format($order->tax,0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></span>
                             </li>

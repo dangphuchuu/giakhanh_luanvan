@@ -17,7 +17,7 @@ class ProductsController extends Controller
 {
     public function index()
     {
-        $products = Products::all();
+        $products = Products::orderBy('id', 'DESC')->get();
         $categories = Categories::all();
         $subcategories = Subcategories::all();
         $brands = Brands::all();
@@ -63,8 +63,8 @@ class ProductsController extends Controller
                         'sub_id'=>$request->sub_id,
                         'name'=>$request->name,
                         'youtube_path'=>$request->youtube_path,
-                        'price'=>$request->price,
-                        'price_new'=>$request->price_new,
+                        'price'=>(int)preg_replace("/[,]+/", "", $request->price),
+                        'price_new'=>(int)preg_replace("/[,]+/", "", $request->price_new),
                         'content'=>$request->content,
                     ]
                 );
@@ -120,8 +120,8 @@ class ProductsController extends Controller
         $products->sub_id = $request->sub_id;
         $products->name = $request->name;
         $products->youtube_path = $request->youtube_path;
-        $products->price = $request->price;
-        $products->price_new = $request->price_new;
+        $products->price = (int)preg_replace("/[,]+/", "", $request->price);
+        $products->price_new = (int)preg_replace("/[,]+/", "", $request->price_new);
         $products->content = $request->content;
         $products->save();
         return redirect('/admin/products')->with('toast_success',__("Update successfully"));

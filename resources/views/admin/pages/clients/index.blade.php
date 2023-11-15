@@ -36,7 +36,7 @@ active
                             <th>Email</th>
                             <th>{{__("Phone")}}</th>
                             <th>{{__("Status")}}</th>
-                            <th>{{__("Created at")}}</th>
+                            <th>{{__("Created Date")}}</th>
                         </tr>
                     </thead>
                     <tbody>
