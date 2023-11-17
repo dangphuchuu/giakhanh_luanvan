@@ -119,7 +119,7 @@
                                         
 
                                             </div>
-                                            <a href="/cart" class="btn_1 outline">View Cart</a><a href="/checkout" class="btn_1">Checkout</a>
+                                            <a href="/cart" class="btn_1 outline">{{__("View Cart")}}</a><a href="/checkout" class="btn_1">{{__("Checkout")}}</a>
                                         </div>
                                     </div>
                                 @endif

@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
 	<meta name="author" content="Ansonika">
-	<title>Allaia | Bootstrap eCommerce Template - ThemeForest</title>
+	<title>{{$info->name}}</title>
 
 	<base href="{{asset('')}}">
 
@@ -68,6 +68,7 @@
 	<script src="web_assets/js/common_scripts.min.js"></script>
 	<script src="web_assets/js/main.js"></script>
 	<script src="web_assets/js/carousel-home.min.js"></script>
+    <script src="admin_assets/js/feather-icons/feather.min.js"></script>
 
 	<script>
     $(".numbers-row").append('<div class="inc button_inc">+</div><div class="dec button_inc">-</div>');

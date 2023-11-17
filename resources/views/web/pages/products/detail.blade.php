@@ -1,6 +1,8 @@
 @extends('web.layout.index')
 @section('css')
 <link href="web_assets/css/product_page.css" rel="stylesheet">
+<link href="web_assets/css/fonts/fontawesome/css/all.css" rel="stylesheet">
+<link href="web_assets/css/leave_review.css" rel="stylesheet">
 @endsection
 @section('content')
 <style>
@@ -56,7 +58,7 @@
 						@csrf
 						<div class="prod_info">
 							<h1>{{$products->name}}</h1>
-							<!-- <span class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i><em>4 reviews</em></span> -->
+							<span class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i><em>4 reviews</em></span>
 							<p><small>{{$products->categories->name}}: {{$products->subcategories->name}}-{{$products->id}}</small>
 							<!-- <br>Sed ex labitur adolescens scriptorem. Te saepe verear tibique sed. Et wisi ridens vix, lorem iudico blandit mel cu. Ex vel sint zril oportere, amet wisi aperiri te cum. -->
 							</p>
@@ -138,9 +140,9 @@
 	                <li class="nav-item">
 	                    <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab" role="tab">{{__("Description")}}</a>
 	                </li>
-	                <!-- <li class="nav-item">
+	                <li class="nav-item">
 	                    <a id="tab-B" href="#pane-B" class="nav-link" data-bs-toggle="tab" role="tab">{{__("Reviews")}}</a>
-	                </li> -->
+	                </li>
 	            </ul>
 	        </div>
 	    </div>
@@ -183,52 +185,32 @@
 	                    <div id="collapse-B" class="collapse" role="tabpanel" aria-labelledby="heading-B">
 	                        <div class="card-body">
 	                            <div class="row justify-content-between">
-	                                <div class="col-lg-6">
+	                                <div class="col-lg-12">
 	                                    <div class="review_content">
 	                                        <div class="clearfix add_bottom_10">
-	                                            <span class="rating"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><em>5.0/5.0</em></span>
+	                                            <span>
+													<i class="fa-regular fa-star"></i>
+													<i class="fa-solid fa-star-half-stroke"></i>
+													<i class="fa-solid fa-star"></i>
+													<i class="fa-solid fa-star"></i>
+													<i class="fa-solid fa-star"></i> 
+													<i>5.0/5.0</i>
+												</span>
 	                                            <em>Published 54 minutes ago</em>
 	                                        </div>
 	                                        <h4>"Commpletely satisfied"</h4>
 	                                        <p>Eos tollit ancillae ea, lorem consulatu qui ne, eu eros eirmod scaevola sea. Et nec tantas accusamus salutatus, sit commodo veritus te, erat legere fabulas has ut. Rebum laudem cum ea, ius essent fuisset ut. Viderer petentium cu his.</p>
 	                                    </div>
 	                                </div>
-	                                <div class="col-lg-6">
-	                                    <div class="review_content">
-	                                        <div class="clearfix add_bottom_10">
-	                                            <span class="rating"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star empty"></i><i class="icon-star empty"></i><em>4.0/5.0</em></span>
-	                                            <em>Published 1 day ago</em>
-	                                        </div>
-	                                        <h4>"Always the best"</h4>
-	                                        <p>Et nec tantas accusamus salutatus, sit commodo veritus te, erat legere fabulas has ut. Rebum laudem cum ea, ius essent fuisset ut. Viderer petentium cu his.</p>
-	                                    </div>
-	                                </div>
+	                              
 	                            </div>
 	                            <!-- /row -->
-	                            <div class="row justify-content-between">
-	                                <div class="col-lg-6">
-	                                    <div class="review_content">
-	                                        <div class="clearfix add_bottom_10">
-	                                            <span class="rating"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star empty"></i><em>4.5/5.0</em></span>
-	                                            <em>Published 3 days ago</em>
-	                                        </div>
-	                                        <h4>"Outstanding"</h4>
-	                                        <p>Eos tollit ancillae ea, lorem consulatu qui ne, eu eros eirmod scaevola sea. Et nec tantas accusamus salutatus, sit commodo veritus te, erat legere fabulas has ut. Rebum laudem cum ea, ius essent fuisset ut. Viderer petentium cu his.</p>
-	                                    </div>
-	                                </div>
-	                                <div class="col-lg-6">
-	                                    <div class="review_content">
-	                                        <div class="clearfix add_bottom_10">
-	                                            <span class="rating"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><em>5.0/5.0</em></span>
-	                                            <em>Published 4 days ago</em>
-	                                        </div>
-	                                        <h4>"Excellent"</h4>
-	                                        <p>Sit commodo veritus te, erat legere fabulas has ut. Rebum laudem cum ea, ius essent fuisset ut. Viderer petentium cu his.</p>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                            <!-- /row -->
-	                            <p class="text-end"><a href="leave-review.html" class="btn_1">Leave a review</a></p>
+	                            <p class="text-end">
+									<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#reviews" class="btn_1">
+										{{__("Leave a review")}}
+									</a>
+									
+								</p>
 	                        </div>
 	                        <!-- /card-body -->
 	                    </div>
@@ -306,6 +288,7 @@
 	    <!-- /container -->
 
 	</main>
+	@include('web.pages.products.review')
 @endsection
 @section('scripts')
 <script  src="web_assets/js/carousel_with_thumbs.js"></script>

@@ -188,6 +188,10 @@ class WebController extends Controller
         }
     }
 
+    public function reviews(){
+        return view('web.pages.products.review');
+    }
+
     //TODO Profile
     public function profile(){
         $user = Auth::user();
@@ -269,7 +273,7 @@ class WebController extends Controller
             $img[] = $value->image;
         }
         // dd($img[0]);
-        if($quantity == 0){
+        if($quantity <= 0){
             return redirect()->back()->with('toast_warning',__("Please choose product at least 1 !"));
         }
         Cart::instance(Auth::user()->id)->add([
@@ -282,8 +286,6 @@ class WebController extends Controller
                 'image'=>  $img[0],
             ]
         ]);
-        // Cart::instance(Auth::user()->id)->destroy();
-        // dd(Cart::instance(Auth::user()->id)->content());
         return redirect()->back()->with('toast_success',__("Order Successfully !"));
     }
 
