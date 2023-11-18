@@ -43,7 +43,7 @@ Route::middleware('language')->group(function(){
     Route::get('/list',[WebController::class, 'list']);
     Route::get('/detail/{id}',[WebController::class, 'detail']);
     Route::get('/search',[WebController::class, 'search']);
-    Route::get('/reviews',[WebController::class, 'reviews']);
+    Route::post('/reviews',[WebController::class, 'reviews']);
 
     //! Categories
     Route::get('/category/{id}',[WebController::class, 'category']);

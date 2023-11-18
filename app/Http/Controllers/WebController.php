@@ -10,6 +10,7 @@ use App\Models\Info;
 use App\Models\Orders;
 use App\Models\Orders_Detail;
 use App\Models\Products;
+use App\Models\Reviews;
 use App\Models\Subcategories;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -144,9 +145,11 @@ class WebController extends Controller
             abort(404);
         }
         $related = Products::where('sub_id',$products->sub_id)->take(4)->get();
+        $reviews = Reviews::where('products_id',$id)->orderBy('id','DESC')->get();
         return view('web.pages.products.detail',[
             'products'=>$products,
-            'related'=>$related
+            'related'=>$related,
+            'reviews'=>$reviews
         ]);
     }
 
@@ -188,8 +191,36 @@ class WebController extends Controller
         }
     }
 
-    public function reviews(){
-        return view('web.pages.products.review');
+    public function reviews(Request $request){
+        if(Auth::check()){
+            $validate = Validator::make($request->all(),[
+                'rate' => 'required',
+                'content'=>'required|min:8',
+            ],[
+                'rate.required'=>__("Please select number of stars."),
+                'content.required'=>__("Please enter content."),
+                'content.min'=>__("The content must be at least 8 characters.")
+            ]);
+    
+            if($validate->fails()){
+                return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
+            }
+            $checkReview = Reviews::where(['users_id' => Auth::user()->id,'products_id'=>$request->products_id])->count();
+            if($checkReview > 0){
+                return redirect()->back()->with('toast_warning',__('You have already rated this product'));
+            }else{
+                $reviews = new Reviews([
+                    'products_id'=> $request->products_id,
+                    'users_id'=>Auth::user()->id,
+                    'rate'=>$request->rate,
+                    'content'=>$request->content
+                ]);
+                $reviews->save();
+                return redirect()->back()->with('toast_success',__('Successful product reviews'));
+            }
+        }else{
+            abort(404);
+        }
     }
 
     //TODO Profile

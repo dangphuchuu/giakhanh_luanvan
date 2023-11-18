@@ -9,8 +9,13 @@
 	#collapse-A img {
 		width: 100%;
 	}
+
+	#reviews a {
+		color: black;
+	}
+
 	#reviews a:hover {
-  	color: #004dda;
+		color: #004dda;
 	}
 </style>
 <main>
@@ -61,7 +66,38 @@
 					@csrf
 					<div class="prod_info">
 						<h1>{{$products->name}}</h1>
-						<span class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i><em>4 reviews</em></span>
+						<span class="rating">
+							<?php
+							$count = count($reviews);
+							$sum = 0;
+							foreach ($reviews as $review) {
+								$sum += $review->rate;
+							}
+							if ($count != 0) {
+								$average = round($sum / $count, 1);
+							} else {
+								$average = 0;
+							}
+							for ($i = 0; $i < 5; $i++) {
+								if (($average - $i) > 0.5) {
+							?>
+									<i class="fa-solid fa-star" style="color:#d0011b"></i>
+								<?php
+
+								} else if (($average - $i) == 0.5) {
+								?>
+									<i class="fa-solid fa-star-half-stroke" style="color:#d0011b"></i>
+								<?php
+
+								} else if (($average - $i) < 0.5) {
+								?>
+									<i class="fa-regular fa-star" style="color:#d0011b"></i>
+							<?php
+								}
+							}
+							?>
+							<em>{{$count}} reviews</em>
+						</span>
 						<p><small>{{$products->categories->name}}: {{$products->subcategories->name}}-{{$products->id}}</small>
 							<!-- <br>Sed ex labitur adolescens scriptorem. Te saepe verear tibique sed. Et wisi ridens vix, lorem iudico blandit mel cu. Ex vel sint zril oportere, amet wisi aperiri te cum. -->
 						</p>
@@ -129,19 +165,14 @@
 							</li>
 						</ul>
 					</div>
-
+					@if(Auth::check())
 					<div id="reviews" class="col-lg-5 col-md-6 mt-3">
-
-						<a style="color:black;" href="#Reviews" data-bs-toggle="collapse" data-bs-target="#Reviews" aria-expanded="false" aria-controls="Reviews">
+						<a href="#Reviews" data-bs-toggle="collapse" data-bs-target="#Reviews" aria-expanded="false" aria-controls="Reviews">
 							<i class="ti-star"></i><span> {{__("Leave a review")}}</span>
 						</a>
-
 					</div>
-					<div class="collapse" id="Reviews">
-						<div class="card card-body">
-							Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-						</div>
-					</div>
+					@include('web.pages.products.reviews')
+					@endif
 				</div>
 				<!-- /product_actions -->
 			</div>
@@ -198,6 +229,8 @@
 							</a>
 						</h5>
 					</div>
+					@if(count($reviews)!=0)
+					@foreach($reviews as $review)
 					<div id="collapse-B" class="collapse" role="tabpanel" aria-labelledby="heading-B">
 						<div class="card-body">
 							<div class="row justify-content-between">
@@ -205,26 +238,45 @@
 									<div class="review_content">
 										<div class="clearfix add_bottom_10">
 											<span>
-												<i class="fa-regular fa-star"></i>
-												<i class="fa-solid fa-star-half-stroke"></i>
-												<i class="fa-solid fa-star"></i>
-												<i class="fa-solid fa-star"></i>
-												<i class="fa-solid fa-star"></i>
-												<i>5.0/5.0</i>
+												<?php
+												for ($i = 0; $i < 5; $i++) {
+													if (($review->rate - $i) > 0.5) {
+												?>
+														<i class="fa-solid fa-star" style="color:#d0011b"></i>
+													<?php
+
+													} else if (($review->rate - $i) == 0.5) {
+													?>
+														<i class="fa-solid fa-star-half-stroke" style="color:#d0011b"></i>
+													<?php
+
+													} else if (($review->rate - $i) < 0.5) {
+													?>
+														<i class="fa-regular fa-star" style="color:#d0011b"></i>
+												<?php
+													}
+												}
+												?>
+												<i> {{$review->rate}}/5</i>
 											</span>
-											<em>Published 54 minutes ago</em>
+											<em>{{$review->updated_at->format('d-m-Y - H:i A')}}</em>
 										</div>
-										<h4>"Commpletely satisfied"</h4>
-										<p>Eos tollit ancillae ea, lorem consulatu qui ne, eu eros eirmod scaevola sea. Et nec tantas accusamus salutatus, sit commodo veritus te, erat legere fabulas has ut. Rebum laudem cum ea, ius essent fuisset ut. Viderer petentium cu his.</p>
+										<p>{{$review->content}}</p>
 									</div>
 								</div>
-
 							</div>
-							<!-- /row -->
-
 						</div>
-						<!-- /card-body -->
 					</div>
+					@endforeach
+					@else
+					<div id="collapse-B" class="collapse" role="tabpanel" aria-labelledby="heading-B">
+						<div class="card-body">
+							<h1 class="text-center">
+								{{__("There are no reviews for this product yet")}}
+							</h1>
+						</div>
+					</div>
+					@endif
 				</div>
 				<!-- /tab B -->
 			</div>
@@ -299,7 +351,6 @@
 	<!-- /container -->
 
 </main>
-@include('web.pages.products.review')
 @endsection
 @section('scripts')
 <script src="web_assets/js/carousel_with_thumbs.js"></script>

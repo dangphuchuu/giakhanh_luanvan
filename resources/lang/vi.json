@@ -185,12 +185,17 @@
     "Cancelled":"Đã hủy",
     "Date of receipt":"Ngày nhận đơn",
     "View Cart":"Xem giỏ hàng",
-    "Write a review for":"Viết đánh giá cho",
     "Overall rating":"Đánh giá tổng thể",
     "Title of your review":"Tiêu đề đánh giá",
     "Your review":"Đánh giá của bạn",
     "Submit review":"Gửi đánh giá",
     "Write your review to help others learn about this online business.":"Viết đánh giá của bạn.",
-    "Leave a review":"Tiến hành đánh giá"
+    "Leave a review":"Tiến hành đánh giá",
+    "Successful product reviews":"Đánh giá sản phẩm thành công",
+    "Please select number of stars.":"Vui lòng chọn số sao.",
+    "Please enter content.":"Vui lòng nhập nội dung",
+    "The content must be at least 8 characters.":"Nội dung phải chứa ít nhất 8 ký tự",
+    "You have already rated this product":"Bạn đã đánh giá sản phẩm này rồi",
+    "There are no reviews for this product yet":"Chưa có đánh giá cho sản phẩm này"
 
 }
