@@ -30,7 +30,7 @@
 @section('scripts')
 <script>
     window.setTimeout(function(){
-		window.location.href = "/myOrder";
+		window.location.href = "/";
 	}, 5000);
 </script>
 @endsection

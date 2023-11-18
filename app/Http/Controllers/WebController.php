@@ -287,11 +287,7 @@ class WebController extends Controller
 
     //! Cart
     public function cart(){
-        if(Auth::check()){
-            return view('web.pages.cart.index');
-        }else{
-            abort(404);
-        }
+        return view('web.pages.cart.index');
     }
 
     public function handle_cart(Request $request){
@@ -307,38 +303,73 @@ class WebController extends Controller
         if($quantity <= 0){
             return redirect()->back()->with('toast_warning',__("Please choose product at least 1 !"));
         }
-        Cart::instance(Auth::user()->id)->add([
-            'id'=>$id,
-            'name'=> $products->name,
-            'qty'=> $request->quantity,
-            'price'=> $products->price,
-            'options'=>[
-                'price_new'=>$products->price_new,
-                'image'=>  $img[0],
-            ]
-        ]);
+        if(Auth::check()){
+            Cart::instance(Auth::user()->id)->add([
+                'id'=>$id,
+                'name'=> $products->name,
+                'qty'=> $request->quantity,
+                'price'=> $products->price,
+                'options'=>[
+                    'price_new'=>$products->price_new,
+                    'image'=>  $img[0],
+                ]
+            ]);
+        }else{
+            Cart::add([
+                'id'=>$id,
+                'name'=> $products->name,
+                'qty'=> $request->quantity,
+                'price'=> $products->price,
+                'options'=>[
+                    'price_new'=>$products->price_new,
+                    'image'=>  $img[0],
+                ]
+            ]);
+        }
         return redirect()->back()->with('toast_success',__("Order Successfully !"));
     }
 
     public function update(Request $request){
         $qty = $request->qty;
         $id = $request->cartId;
-        $cart = Cart::instance(Auth::user()->id)->get($id);
+        if(Auth::check()){
+            $cart = Cart::instance(Auth::user()->id)->get($id);
+        }else{
+            $cart = Cart::get($id);
+        }
+
         if($cart->options->price_new){
             $subtotal = $cart->options->price_new*$qty;
         }else{
             $subtotal = $cart->price*$qty;
         }
-        Cart::instance(Auth::user()->id)->update($id,$qty);
-        $sum = Cart::instance(Auth::user()->id)->subtotal(0,',','.'); 
-        $tax = Cart::instance(Auth::user()->id)->tax(0,',','.');
-        $total = Cart::instance(Auth::user()->id)->total(0,',','.'); 
-        return response()->json([
-            'subtotal'=>$subtotal,
-            'sum'=>$sum,
-            'tax'=>$tax,
-            'total'=>$total
-        ],200);
+
+        if(Auth::check()){
+            $cart = Cart::instance(Auth::user()->id);
+            $cart->update($id,$qty);
+            $sum =$cart->subtotal(0,',','.'); 
+            $tax =$cart->tax(0,',','.');
+            $total =$cart->total(0,',','.'); 
+            return response()->json([
+                'subtotal'=>$subtotal,
+                'sum'=>$sum,
+                'tax'=>$tax,
+                'total'=>$total
+            ],200);
+
+        }else{
+            $cart = Cart::instance();
+            $cart->update($id,$qty);
+            $sum = $cart->subtotal(0,',','.'); 
+            $tax = $cart->tax(0,',','.');
+            $total = $cart->total(0,',','.'); 
+            return response()->json([
+                'subtotal'=>$subtotal,
+                'sum'=>$sum,
+                'tax'=>$tax,
+                'total'=>$total
+            ],200);
+        }
             // $data = $request->all();
             // print_r($data);
             // Cart::instance(Auth::user()->id)->update($request->cartId);
@@ -349,24 +380,35 @@ class WebController extends Controller
 
     public function deleteCart(Request $request){
         $id = $request->cartId;
-        Cart::instance(Auth::user()->id)->remove($id);
-        $sum = Cart::instance(Auth::user()->id)->subtotal(0,',','.'); 
-        $total = Cart::instance(Auth::user()->id)->total(0,',','.'); 
-        $tax = Cart::instance(Auth::user()->id)->tax(0,',','.');
-        return response()->json([
-            'sum'=>$sum,
-            'total'=>$total,
-            'tax'=>$tax
-        ],200);
+        if(Auth::check()){
+            $cart = Cart::instance(Auth::user()->id);
+            $cart->remove($id);
+            $sum = $cart->subtotal(0,',','.'); 
+            $total = $cart->total(0,',','.'); 
+            $tax = $cart->tax(0,',','.');
+            return response()->json([
+                'sum'=>$sum,
+                'total'=>$total,
+                'tax'=>$tax
+            ],200);
+
+        }else{
+            $cart = Cart::instance();
+            $cart->remove($id);
+            $sum = $cart->subtotal(0,',','.'); 
+            $total = $cart->total(0,',','.'); 
+            $tax = $cart->tax(0,',','.');
+            return response()->json([
+                'sum'=>$sum,
+                'total'=>$total,
+                'tax'=>$tax
+            ],200);
+        }
         
     }
 
     public function checkout(){
-        if(Auth::check()){
-            return view('web.pages.cart.checkout');
-        }else{
-            abort(404);
-        }
+        return view('web.pages.cart.checkout');
     }
 
     public function handle_checkout(Request $request){
@@ -393,20 +435,23 @@ class WebController extends Controller
         if($request->city == null){
             return back()->with('toast_error',__('Please choose a city'));
         }
-        $user = User::find(Auth::user()->id);
-        $cart = Cart::instance(Auth::user()->id);
-
-
-        $user->lastname = $request->lastname;
-        $user->firstname = $request->firstname;
+        if(Auth::check()){
+            $cart = Cart::instance(Auth::user()->id);
+            $user = Auth::user()->id;
+        }else{
+            $cart = Cart::instance();
+            $user = 1;
+        }
+        // $user->lastname = $request->lastname;
+        // $user->firstname = $request->firstname;
         // $user->email = $request->email;
         // $user->phone = $request->phone;
         // $user->address = $request->address;
         // $user->district = $request->district;
         // $user->city = $request->city;
-        $user->save();
+        // $user->save();
         $orders = new Orders([
-            'users_id'=> Auth::user()->id,
+            'users_id'=> $user,
             'lastname'=>$request->lastname,
             'firstname'=>$request->firstname,
             'email'=>$request->email,

@@ -6,8 +6,11 @@
 <?php
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
-
-$carts = Cart::instance(Auth::user()->id); 
+if(Auth::check()){
+    $carts = Cart::instance(Auth::user()->id); 
+}else{
+    $carts = Cart::instance();
+}
 // Cart::destroy();
 // dd( Request::path()=="cart");
 // dd($carts->count());

@@ -80,52 +80,52 @@
                         <li>
                             <!-- <a href="#0" class="wishlist"><span>Wishlist</span></a> -->
                         </li>
-                        @if(Auth::check())                    
                         <li>
                             <div class="dropdown dropdown-cart mt-1">
                                 @if( Request::path() != "cart" && Request::path() != "checkout")
-                                    <a href="/cart" ><i class="ti-shopping-cart" style="font-size: 22px;"></i><strong>{{Cart::count()}}</strong></a>
-                                    <div class="dropdown-menu">
-                                        <ul>
-                                            @foreach($carts as $key =>$cart)
-                                            <li>
-                                                <a href="/detail/{{$cart->id}}">
-                                                    @if(strstr($cart->image,"https") == "")
-                                                    <figure><img src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$cart->options->image}}.jpg" alt="" width="50" height="50" class="lazy"></figure>
+                                <a href="/cart"><i class="ti-shopping-cart" style="font-size: 22px;"></i><strong>{{Cart::count()}}</strong></a>
+                                <div class="dropdown-menu">
+                                    <ul>
+                                        @foreach($carts as $key =>$cart)
+                                        <li>
+                                            <a href="/detail/{{$cart->id}}">
+                                                @if(strstr($cart->image,"https") == "")
+                                                <figure><img src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$cart->options->image}}.jpg" alt="" width="50" height="50" class="lazy"></figure>
+                                                @else
+                                                <figure><img src="{{$cart->options->image}}" alt="" width="50" height="50" class="lazy"></figure>
+                                                @endif
+                                                <strong>
+                                                    <span style="max-width: 150px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{$cart->qty}} x {{$cart->name}}</span>
+                                                    @if($cart->options->price_new)
+                                                    {{number_format($cart->options->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                                                     @else
-                                                    <figure><img src="{{$cart->options->image}}" alt="" width="50" height="50" class="lazy"></figure>
+                                                    {{number_format($cart->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                                                     @endif
-                                                    <strong>
-                                                        <span style="max-width: 150px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{$cart->qty}} x {{$cart->name}}</span>
-                                                        @if($cart->options->price_new)
-                                                            {{number_format($cart->options->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
-                                                        @else
-                                                            {{number_format($cart->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
-                                                        @endif
-                                                        
-                                                    </strong>
-                                                </a>
-                                                <a href="javascript:void(0)" data-id="{{$cart->rowId}}" class="action delete-cart"><i class="ti-trash"></i></a>
-                                            </li>
-                                            @endforeach
-                                        </ul>
-                                        <div class="total_drop">
-                                            <div class="clearfix">
-                                                <strong>{{__("Subtotal")}}</strong>
-                                         
-                                                <span id="total">
-                                                    {{Cart::instance(Auth::user()->id)->total(0,',','.');}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
-                                                </span> 
-                                        
 
-                                            </div>
-                                            <a href="/cart" class="btn_1 outline">{{__("View Cart")}}</a><a href="/checkout" class="btn_1">{{__("Checkout")}}</a>
+                                                </strong>
+                                            </a>
+                                            <a href="javascript:void(0)" data-id="{{$cart->rowId}}" class="action delete-cart"><i class="ti-trash"></i></a>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                    <div class="total_drop">
+                                        <div class="clearfix">
+                                            <strong>{{__("Subtotal")}}</strong>
+
+                                            <span id="total">
+                                             @if(Auth::check())   {{Cart::instance(Auth::user()->id)->total(0,',','.');}} @else {{Cart::total(0,',','.');}} @endif<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                                            </span>
+
+
                                         </div>
+                                        <a href="/cart" class="btn_1 outline">{{__("View Cart")}}</a><a href="/checkout" class="btn_1">{{__("Checkout")}}</a>
                                     </div>
+                                </div>
                                 @endif
                             </div>
                             <!-- /dropdown-cart-->
                         </li>
+                        @if(Auth::check())                                    
                         <li>
                             <div class="dropdown dropdown-access mt-1" >
                             <a href="javascript:void(0)"><i class="ti-unlock" style="font-size: 22px;"></i></a>
@@ -166,17 +166,13 @@
                         </li>
                         @else
                         <li>
-                            <div class="dropdown dropdown-cart mt-1">
-                            </div>
-                        </li>
-                        <li>
                             <div class="dropdown dropdown-access mt-1">
                                 <a href="/signin_signup"><i class="ti-lock" style="font-size: 22px;"></i><span>Account</span></a>
-                                
                             </div>
                             <!-- /dropdown-access-->
                         </li>
                         @endif
+                       
                         <li>
                             <a href="javascript:void(0);" class="btn_search_mob ti-search" ><span>Search</span></a>
                         </li>
