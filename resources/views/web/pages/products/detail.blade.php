@@ -136,19 +136,15 @@
 								@endif
 							</div>
 							@if($products->status == 1)
-							@if(Auth::check())
-							@if(isset($products->price) || isset($products->price_new))
-							<div class="col-lg-4 col-md-6">
-								<div class="btn_add_to_cart"><button type="submit" class="btn_1">{{__("Add to Cart")}}</button></div>
-							</div>
-							<input type="hidden" name="products_id" value="{{$products->id}}" />
-							@endif
-							@else
-							<div class="col-lg-4 col-md-6">
-								<div class="btn_add_to_cart"><a href="/signin_signup" class="btn_1">{{__("Login")}}</a></div>
-							</div>
 
-							@endif
+									@if(isset($products->price) || isset($products->price_new))
+									<div class="col-lg-4 col-md-6">
+										<div class="btn_add_to_cart"><button type="submit" class="btn_1">{{__("Add to Cart")}}</button></div>
+									</div>
+									<input type="hidden" name="products_id" value="{{$products->id}}" />
+									@endif
+
+							
 							@endif
 						</div>
 					</div>
@@ -225,7 +221,7 @@
 					<div class="card-header" role="tab" id="heading-B">
 						<h5 class="mb-0">
 							<a class="collapsed" data-bs-toggle="collapse" href="#collapse-B" aria-expanded="false" aria-controls="collapse-B">
-								Reviews
+								{{__("Reviews")}}
 							</a>
 						</h5>
 					</div>
