@@ -66,10 +66,10 @@ class DatabaseSeeder extends Seeder
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
        
-        $user = User::find(1);
+        $user = User::find(2);
         $user->assignRole('admin');
 
-        $user2 = User::find(2);
+        $user2 = User::find(3);
         $user2->assignRole('client');
     }
 }

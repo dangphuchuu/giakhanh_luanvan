@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 
 class WebController extends Controller
 {
@@ -235,7 +237,39 @@ class WebController extends Controller
     }
 
     public function editProfile(Request $request){
+        $validate = Validator::make($request->all(),[
+            'phone' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:12',
+        ],[
+            'phone.regex' => __("Phone numbers are from 0 to 9 and do not include characters"),
+            'phone.min' => __("Phone number at least 10 characters"),
+            'phone.max' => __("Phone number maximum 20 characters"),
+        ]);
         $user = User::find(Auth::user()->id);
+        $email = User::where('email', "=", $request->email)->first();
+        $phone = User::where('phone', "=", $request->phone)->first();
+
+        //email
+        $token = Str::random(20);
+        $to_email = $request->email;
+        $link_verify = url('/verify-email?email=' . $to_email . '&token=' . $token);
+
+        if ($phone && $user->phone != $phone->phone) {
+            if (!isset($request->phone)) {
+                return redirect()->back()->with('toast_error',__("the phone field is required"));
+            }
+            //            dd($user->phone);
+            return redirect()->back()->with('toast_warning', __("The phone is already exists"));
+        }
+        if ($email && $user->email != $email->email) {
+            if (!isset($request->email)) {
+                return redirect()->back()->with('toast_error',__("the phone field is required"));
+            }
+            return redirect()->back()->with('toast_warning', __("the email is already exists"));
+        }
+        if($validate->fails()){
+            return redirect()->back()->with('toast_error', $validate->messages()->all()[0])->withInput();
+        }
+
         if($request->changepassword == 'on'){
             $validate = Validator::make($request->all(),[
                 'password' => 'required',
@@ -245,16 +279,16 @@ class WebController extends Controller
                 'repassword.required'=>__("the repassword field is required"),
                 'repassword.same'=>__("the repassword is incorrect")
             ]);
-    
+            
             if($validate->fails()){
                 return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
             }
             $request['password'] = Hash::make($request->password);
             $user->password = $request['password'];
         }
-        if($request->city == null){
-            return back()->with('toast_error',__('Please choose a city'));
-        }
+       
+
+
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
         $user->email = $request->email;
@@ -262,7 +296,24 @@ class WebController extends Controller
         $user->address = $request->address;
         $user->district = $request->district;
         $user->city = $request->city;
+
+        if ($user->isDirty('email')) //check value has changed
+        {
+            $user->email_verified = 0;
+        }
+
         $user->save();
+        if (isset($request->email) && $user['email_verified'] == 0) {
+            Mail::send('web.pages.account.verify_account_mail', [
+                'to_email' => $to_email,
+                'link_verify' => $link_verify,
+            ], function ($email) use ($to_email) {
+                $email->subject(__("Activate your account") . $to_email);
+                $email->to($to_email);
+            });
+            return redirect()->back()->with('toast_success', __("Please check your mail to activated!"));
+        }
+
         return redirect()->back()->with('toast_success',__("Update successfully"));
     }
 
@@ -292,7 +343,7 @@ class WebController extends Controller
 
     public function handle_cart(Request $request){
         $id = $request->products_id;
-        // dd($id);
+        // dd($request->email);
         $quantity = $request->quantity;
         $products = Products::where('id',$id)->first();
         // dd($products);
@@ -326,6 +377,7 @@ class WebController extends Controller
                 ]
             ]);
         }
+
         return redirect()->back()->with('toast_success',__("Order Successfully !"));
     }
 
@@ -475,6 +527,16 @@ class WebController extends Controller
             // $orders_detail->save();
         }
         $cart->destroy();
+        $email_cur = $request->email;
+        $name = Auth::user()->firstname;
+        if (isset($request->email)) {
+            Mail::send('web.pages.cart.cart_mail', [
+                'name' => $name,
+            ], function ($email) use ($email_cur) {
+                $email->subject(__("Shopping Cart Information"));
+                $email->to($email_cur);
+            });
+        }
         return view('web.pages.cart.confirm');
     }
 
@@ -498,6 +560,28 @@ class WebController extends Controller
             ]);
         }else{
             abort(404);
+        }
+    }
+
+    public function verify_email(){
+        $token = Str::random(20);
+        $email = $_GET['email'];
+        $user = User::where('email','=',$email)->first();
+
+        if($user){
+            $verify = User::find($user->id);
+            $verify->email_verified = 1;
+            $verify->remember_token = $token;
+            $verify->save();
+            if(Auth::check())
+            {
+                $name = Auth::user()->username;
+                return redirect('/profile')->with('toast_success',__('Activate for account ').$name.__(' successfully!'));
+            }
+            return redirect('/')->with('toast_success',__("Activate email successfully!"));
+        }
+        else{
+            return redirect('/')->with('toast_warning',__("Please try again as the link has expired!"));
         }
     }
 }

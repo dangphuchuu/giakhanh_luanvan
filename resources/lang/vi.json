@@ -111,6 +111,7 @@
     "the address field is required":"Địa chỉ không được để trống",
     "the district field is required":"Quận không được để trống",
     "the phone field is required":"Số điện thoại không được để trống",
+    "The phone is already exists":"Số điện thoại đã tồn tại trong hệ thống",
     "the username is already exists":"Tên đăng nhập đã tồn tại",
     "the email field is required":"Email không được để trống",
     "the email is already exists":"Email đã tồn tại",
@@ -196,6 +197,22 @@
     "Please enter content.":"Vui lòng nhập nội dung",
     "The content must be at least 8 characters.":"Nội dung phải chứa ít nhất 8 ký tự",
     "You have already rated this product":"Bạn đã đánh giá sản phẩm này rồi",
-    "There are no reviews for this product yet":"Chưa có đánh giá cho sản phẩm này"
+    "There are no reviews for this product yet":"Chưa có đánh giá cho sản phẩm này",
+    "Phone numbers are from 0-9 and do not include characters":"Số điện thoại từ 0-9 và không bao gồm ký tự",
+    "Phone number at least 10 characters":"Số điện thoại tối thiểu 10 ký tự",
+    "Phone number maximum 20 characters":"Số điện thoại tối đa 20 ký tự",
+    "Click here":"Nhấp vào đây",
+    "to verify your mail":"để xác thực mail của bạn",
+    "Please check your mail to activated!":"Vui lòng kiểm tra mail để kích hoạt!",
+    "Verify email":"Xác thực email",
+    "Activate your account":"Kích hoạt tài khoản của bạn",
+    "Activate for account ":"Kích hoạt cho tài khoản ",
+    " successfully!":" thành công!",
+    "Activate email successfully!":"Kích hoạt email thành công!",
+    "Please try again as the link has expired!":"Vui lòng thử lại vì đường dẫn hết thời hạn sử dụng!",
+    "Shopping Cart Information":"Thông tin giỏ hàng",
+    "Hi ":"Xin chào",
+    "This is your shopping cart information, please check and feedback to us if there are any errors.":"Đây là thông tin giỏ hàng của bạn vui lòng kiểm tra và phản hồi cho chúng tôi nếu có sai sót.",
+    "Thank you for ordering from our store":"Cảm ơn bạn đã đặt hàng từ cửa hàng của chúng tôi"
 
 }

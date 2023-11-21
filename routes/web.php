@@ -64,5 +64,6 @@ Route::middleware('language')->group(function(){
     Route::post('/checkout',[WebController::class, 'handle_checkout']);
     Route::get('/myOrder',[WebController::class, 'myOrder']);
     Route::get('/trackOrder',[WebController::class, 'trackOrder']);
+    Route::get('/verify-email',[WebController::class,'verify_email']);
 
 });
