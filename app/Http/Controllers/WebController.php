@@ -83,11 +83,15 @@ class WebController extends Controller
                 session()->forget('username_client');
                 session()->forget('password_client');
             }
+            if(Cart::count()>0){
                 toast(__("Login Successfully"),'success');
-                return redirect('/');
+                return redirect('/checkout');
+            }else{
+                toast(__("Login Successfully"),'success');
+                return redirect('/index');
+            }
         }else{
             return redirect()->back()->with('toast_error',__("Wrong username or password. Please try again"));
-
         }
     }
     public function register(Request $request){
@@ -129,7 +133,7 @@ class WebController extends Controller
     }
     public function logout(){
         Auth::logout();
-        // Cart::instance(Auth::user()->id)->destroy();
+        Cart::instance()->destroy();
         return redirect('/signin_signup')->with('toast_success',__("Logout Successfully"));
     }
    
@@ -238,7 +242,7 @@ class WebController extends Controller
 
     public function editProfile(Request $request){
         $validate = Validator::make($request->all(),[
-            'phone' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:12',
+            'phone' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:12|nullable',
         ],[
             'phone.regex' => __("Phone numbers are from 0 to 9 and do not include characters"),
             'phone.min' => __("Phone number at least 10 characters"),
@@ -308,7 +312,7 @@ class WebController extends Controller
                 'to_email' => $to_email,
                 'link_verify' => $link_verify,
             ], function ($email) use ($to_email) {
-                $email->subject(__("Activate your account") . $to_email);
+                $email->subject(__("Activate your account ") . $to_email);
                 $email->to($to_email);
             });
             return redirect()->back()->with('toast_success', __("Please check your mail to activated!"));
@@ -354,29 +358,16 @@ class WebController extends Controller
         if($quantity <= 0){
             return redirect()->back()->with('toast_warning',__("Please choose product at least 1 !"));
         }
-        if(Auth::check()){
-            Cart::instance(Auth::user()->id)->add([
-                'id'=>$id,
-                'name'=> $products->name,
-                'qty'=> $request->quantity,
-                'price'=> $products->price,
-                'options'=>[
-                    'price_new'=>$products->price_new,
-                    'image'=>  $img[0],
-                ]
-            ]);
-        }else{
-            Cart::add([
-                'id'=>$id,
-                'name'=> $products->name,
-                'qty'=> $request->quantity,
-                'price'=> $products->price,
-                'options'=>[
-                    'price_new'=>$products->price_new,
-                    'image'=>  $img[0],
-                ]
-            ]);
-        }
+        Cart::add([
+            'id'=>$id,
+            'name'=> $products->name,
+            'qty'=> $request->quantity,
+            'price'=> $products->price,
+            'options'=>[
+                'price_new'=>$products->price_new,
+                'image'=>  $img[0],
+            ]
+        ]);
 
         return redirect()->back()->with('toast_success',__("Order Successfully !"));
     }
@@ -384,44 +375,23 @@ class WebController extends Controller
     public function update(Request $request){
         $qty = $request->qty;
         $id = $request->cartId;
-        if(Auth::check()){
-            $cart = Cart::instance(Auth::user()->id)->get($id);
-        }else{
-            $cart = Cart::get($id);
-        }
-
+        $cart = Cart::get($id);
         if($cart->options->price_new){
             $subtotal = $cart->options->price_new*$qty;
         }else{
             $subtotal = $cart->price*$qty;
         }
-
-        if(Auth::check()){
-            $cart = Cart::instance(Auth::user()->id);
-            $cart->update($id,$qty);
-            $sum =$cart->subtotal(0,',','.'); 
-            $tax =$cart->tax(0,',','.');
-            $total =$cart->total(0,',','.'); 
-            return response()->json([
-                'subtotal'=>$subtotal,
-                'sum'=>$sum,
-                'tax'=>$tax,
-                'total'=>$total
-            ],200);
-
-        }else{
-            $cart = Cart::instance();
-            $cart->update($id,$qty);
-            $sum = $cart->subtotal(0,',','.'); 
-            $tax = $cart->tax(0,',','.');
-            $total = $cart->total(0,',','.'); 
-            return response()->json([
-                'subtotal'=>$subtotal,
-                'sum'=>$sum,
-                'tax'=>$tax,
-                'total'=>$total
-            ],200);
-        }
+        $cart = Cart::instance();
+        $cart->update($id,$qty);
+        $sum = $cart->subtotal(0,',','.'); 
+        $tax = $cart->tax(0,',','.');
+        $total = $cart->total(0,',','.'); 
+        return response()->json([
+            'subtotal'=>$subtotal,
+            'sum'=>$sum,
+            'tax'=>$tax,
+            'total'=>$total
+        ],200);
             // $data = $request->all();
             // print_r($data);
             // Cart::instance(Auth::user()->id)->update($request->cartId);
@@ -432,30 +402,16 @@ class WebController extends Controller
 
     public function deleteCart(Request $request){
         $id = $request->cartId;
-        if(Auth::check()){
-            $cart = Cart::instance(Auth::user()->id);
-            $cart->remove($id);
-            $sum = $cart->subtotal(0,',','.'); 
-            $total = $cart->total(0,',','.'); 
-            $tax = $cart->tax(0,',','.');
-            return response()->json([
-                'sum'=>$sum,
-                'total'=>$total,
-                'tax'=>$tax
-            ],200);
-
-        }else{
-            $cart = Cart::instance();
-            $cart->remove($id);
-            $sum = $cart->subtotal(0,',','.'); 
-            $total = $cart->total(0,',','.'); 
-            $tax = $cart->tax(0,',','.');
-            return response()->json([
-                'sum'=>$sum,
-                'total'=>$total,
-                'tax'=>$tax
-            ],200);
-        }
+        $cart = Cart::instance();
+        $cart->remove($id);
+        $sum = $cart->subtotal(0,',','.'); 
+        $total = $cart->total(0,',','.'); 
+        $tax = $cart->tax(0,',','.');
+        return response()->json([
+            'sum'=>$sum,
+            'total'=>$total,
+            'tax'=>$tax
+        ],200);
         
     }
 
@@ -487,13 +443,9 @@ class WebController extends Controller
         if($request->city == null){
             return back()->with('toast_error',__('Please choose a city'));
         }
-        if(Auth::check()){
-            $cart = Cart::instance(Auth::user()->id);
-            $user = Auth::user()->id;
-        }else{
-            $cart = Cart::instance();
-            $user = 1;
-        }
+        $cart = Cart::instance();
+        $user = Auth::user()->id;
+        
         // $user->lastname = $request->lastname;
         // $user->firstname = $request->firstname;
         // $user->email = $request->email;
@@ -529,9 +481,11 @@ class WebController extends Controller
         $cart->destroy();
         $email_cur = $request->email;
         $name = Auth::user()->firstname;
+        // dd($orders);
         if (isset($request->email)) {
             Mail::send('web.pages.cart.cart_mail', [
                 'name' => $name,
+                'orders'=>$orders
             ], function ($email) use ($email_cur) {
                 $email->subject(__("Shopping Cart Information"));
                 $email->to($email_cur);
@@ -576,12 +530,12 @@ class WebController extends Controller
             if(Auth::check())
             {
                 $name = Auth::user()->username;
-                return redirect('/profile')->with('toast_success',__('Activate for account ').$name.__(' successfully!'));
+                return redirect('/profile')->with('success',__('Activate for account ').$name.__(' successfully!'));
             }
-            return redirect('/')->with('toast_success',__("Activate email successfully!"));
+            return redirect('/')->with('success',__("Activate email successfully!"));
         }
         else{
-            return redirect('/')->with('toast_warning',__("Please try again as the link has expired!"));
+            return redirect('/')->with('warning',__("Please try again as the link has expired!"));
         }
     }
 }

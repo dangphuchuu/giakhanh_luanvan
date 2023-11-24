@@ -113,12 +113,16 @@
                                             <strong>{{__("Subtotal")}}</strong>
 
                                             <span id="total">
-                                             @if(Auth::check())   {{Cart::instance(Auth::user()->id)->total(0,',','.');}} @else {{Cart::total(0,',','.');}} @endif<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                                            {{Cart::total(0,',','.');}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                                             </span>
 
-
                                         </div>
-                                        <a href="/cart" class="btn_1 outline">{{__("View Cart")}}</a><a href="/checkout" class="btn_1">{{__("Checkout")}}</a>
+                                        <a href="/cart" class="btn_1 outline">{{__("View Cart")}}</a>
+                                        @if(Auth::check())
+                                        <a href="/checkout" class="btn_1">{{__("Checkout")}}</a>
+                                        @else
+                                        <a href="/signin_signup" class="btn_1">{{__("Login")}}</a>
+                                        @endif
                                     </div>
                                 </div>
                                 @endif

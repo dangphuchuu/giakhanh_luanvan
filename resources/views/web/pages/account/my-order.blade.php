@@ -3,12 +3,6 @@
 <link href="web_assets/css/checkout.css" rel="stylesheet">
 @endsection
 @section('content')
-<?php
-use Gloudemans\Shoppingcart\Facades\Cart;
-use Illuminate\Support\Facades\Auth;
-$carts = Cart::instance(Auth::user()->id); 
-// dd($orders->orders_details);
-?>
 <main class="bg_gray">	
 	<div class="container margin_30">
 		<div class="page_header">

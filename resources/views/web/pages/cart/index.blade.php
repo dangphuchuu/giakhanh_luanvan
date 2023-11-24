@@ -6,11 +6,7 @@
 <?php
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
-if(Auth::check()){
-    $carts = Cart::instance(Auth::user()->id); 
-}else{
-    $carts = Cart::instance();
-}
+$carts = Cart::instance();
 // Cart::destroy();
 // dd( Request::path()=="cart");
 // dd($carts->count());
@@ -182,11 +178,14 @@ if(Auth::check()){
                             </p>
                         </li>
                     </ul>
-                    @if($carts->content()->count()!=0)
-                    <a href="/checkout" class="btn_1 full-width cart">{{__("Proceed to Checkout")}}</a>
+                    @if(Auth::check())
+                        @if($carts->content()->count()!=0)
+                        <a href="/checkout" class="btn_1 full-width cart">{{__("Proceed to Checkout")}}</a>
+                        @else
+                        <a href="/list" class="btn_1 full-width cart">{{__("Please place an order")}}</a>
+                        @endif
                     @else
-                    <a href="/list" class="btn_1 full-width cart">{{__("Please place an order")}}</a>
-
+                        <a href="/signin_signup" class="btn_1 full-width cart">{{__("Login")}}</a>
                     @endif
                 </div>
             </div>
