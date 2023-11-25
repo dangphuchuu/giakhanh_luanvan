@@ -25,6 +25,9 @@ return new class extends Migration
             $table->integer('tax');
             $table->integer('subtotal');
             $table->integer('total');
+            $table->string('lastname_sender', 255)->nullable();
+            $table->string('firstname_sender', 255)->nullable();
+            $table->string('phone_sender', 12)->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');

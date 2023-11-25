@@ -213,6 +213,8 @@
     "Shopping Cart Information":"Thông tin giỏ hàng",
     "Hi ":"Xin chào",
     "This is your shopping cart information, please check and feedback to us if there are any errors.":"Đây là thông tin giỏ hàng của bạn vui lòng kiểm tra và phản hồi cho chúng tôi nếu có sai sót.",
-    "Thank you for ordering from our store":"Cảm ơn bạn đã đặt hàng từ cửa hàng của chúng tôi"
+    "Thank you for ordering from our store":"Cảm ơn bạn đã đặt hàng từ cửa hàng của chúng tôi",
+    "Sender information":"Thông tin người gửi",
+    "Receiver information":"Thông tin người nhận"
 
 }

@@ -466,7 +466,10 @@ class WebController extends Controller
             'content'=> $request->content,
             'tax'=> (int)preg_replace("/[,]+/", "", $cart->tax(0)),
             'subtotal'=> (int)preg_replace("/[,]+/", "", $cart->subtotal(0)),
-            'total'=> (int)preg_replace("/[,]+/", "", $cart->total(0))
+            'total'=> (int)preg_replace("/[,]+/", "", $cart->total(0)),
+            'lastname_sender'=>$request->lastname_sender,
+            'firstname_sender'=>$request->firstname_sender,
+            'phone_sender'=>$request->phone_sender
         ]);
         $orders->save();
         foreach($cart->content() as $carts){

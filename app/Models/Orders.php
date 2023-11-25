@@ -21,6 +21,9 @@ class Orders extends Model
         'tax',
         'subtotal',
         'total',
+        'lastname_sender',
+        'firstname_sender',
+        'phone_sender',
         'status'
     ];
     public function user(){

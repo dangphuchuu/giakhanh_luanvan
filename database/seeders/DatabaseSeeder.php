@@ -35,17 +35,6 @@ class DatabaseSeeder extends Seeder
         Role::create(['name' => 'staff']);
         Role::create(['name' => 'client']);
         DB::table('users')->insert([
-            'lastname' => 'Khách trực tiếp',
-            'firstname' => 'Khách trực tiếp',
-            'username' => 'khach',
-            'password' => Hash::make('1'),
-            'email'=>null,
-            'phone' => 'null',
-            'email_verified'=> 1,
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-        ]);
-        DB::table('users')->insert([
             'lastname' => 'Nguyễn',
             'firstname' => 'Gia Khánh',
             'username' => 'admin',
@@ -66,10 +55,10 @@ class DatabaseSeeder extends Seeder
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
        
-        $user = User::find(2);
+        $user = User::find(1);
         $user->assignRole('admin');
 
-        $user2 = User::find(3);
+        $user2 = User::find(2);
         $user2->assignRole('client');
     }
 }
