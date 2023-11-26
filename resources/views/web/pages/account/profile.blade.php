@@ -89,6 +89,9 @@
                             </div>
                             <div class="col-sm-9 text-secondary">
                                 <input type="text" name="email" class="form-control" value="{{$user->email}}">
+                                @if($user->email_verified == 0)
+                                <span class="ml-1" style="color:red">{{__("Please activate your email")}}</span>
+                                @endif
                             </div>
                         </div>
                         <div class="row mb-3">
