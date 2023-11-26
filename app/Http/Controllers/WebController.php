@@ -426,7 +426,7 @@ class WebController extends Controller
             'email' => 'required',
             'address' => 'required',
             'district' => 'required',
-            'phone' => 'required',
+            'phone' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:12|required',
         ],
         [
             'lastname.required'=>__("the last name field is required"),
@@ -434,7 +434,10 @@ class WebController extends Controller
             'email.required'=>__("the email field is required"),
             'address.required'=>__("the address field is required"),
             'district.required'=>__("the district field is required"),
-            'phone.required'=>__("the phone field is required")
+            'phone.required'=>__("the phone field is required"),
+            'phone.regex' => __("Phone numbers are from 0 to 9 and do not include characters"),
+            'phone.min' => __("Phone number at least 10 characters"),
+            'phone.max' => __("Phone number maximum 20 characters")
         ]);
 
         if($credentials->fails()){
@@ -481,19 +484,20 @@ class WebController extends Controller
             // ]);
             // $orders_detail->save();
         }
-        $cart->destroy();
         $email_cur = $request->email;
         $name = Auth::user()->firstname;
-        // dd($orders);
+        // dd($cart->content());
         if (isset($request->email)) {
             Mail::send('web.pages.cart.cart_mail', [
                 'name' => $name,
-                'orders'=>$orders
+                'orders'=>$orders,
+                'cart'=>$cart
             ], function ($email) use ($email_cur) {
                 $email->subject(__("Shopping Cart Information"));
                 $email->to($email_cur);
             });
         }
+        $cart->destroy();
         return view('web.pages.cart.confirm');
     }
 

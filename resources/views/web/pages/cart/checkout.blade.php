@@ -31,8 +31,9 @@ $carts = Cart::instance();
                         <div class="tab-content checkout">
                             <div class="tab-pane fade show active" id="tab_1" role="tabpanel" aria-labelledby="tab_1">
                                 <div class="form-group">
-                                    <label class="container_check" style="padding-left:5px !important" ><span style="color:red">*</span> 
-                                    {{__('Receiver information')}} 
+                                    <label class="container_check" style="padding-left:5px !important"><span
+                                            style="color:red">*</span>
+                                        {{__('Receiver information')}}
                                     </label>
                                 </div>
                                 <div class="row no-gutters">
@@ -73,18 +74,18 @@ $carts = Cart::instance();
                                         <div class="custom-select-form">
                                             <select class="wide add_bottom_15" name="city" id="country">
                                                 <option value="">{{__("City")}}</option>
-                                                <option @if(Auth::user()->city ?? '' == 'hcm') selected @endif
-                                                    value="hcm">Hồ Chí Minh</option>
-                                                <option @if(Auth::user()->city ?? '' == 'hn') selected @endif
-                                                    value="hn">Hà Nội</option>
-                                                <option @if(Auth::user()->city ?? '' == 'dn') selected @endif
-                                                    value="dn">Đà Nẵng</option>
-                                                <option @if(Auth::user()->city ?? '' == 'vt') selected @endif
-                                                    value="vt">Vũng Tàu</option>
-                                                <option @if(Auth::user()->city ?? '' == 'ct') selected @endif
-                                                    value="ct">Cần Thơ</option>
-                                                <option @if(Auth::user()->city ?? '' == 'bd') selected @endif
-                                                    value="bd">Bình Dương</option>
+                                                <option @if(Auth::user()->city == 'hcm') selected @endif value="hcm">Hồ Chí
+                                                    Minh</option>
+                                                <option @if(Auth::user()->city == 'hn') selected @endif value="hn">Hà Nội
+                                                </option>
+                                                <option @if(Auth::user()->city == 'dn') selected @endif value="dn">Đà Nẵng
+                                                </option>
+                                                <option @if(Auth::user()->city == 'vt') selected @endif value="vt">Vũng Tàu
+                                                </option>
+                                                <option @if(Auth::user()->city == 'ct') selected @endif value="ct">Cần Thơ
+                                                </option>
+                                                <option @if(Auth::user()->city == 'bd') selected @endif value="bd">Bình Dương
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -105,18 +106,18 @@ $carts = Cart::instance();
                                 <div id="other_addr_c" class="pt-2">
                                     <div class="row no-gutters">
                                         <div class="col-6 form-group pr-1">
-                                        <input type="text" value="" name="firstname_sender"
-                                            class="form-control" placeholder="{{__('First Name')}}">
+                                            <input type="text" value="" name="firstname_sender" class="form-control"
+                                                placeholder="{{__('First Name')}}">
                                         </div>
                                         <div class="col-6 form-group pl-1">
-                                        <input type="text" value="" name="lastname_sender"
-                                            class="form-control" placeholder="{{__('Last Name')}}">
+                                            <input type="text" value="" name="lastname_sender" class="form-control"
+                                                placeholder="{{__('Last Name')}}">
                                         </div>
                                     </div>
                                     <!-- /row -->
                                     <div class="form-group">
-                                    <input type="text" class="form-control" value=""
-                                            name="phone_sender" placeholder="{{__('Telephone')}}">
+                                        <input type="text" class="form-control" value="" name="phone_sender"
+                                            placeholder="{{__('Telephone')}}">
                                     </div>
                                 </div>
                             </div>
@@ -207,12 +208,12 @@ $carts = Cart::instance();
 @endsection
 @section('scripts')
 <script>
-    	// Other address Panel
-		$('#other_addr input').on("change", function (){
-	        if(this.checked)
-	            $('#other_addr_c').fadeIn('fast');
-	        else
-	            $('#other_addr_c').fadeOut('fast');
-	    });
-	</script>
+// Other address Panel
+$('#other_addr input').on("change", function() {
+    if (this.checked)
+        $('#other_addr_c').fadeIn('fast');
+    else
+        $('#other_addr_c').fadeOut('fast');
+});
+</script>
 @endsection

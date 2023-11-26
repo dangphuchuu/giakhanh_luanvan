@@ -47,7 +47,6 @@
                         <tr>
                             <th class="text-center" style="width:5%">{{__("Content")}}</th>
                             <td colspan="5" class="text-wrap">{{$order->content}}</td>
-
                         </tr>
                         <thead>
                             <tr>
