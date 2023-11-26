@@ -86,13 +86,13 @@ active
                                             <div class="col-md-6">
                                                 @if(strstr($img->image,"https") == "")
                                                 <div>
-                                                    <img style="width: 370px; height: 370px;"class="img_products_library mb-2" src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ $img->image }}.jpg" alt="">
                                                     <a href="javascript:void(0)" data-url="{{ url('admin/products/deleteimages', $img->id ) }}" class="btn text-danger delete-image">X</a> 
+                                                    <img style="width: 370px; height: 370px;"class="img_products_library mb-2" src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ $img->image }}.jpg" alt="">
                                                 </div>
                                                 @else
                                                 <div>
-                                                    <img style="width: 370px; height: 370px;" class="img_products_library mb-2" src="{{$img->image}}" alt="">
                                                     <a href="javascript:void(0)" data-url="{{ url('admin/products/deleteimages', $img->id ) }}" class="btn text-danger delete-image">X</a> 
+                                                    <img style="width: 370px; height: 370px;" class="img_products_library mb-2" src="{{$img->image}}" alt="">
                                                 </div>
                                                 @endif
                                             </div>

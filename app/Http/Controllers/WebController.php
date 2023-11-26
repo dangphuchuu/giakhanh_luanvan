@@ -487,7 +487,7 @@ class WebController extends Controller
         $email_cur = $request->email;
         $name = Auth::user()->firstname;
         // dd($cart->content());
-        if (isset($request->email)) {
+        if (isset($request->email) && Auth::user()->email_verified == 1) {
             Mail::send('web.pages.cart.cart_mail', [
                 'name' => $name,
                 'orders'=>$orders,

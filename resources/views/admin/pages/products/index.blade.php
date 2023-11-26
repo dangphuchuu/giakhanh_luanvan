@@ -70,7 +70,7 @@ active
                             <td>{{$pro->categories->name}}</td>
                             <td>{{$pro->subcategories->name}}</td>
                             <td>{{$pro->brands->name}}</td>
-                            <td>{{$pro->users->firstname}}</td>
+                            <td>{{$pro->users->firstname ?? ''}}</td>
                             <td id="featured{{$pro->id}}">
                                 @if($pro->featured_product == 1)
                                 <a href="javascript:void(0)" onclick="featured({{$pro->id}},0)"><span class="badge bg-success">Active</span></a>
