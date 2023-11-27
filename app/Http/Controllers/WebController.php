@@ -307,7 +307,7 @@ class WebController extends Controller
         }
 
         $user->save();
-        if (isset($request->email) && $user['email_verified'] == 0) {
+        if (isset($request->email) && $user->email_verified == 0) {
             Mail::send('web.pages.account.verify_account_mail', [
                 'to_email' => $to_email,
                 'link_verify' => $link_verify,
@@ -544,5 +544,41 @@ class WebController extends Controller
         else{
             return redirect('/')->with('warning',__("Please try again as the link has expired!"));
         }
+    }
+
+    public function forgotPassword(){
+        $users = User::all();
+        if(isset($user->email)){
+            if($user->email_verified == 1){
+                $user_email = User::where('email','=',$request->email)->first();
+                $token = Str::random(20);
+                $user = User::find($user_email->id);
+                $token = $user->remember_token;
+
+                 //send mail
+                $to_email = $request->email;
+                $name = $user->firstname;
+                $today = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-Y');
+
+                $link_reset_password = url('/reset-password?email='.$to_email.'&token='.$token);
+
+                Mail::send('web.pages.account.reset-password', [
+                    'name' => $name,
+                    'to_email' => $to_email,
+                    'today'=>$today,
+                    'link_reset_password'=>$link_reset_password,
+                ], function ($email) use ($name,  $to_email,$today) {
+                    $email->subject(__("Confirm password update: ").$today);
+                    $email->to($to_email, $name);
+                });
+                return redirect()->back()->with('success',__('Please check your email to reset your password !'));
+            }else{
+                return redirect()->back()->with('error',__('Your email has not been verified !'));
+            }
+        }else{
+            return redirect()->back()->with('error',__('Your email does not exist !'));
+        }
+        return redirect()->back()->with('error',__('There is an error in your request !'));
+
     }
 }

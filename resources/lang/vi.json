@@ -216,6 +216,11 @@
     "Thank you for ordering from our store":"Cảm ơn bạn đã đặt hàng từ cửa hàng của chúng tôi",
     "Sender information":"Thông tin người gửi",
     "Receiver information":"Thông tin người nhận",
-    "Please activate your email":"Vui lòng kích hoạt email của bạn"
+    "Please activate your email":"Vui lòng kích hoạt email của bạn",
+    "Please check your email to reset your password !":"Vui lòng kiểm tra email để tiến hành cập nhật mật khẩu !",
+    "Your email does not exist !":"Email của bạn không tồn tại !",
+    "Your email has not been verified !":"Email của bạn chưa được kích hoạt",
+    "There is an error in your request !":"Có lỗi trong quá trình xử lý !",
+    "Confirm password update: ":"Xác nhận cập nhật lại mật khẩu ngày: "
 
 }
