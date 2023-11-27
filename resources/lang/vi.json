@@ -221,6 +221,14 @@
     "Your email does not exist !":"Email của bạn không tồn tại !",
     "Your email has not been verified !":"Email của bạn chưa được kích hoạt",
     "There is an error in your request !":"Có lỗi trong quá trình xử lý !",
-    "Confirm password update: ":"Xác nhận cập nhật lại mật khẩu ngày: "
+    "Confirm password update: ":"Xác nhận cập nhật lại mật khẩu ngày: ",
+    "Reset your password":"Khôi phục mật khẩu",
+    "New password":"Mật khẩu mới",
+    "Password again":"Nhập lại mật khẩu mới",
+    "Reset Password Successfully !":"Khôi phục mật khẩu thành công !",
+    "Please enter a new password !":"Vui lòng nhập mật khẩu mới !",
+    "Please re-enter your password !":"Vui lòng nhập lại mật khẩu !",
+    "The re-enter password does not match !":"Mật khẩu nhập lại không trùng khớp !",
+    "The new password matches the old password !":"Mật khẩu mới trùng với mật khẩu cũ !"
 
 }

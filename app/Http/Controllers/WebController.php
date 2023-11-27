@@ -21,6 +21,7 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
 
 class WebController extends Controller
 {
@@ -88,7 +89,7 @@ class WebController extends Controller
                 return redirect('/checkout');
             }else{
                 toast(__("Login Successfully"),'success');
-                return redirect('/index');
+                return redirect('/');
             }
         }else{
             return redirect()->back()->with('toast_error',__("Wrong username or password. Please try again"));
@@ -287,8 +288,8 @@ class WebController extends Controller
             if($validate->fails()){
                 return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
             }
-            $request['password'] = Hash::make($request->password);
-            $user->password = $request['password'];
+            $request->password = Hash::make($request->password);
+            $user->password = $request->password;
         }
        
 
@@ -546,20 +547,19 @@ class WebController extends Controller
         }
     }
 
-    public function forgotPassword(){
-        $users = User::all();
-        if(isset($user->email)){
-            if($user->email_verified == 1){
-                $user_email = User::where('email','=',$request->email)->first();
+    public function forgotPassword(Request $request){
+        $user_email = User::where('email','=',$request->email)->first();
+
+        if($user_email){
+            if($user_email->email_verified == 1){
                 $token = Str::random(20);
                 $user = User::find($user_email->id);
-                $token = $user->remember_token;
-
+                $user->remember_token = $token;
+                $user->save();
                  //send mail
                 $to_email = $request->email;
                 $name = $user->firstname;
                 $today = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-Y');
-
                 $link_reset_password = url('/reset-password?email='.$to_email.'&token='.$token);
 
                 Mail::send('web.pages.account.reset-password', [
@@ -580,5 +580,35 @@ class WebController extends Controller
         }
         return redirect()->back()->with('error',__('There is an error in your request !'));
 
+    }
+
+    public function reset_password(){
+        return view('web.pages.account.reset-password');
+    }
+    public function handle_reset_password(){
+        $token = Str::random(20);
+        $user = User::where('email','=',$request->email)->where('remember_token','=',$request->token)->first();
+        if($user){
+            $reset = User::find($user->id);
+            $request->validate([
+                'password' => 'required',
+                'repassword' => 'required|same:password'
+            ],[
+                'password.required' => __("Please enter a new password !"),
+                'repassword.required' => __("Please re-enter your password !"),
+                'repassword.same' => __("The re-enter password does not match !")
+            ]);
+            if(Hash::check($request->password,$reset->password)){
+                return redirect()->back()->with('warning',__("The new password matches the old password !"));
+            }
+            $reset->password = bcrypt($request->password);
+            $reset->remember_token = $token;
+            $reset->save();
+            return redirect('/signin_signup')->with('success','__("Reset Password Successfully !")');
+        }else{
+            return redirect('/signin_signup')->with('error','__("Please try again because the link has expired !")');
+
+        }
+       
     }
 }

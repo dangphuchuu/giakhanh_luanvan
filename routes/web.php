@@ -38,6 +38,9 @@ Route::middleware('language')->group(function(){
     Route::post('/handle_login',[WebController::class, 'handle_login']);
     Route::post('/register',[WebController::class, 'register']);
     Route::get('/logout',[WebController::class, 'logout']);
+    Route::get('/reset-password',[WebController::class,'reset_password']);
+    Route::post('/reset-password',[WebController::class,'handle_reset_password']);
+    Route::post('/forgotPassword',[WebController::class, 'forgotPassword']);
 
     //TODO Products
     Route::get('/list',[WebController::class, 'list']);
@@ -54,7 +57,6 @@ Route::middleware('language')->group(function(){
     Route::get('/profile',[WebController::class, 'profile']);
     Route::post('/profile',[WebController::class, 'editProfile']);
     Route::post('/imageProfile',[WebController::class, 'imageProfile']);
-    Route::post('/forgotPassword',[WebController::class, 'forgotPassword']);
    
     //! Carts
     Route::get('/cart',[WebController::class, 'cart']);
@@ -66,5 +68,6 @@ Route::middleware('language')->group(function(){
     Route::get('/myOrder',[WebController::class, 'myOrder']);
     Route::get('/trackOrder',[WebController::class, 'trackOrder']);
     Route::get('/verify-email',[WebController::class,'verify_email']);
+   
 
 });
