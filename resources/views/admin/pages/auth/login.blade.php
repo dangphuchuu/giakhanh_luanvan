@@ -52,15 +52,6 @@
                                     </div>
                                 </div>
 
-                                <div class='form-check clearfix my-4'>
-                                    <div class="checkbox float-start">
-                                        <input type="checkbox" id="checkbox1" class='form-check-input' >
-                                        <label for="checkbox1">{{__("Remember me")}}</label>
-                                    </div>
-                                    <div class="float-end">
-                                        <a href="/login">{{__("Don't have an account?")}}</a>
-                                    </div>
-                                </div>
                                 <div class="clearfix">
                                     <button type="submit" class="btn btn-primary float-end">{{__("Submit")}}</button>
                                 </div>

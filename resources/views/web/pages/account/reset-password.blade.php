@@ -30,6 +30,8 @@
                             </div>
                             <div class="clearfix add_bottom_15">
                             <div class="text-center"><input type="submit" value="{{__('Reset Password')}}" class="btn_1"></div>
+                            <input type="hidden" name="email" value="{{$_GET['email']}}"/>
+                            <input type="hidden" name="token" value="{{$_GET['token']}}"/>
                         </form>
                     </div>
                     <!-- /form_container -->

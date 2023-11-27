@@ -229,6 +229,10 @@
     "Please enter a new password !":"Vui lòng nhập mật khẩu mới !",
     "Please re-enter your password !":"Vui lòng nhập lại mật khẩu !",
     "The re-enter password does not match !":"Mật khẩu nhập lại không trùng khớp !",
-    "The new password matches the old password !":"Mật khẩu mới trùng với mật khẩu cũ !"
+    "The new password matches the old password !":"Mật khẩu mới trùng với mật khẩu cũ !",
+    "Click here ":"Nhấp vào đây ",
+    " to reset your password !":" để tiến hành khôi phục mật khẩu !",
+    "Hello ":"Xin chào ",
+    "Please try again because the link has expired !":"Vui lòng thử lại vì đường dẫn đã hết hạn !"
 
 }

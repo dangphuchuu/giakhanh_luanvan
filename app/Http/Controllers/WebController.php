@@ -33,6 +33,7 @@ class WebController extends Controller
         view()->share('subcategories',$subcategories);
         view()->share('info',$info);
     }
+
     public function index(){
         $products = Products::all()->where('status',1)->sortByDesc('created_at')->take(4);
         $brands = Brands::all()->where('status',1);
@@ -54,6 +55,7 @@ class WebController extends Controller
     public function signin_signup(){
         return view('web/common/signin_signup');
     }
+    
     public function handle_login(Request $request){
         $credentials = Validator::make($request->all(),[
             'username' => 'required',
@@ -95,6 +97,7 @@ class WebController extends Controller
             return redirect()->back()->with('toast_error',__("Wrong username or password. Please try again"));
         }
     }
+
     public function register(Request $request){
          $credentials = Validator::make($request->all(),[
              'username' => 'required|min:4|max:20|unique:users',
@@ -132,12 +135,107 @@ class WebController extends Controller
         $user->syncRoles('client');
         return redirect()->back()->with('toast_success',__("Sign Up Successfully"));
     }
+
     public function logout(){
         Auth::logout();
         Cart::instance()->destroy();
         return redirect('/signin_signup')->with('toast_success',__("Logout Successfully"));
     }
+
+    public function verify_email(){
+        $token = Str::random(20);
+        $email = $_GET['email'];
+        $user = User::where('email','=',$email)->first();
+
+        if($user){
+            $verify = User::find($user->id);
+            $verify->email_verified = 1;
+            $verify->remember_token = $token;
+            $verify->save();
+            if(Auth::check())
+            {
+                $name = Auth::user()->username;
+                return redirect('/profile')->with('success',__('Activate for account ').$name.__(' successfully!'));
+            }
+            return redirect('/')->with('success',__("Activate email successfully!"));
+        }
+        else{
+            return redirect('/')->with('warning',__("Please try again as the link has expired!"));
+        }
+    }
    
+    public function forgotPassword(Request $request){
+        $user_email = User::where('email','=',$request->email)->first();
+
+        if($user_email){
+            if($user_email->email_verified == 1){
+                $token = Str::random(20);
+                $user = User::find($user_email->id);
+                $user->remember_token = $token;
+                $user->save();
+                 //send mail
+                $to_email = $request->email;
+                $name = $user->firstname;
+                $today = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-Y');
+                $link_reset_password = url('/reset-password?email='.$to_email.'&token='.$token);
+
+                Mail::send('web.pages.account.sendmail-reset-password', [
+                    'name' => $name,
+                    'to_email' => $to_email,
+                    'today'=>$today,
+                    'link_reset_password'=>$link_reset_password,
+                ], function ($email) use ($name,  $to_email,$today) {
+                    $email->subject(__("Confirm password update: ").$today);
+                    $email->to($to_email, $name);
+                });
+                return redirect('/signin_signup')->with('success',__('Please check your email to reset your password !'));
+            }else{
+                return redirect('/signin_signup')->with('error',__('Your email has not been verified !'));
+            }
+        }else{
+            return redirect('/signin_signup')->with('error',__('Your email does not exist !'));
+        }
+        return redirect('/signin_signup')->with('error',__('There is an error in your request !'));
+
+    }
+
+    public function reset_password(){
+        if(isset($_GET['email']) && isset($_GET['token']))
+        {
+            return view('web.pages.account.reset-password');
+        }else{
+            abort(404);
+        }
+    }
+
+    public function handle_reset_password(Request $request){
+        $token = Str::random(20);
+        $user = User::where('email','=',$request->email)->where('remember_token','=',$request->token)->first();
+        // dd($request->email);
+        if($user){
+            $reset = User::find($user->id);
+            $request->validate([
+                'password' => 'required',
+                'repassword' => 'required|same:password'
+            ],[
+                'password.required' => __("Please enter a new password !"),
+                'repassword.required' => __("Please re-enter your password !"),
+                'repassword.same' => __("The re-enter password does not match !")
+            ]);
+            if(Hash::check($request->password,$reset->password)){
+                return redirect()->back()->with('warning',__("The new password matches the old password !"));
+            }
+            $reset->password = Hash::make($request->password);
+            $reset->remember_token = $token;
+            $reset->save();
+            return redirect('/signin_signup')->with('success',__("Reset Password Successfully !"));
+        }else{
+            return redirect('/signin_signup')->with('error',__("Please try again because the link has expired !"));
+
+        }
+       
+    }
+
     //! Products
     public function list(){
         $products = Products::orderBy('id', 'DESC')->where('status',1)->paginate(8);
@@ -525,90 +623,4 @@ class WebController extends Controller
         }
     }
 
-    public function verify_email(){
-        $token = Str::random(20);
-        $email = $_GET['email'];
-        $user = User::where('email','=',$email)->first();
-
-        if($user){
-            $verify = User::find($user->id);
-            $verify->email_verified = 1;
-            $verify->remember_token = $token;
-            $verify->save();
-            if(Auth::check())
-            {
-                $name = Auth::user()->username;
-                return redirect('/profile')->with('success',__('Activate for account ').$name.__(' successfully!'));
-            }
-            return redirect('/')->with('success',__("Activate email successfully!"));
-        }
-        else{
-            return redirect('/')->with('warning',__("Please try again as the link has expired!"));
-        }
-    }
-
-    public function forgotPassword(Request $request){
-        $user_email = User::where('email','=',$request->email)->first();
-
-        if($user_email){
-            if($user_email->email_verified == 1){
-                $token = Str::random(20);
-                $user = User::find($user_email->id);
-                $user->remember_token = $token;
-                $user->save();
-                 //send mail
-                $to_email = $request->email;
-                $name = $user->firstname;
-                $today = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-Y');
-                $link_reset_password = url('/reset-password?email='.$to_email.'&token='.$token);
-
-                Mail::send('web.pages.account.reset-password', [
-                    'name' => $name,
-                    'to_email' => $to_email,
-                    'today'=>$today,
-                    'link_reset_password'=>$link_reset_password,
-                ], function ($email) use ($name,  $to_email,$today) {
-                    $email->subject(__("Confirm password update: ").$today);
-                    $email->to($to_email, $name);
-                });
-                return redirect()->back()->with('success',__('Please check your email to reset your password !'));
-            }else{
-                return redirect()->back()->with('error',__('Your email has not been verified !'));
-            }
-        }else{
-            return redirect()->back()->with('error',__('Your email does not exist !'));
-        }
-        return redirect()->back()->with('error',__('There is an error in your request !'));
-
-    }
-
-    public function reset_password(){
-        return view('web.pages.account.reset-password');
-    }
-    public function handle_reset_password(){
-        $token = Str::random(20);
-        $user = User::where('email','=',$request->email)->where('remember_token','=',$request->token)->first();
-        if($user){
-            $reset = User::find($user->id);
-            $request->validate([
-                'password' => 'required',
-                'repassword' => 'required|same:password'
-            ],[
-                'password.required' => __("Please enter a new password !"),
-                'repassword.required' => __("Please re-enter your password !"),
-                'repassword.same' => __("The re-enter password does not match !")
-            ]);
-            if(Hash::check($request->password,$reset->password)){
-                return redirect()->back()->with('warning',__("The new password matches the old password !"));
-            }
-            $reset->password = bcrypt($request->password);
-            $reset->remember_token = $token;
-            $reset->save();
-            return redirect('/signin_signup')->with('success','__("Reset Password Successfully !")');
-        }else{
-            return redirect('/signin_signup')->with('error','__("Please try again because the link has expired !")');
-
-        }
-       
-    }
 }
