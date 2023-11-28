@@ -53,6 +53,9 @@ class WebController extends Controller
 
     // !Authentication
     public function signin_signup(){
+        if(Auth::check()){
+            return redirect('/');
+        }
         return view('web/common/signin_signup');
     }
     
@@ -421,7 +424,6 @@ class WebController extends Controller
     }
 
     public function imageProfile(Request $request){
-        
         $user = User::find(Auth::user()->id);
         if ($request->hasFile('Image')) {
             $img = $request->file('Image');
@@ -515,7 +517,10 @@ class WebController extends Controller
     }
 
     public function checkout(){
-        return view('web.pages.cart.checkout');
+        if(Auth::check()){
+            return view('web.pages.cart.checkout');
+        }
+        abort(404);
     }
 
     public function handle_checkout(Request $request){
