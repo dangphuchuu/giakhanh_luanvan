@@ -39,16 +39,15 @@ active
                             <th>{{__("Image")}}</th>
                             <th>{{__("Link")}}</th>
                             <th>{{__("Status")}}</th>
-                            <th>{{__("Edit")}}</th>
-                            <th>{{__("Delete")}}</th>
+                            <th>{{__("Operations")}}</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($bannersfeatured as $key => $bannerfeatured)
                         <tr>
-                            <td>{{$key+1}}</td>
-                            <td>{{$bannerfeatured->name}}</td>
-                            <td>
+                            <td class="text-center">{{$key+1}}</td>
+                            <td class="text-center">{{$bannerfeatured->name}}</td>
+                            <td class="text-center">
                                 @if($bannerfeatured->image == NULL)
                                     <img style="width: 300px">
                                 @else
@@ -59,7 +58,7 @@ active
                                     @endif
                                 @endif
                             </td>
-                            <td>{{$bannerfeatured->link}}</td>
+                            <td class="text-center">{{$bannerfeatured->link}}</td>
                             <td id="status{{$bannerfeatured->id}}">
                                 @if($bannerfeatured->status == 1)
                                 <a href="javascript:void(0)" onclick="status({{$bannerfeatured->id}},0)"><span class="badge bg-success">Active</span></a>
@@ -67,17 +66,16 @@ active
                                 <a href="javascript:void(0)" onclick="status({{$bannerfeatured->id}},1)"><span class="badge bg-danger">Inactive</span></a>
                                 @endif
                             </td>
-                            <td>
+                            <td class="text-center">
                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#bannersfeatured_edit{{$bannerfeatured->id}}">
                                 <i data-feather="edit"></i>
                              </a>
-                                @include('admin/pages/bannersfeatured/edit')
-                            </td>
-                            <td>
-                            <a href="admin/bannersfeatured/delete/{{$bannerfeatured->id}}" onclick="return confirm(`{{__('Are you sure you want to delete this ?')}}`)">
+                             <a href="admin/bannersfeatured/delete/{{$bannerfeatured->id}}" onclick="return confirm(`{{__('Are you sure you want to delete this ?')}}`)">
                                     <i data-feather="trash-2"></i>
                              </a> 
                             </td>
+                            @include('admin/pages/bannersfeatured/edit')
+
                         </tr>
                         @endforeach
                     </tbody>

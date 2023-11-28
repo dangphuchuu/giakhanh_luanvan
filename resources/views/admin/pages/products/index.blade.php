@@ -25,75 +25,79 @@ active
     <section class="section">
         <div class="card">
             <div class="card-header">
-            <button type="button" class="btn btn-outline-primary block" data-bs-toggle="modal" data-bs-target="#products_create">
-            {{__("Create")}}
-            </button>
-            @include('admin/pages/products/create')
+                <button type="button" class="btn btn-outline-primary block" data-bs-toggle="modal"
+                    data-bs-target="#products_create">
+                    {{__("Create")}}
+                </button>
+                @include('admin/pages/products/create')
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>{{__("Image")}}</th>
-                            <th>{{__("Name")}}</th>
-                            <th>{{__("Categories")}}</th>
-                            <th>{{__("SubCategories")}}</th>
-                            <th>{{__("Brands")}}</th>
-                            <th>{{__("Staff")}}</th>
-                            <th>{{__("Featured")}}</th>
-                            <th>{{__("Status")}}</th>
-                            <th>{{__("Edit")}}</th>
-                            <th>{{__("Delete")}}</th>
+                            <th class="text-center">Id</th>
+                            <th class="text-center">{{__("Image")}}</th>
+                            <th class="text-center">{{__("Name")}}</th>
+                            <th class="text-center">{{__("Categories")}}</th>
+                            <th class="text-center">{{__("SubCategories")}}</th>
+                            <th class="text-center">{{__("Brands")}}</th>
+                            <th class="text-center">{{__("Staff")}}</th>
+                            <th class="text-center">{{__("Featured")}}</th>
+                            <th class="text-center">{{__("Status")}}</th>
+                            <th class="text-center">{{__("Operations")}}</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($products as $key => $pro)
                         <tr>
-                            <td>{{$key+1}}</td>
-                            <td>
+                            <td class="text-center">{{$key+1}}</td>
+                            <td class="text-center">
                                 @foreach($pro->ProductsImage as $img)
-                                    @if($loop ->first)
-                                        @if($img->image == NULL)
-                                            <img style="width: 150px">
-                                        @else
-                                            @if(strstr($img->image,"https") == "")
-                                                <img style="width: 150px" src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$img->image}}.jpg" >
-                                            @elseif(strstr($img->image,"https") != "")
-                                                <img style="width: 150px" src="{{$img->image}}" >
-                                            @endif
-                                        @endif 
-                                    @endif
+                                @if($loop ->first)
+                                @if($img->image == NULL)
+                                <img style="width: 150px">
+                                @else
+                                @if(strstr($img->image,"https") == "")
+                                <img style="width: 150px"
+                                    src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$img->image}}.jpg">
+                                @elseif(strstr($img->image,"https") != "")
+                                <img style="width: 150px" src="{{$img->image}}">
+                                @endif
+                                @endif
+                                @endif
                                 @endforeach
                             </td>
                             <td class="text-truncate" style="max-width: 130px;">{{$pro->name}}</td>
-                            <td>{{$pro->categories->name}}</td>
-                            <td>{{$pro->subcategories->name}}</td>
-                            <td>{{$pro->brands->name}}</td>
-                            <td>{{$pro->users->firstname ?? ''}}</td>
-                            <td id="featured{{$pro->id}}">
+                            <td class="text-center">{{$pro->categories->name}}</td>
+                            <td class="text-center">{{$pro->subcategories->name}}</td>
+                            <td class="text-center">{{$pro->brands->name}}</td>
+                            <td class="text-center">{{$pro->users->firstname ?? ''}}</td>
+                            <td class="text-center" id="featured{{$pro->id}}">
                                 @if($pro->featured_product == 1)
-                                <a href="javascript:void(0)" onclick="featured({{$pro->id}},0)"><span class="badge bg-success">Active</span></a>
+                                <a href="javascript:void(0)" onclick="featured({{$pro->id}},0)"><span
+                                        class="badge bg-success">Active</span></a>
                                 @else
-                                <a href="javascript:void(0)" onclick="featured({{$pro->id}},1)"><span class="badge bg-danger">Inactive</span></a>
+                                <a href="javascript:void(0)" onclick="featured({{$pro->id}},1)"><span
+                                        class="badge bg-danger">Inactive</span></a>
                                 @endif
                             </td>
-                            <td id="status{{$pro->id}}">
+                            <td class="text-center" id="status{{$pro->id}}">
                                 @if($pro->status == 1)
-                                <a href="javascript:void(0)" onclick="status({{$pro->id}},0)"><span class="badge bg-success">Active</span></a>
+                                <a href="javascript:void(0)" onclick="status({{$pro->id}},0)"><span
+                                        class="badge bg-success">Active</span></a>
                                 @else
-                                <a href="javascript:void(0)" onclick="status({{$pro->id}},1)"><span class="badge bg-danger">Inactive</span></a>
+                                <a href="javascript:void(0)" onclick="status({{$pro->id}},1)"><span
+                                        class="badge bg-danger">Inactive</span></a>
                                 @endif
                             </td>
-                            <td>
-                            <a href="admin/products/edit/{{$pro->id}}">
-                                <i data-feather="edit"></i>
-                             </a>
-                            </td>
-                            <td>
-                            <a href="admin/products/delete/{{$pro->id}}" onclick="return confirm(`{{__('Are you sure you want to delete this ?')}}`)">
+                            <td class="text-center">
+                                <a href="admin/products/edit/{{$pro->id}}">
+                                    <i data-feather="edit"></i>
+                                </a>
+                                <a href="admin/products/delete/{{$pro->id}}"
+                                    onclick="return confirm(`{{__('Are you sure you want to delete this ?')}}`)">
                                     <i data-feather="trash-2"></i>
-                             </a> 
+                                </a>
                             </td>
                         </tr>
                         @endforeach
@@ -109,108 +113,104 @@ active
 <script src="admin_assets/vendors/simple-datatables/simple-datatables.js"></script>
 <script src="admin_assets/js/vendors.js"></script>
 <script>
-    $(document).ready(function(){
-        $('.checkPrice').change(function(){
-        if($(this).is(":checked"))
-        {
+$(document).ready(function() {
+    $('.checkPrice').change(function() {
+        if ($(this).is(":checked")) {
             $('.new_price').removeAttr('disabled');
+        } else {
+            $('.new_price').attr('disabled', '');
         }
-        else 
-        {
-            $('.new_price').attr('disabled','');
-        }
-        });
-
-     
-
-        //change category to subcategory create
-        $(".category").change(function(){
-            var cat_id = $(this).val();
-            $.get("admin/products/subcategory/"+cat_id,function(data){
-                $(".subcategory").html(data);
-            });
-        });
-
     });
+
+
+
+    //change category to subcategory create
+    $(".category").change(function() {
+        var cat_id = $(this).val();
+        $.get("admin/products/subcategory/" + cat_id, function(data) {
+            $(".subcategory").html(data);
+        });
+    });
+
+});
 </script>
 <script>
-    function status(status_id, active) {
-        if (active === 1) {
-            $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',0)">\
+function status(status_id, active) {
+    if (active === 1) {
+        $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',0)">\
                 <span class="badge bg-success">Active</span>\
             </a>')
-        } else {
-            $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',1)">\
+    } else {
+        $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',1)">\
                 <span class="badge bg-danger">Inactive</span>\
             </a>')
-        }
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: "/admin/products/status",
-            type: 'GET',
-            dataType: 'json',
-            data: {
-                'active': active,
-                'status_id': status_id
-            },
-            success: function(data) {
-                if (data['success']) {
-                    // alert(data.success);
-                } else if (data['error']) {
-                    alert(data.error);
-                }
-            }
-        });
     }
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: "/admin/products/status",
+        type: 'GET',
+        dataType: 'json',
+        data: {
+            'active': active,
+            'status_id': status_id
+        },
+        success: function(data) {
+            if (data['success']) {
+                // alert(data.success);
+            } else if (data['error']) {
+                alert(data.error);
+            }
+        }
+    });
+}
 </script>
 <script>
-    function featured(featured_id, active) {
-        if (active === 1) {
-            $("#featured" + featured_id).html(' <a href="javascript:void(0)" onclick="featured(' + featured_id + ',0)">\
+function featured(featured_id, active) {
+    if (active === 1) {
+        $("#featured" + featured_id).html(' <a href="javascript:void(0)" onclick="featured(' + featured_id + ',0)">\
                 <span class="badge bg-success">Active</span>\
             </a>')
-        } else {
-            $("#featured" + featured_id).html(' <a href="javascript:void(0)" onclick="featured(' + featured_id + ',1)">\
+    } else {
+        $("#featured" + featured_id).html(' <a href="javascript:void(0)" onclick="featured(' + featured_id + ',1)">\
                 <span class="badge bg-danger">Inactive</span>\
             </a>')
-        }
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: "/admin/products/featured",
-            type: 'GET',
-            dataType: 'json',
-            data: {
-                'active': active,
-                'featured_id': featured_id
-            },
-            success: function(data) {
-                if (data['success']) {
-                    // alert(data.success);
-                } else if (data['error']) {
-                    alert(data.error);
-                }
-            }
-        });
     }
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: "/admin/products/featured",
+        type: 'GET',
+        dataType: 'json',
+        data: {
+            'active': active,
+            'featured_id': featured_id
+        },
+        success: function(data) {
+            if (data['success']) {
+                // alert(data.success);
+            } else if (data['error']) {
+                alert(data.error);
+            }
+        }
+    });
+}
 </script>
 <script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
 <script>
 ClassicEditor
-        .create( document.querySelector( '.content' ) )
-        .then( content => {
-                // console.log( content );
-        } )
-        .catch( error => {
-                // console.error( error );
-        } );
-
+    .create(document.querySelector('.content'))
+    .then(content => {
+        // console.log( content );
+    })
+    .catch(error => {
+        // console.error( error );
+    });
 </script>
 @endsection
