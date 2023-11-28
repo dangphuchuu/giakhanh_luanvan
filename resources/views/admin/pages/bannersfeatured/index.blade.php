@@ -34,12 +34,12 @@ active
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>{{__("Name")}}</th>
-                            <th>{{__("Image")}}</th>
-                            <th>{{__("Link")}}</th>
-                            <th>{{__("Status")}}</th>
-                            <th>{{__("Operations")}}</th>
+                            <th class="text-center">Id</th>
+                            <th class="text-center">{{__("Name")}}</th>
+                            <th class="text-center">{{__("Image")}}</th>
+                            <th class="text-center">{{__("Link")}}</th>
+                            <th class="text-center">{{__("Status")}}</th>
+                            <th class="text-center">{{__("Operations")}}</th>
                         </tr>
                     </thead>
                     <tbody>
