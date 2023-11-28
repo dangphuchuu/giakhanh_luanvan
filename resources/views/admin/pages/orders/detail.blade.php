@@ -4,7 +4,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="order_detail">{{__("Order Number")}}: {{$order->id}} -
-                    {{__("Date of receipt")}}: {{$order->updated_at->format('d/m/Y')}}</h5>
+                    {{__("Date of receipt")}}: {{$order->updated_at->format('d/m/Y')}} 
+            <a href="javascript:void(0)" style="color:white" class="btn bg-info" onclick="status({{$order->id}},2)">{{__("Confirm")}}</a>
+
+                </h5>
                 <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
                     <i data-feather="x"></i>
                 </button>
@@ -55,13 +58,13 @@
                                 <th colspan="2" class="text-center">{{__("Sender's phone")}}</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td colspan="2" class="text-center text-wrap">{{$order->lastname_sender}}</td>
-                                <td colspan="2" class="text-center text-wrap">{{$order->firstname_sender}}</td>
-                                <td colspan="2" class="text-center text-wrap">{{$order->phone_sender}}</td>
-                            </tr>
-                        </tbody>
+                    <tbody>
+                        <tr>
+                            <td colspan="2" class="text-center text-wrap">{{$order->lastname_sender}}</td>
+                            <td colspan="2" class="text-center text-wrap">{{$order->firstname_sender}}</td>
+                            <td colspan="2" class="text-center text-wrap">{{$order->phone_sender}}</td>
+                        </tr>
+                    </tbody>
                     </tbody>
                 </table>
             </div>

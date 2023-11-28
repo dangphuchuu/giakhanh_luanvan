@@ -234,6 +234,10 @@
     " to reset your password !":" để tiến hành khôi phục mật khẩu !",
     "Hello ":"Xin chào ",
     "Please try again because the link has expired !":"Vui lòng thử lại vì đường dẫn đã hết hạn !",
-    "Operations":"Hoạt động"
+    "Operations":"Hoạt động",
+    "Confirm":"Xác nhận",
+    "Cancel":"Hủy đơn",
+    "Are you sure you want to cancel your order ?":"Bạn có chắc muốn hủy đơn hàng này ?",
+    "Completed":"Hoàn thành"
 
 }

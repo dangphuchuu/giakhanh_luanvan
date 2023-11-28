@@ -96,7 +96,7 @@ active
                                 </a>
                                 <a href="admin/products/delete/{{$pro->id}}"
                                     onclick="return confirm(`{{__('Are you sure you want to delete this ?')}}`)">
-                                    <i data-feather="trash-2"></i>
+                                    <i data-feather="trash-2" stroke="red"></i>
                                 </a>
                             </td>
                         </tr>

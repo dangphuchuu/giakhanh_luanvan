@@ -62,7 +62,7 @@ active
                                 </a>
                                 <a href="admin/subcategories/delete/{{$sub->id}}"
                                     onclick="return confirm(`{{__('Are you sure you want to delete this ?')}}`)">
-                                    <i data-feather="trash-2"></i>
+                                    <i data-feather="trash-2" stroke="red"></i>
                                 </a>
                             </td>
                             @include('admin/pages/subcategories/edit')

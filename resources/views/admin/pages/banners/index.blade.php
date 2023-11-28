@@ -73,7 +73,7 @@ active
                                 </a>
                                 <a href="admin/banners/delete/{{$banner->id}}"
                                     onclick="return confirm(`{{__('Are you sure you want to delete this ?')}}`)">
-                                    <i data-feather="trash-2"></i>
+                                    <i data-feather="trash-2" stroke="red"></i>
                                 </a>
                             </td>
                             @include('admin/pages/banners/edit')
