@@ -33,7 +33,7 @@ Route::middleware('language')->group(function(){
     });
     Route::get('/', [WebController::class, 'index']);
 
-    // !Authentication
+    //! Authentication
     Route::get('/signin_signup', [WebController::class, 'signin_signup']);
     Route::post('/handle_login',[WebController::class, 'handle_login']);
     Route::post('/register',[WebController::class, 'register']);
@@ -57,7 +57,10 @@ Route::middleware('language')->group(function(){
     Route::get('/profile',[WebController::class, 'profile']);
     Route::post('/profile',[WebController::class, 'editProfile']);
     Route::post('/imageProfile',[WebController::class, 'imageProfile']);
-   
+    Route::get('/myOrder',[WebController::class, 'myOrder']);
+    Route::get('/trackOrder',[WebController::class, 'trackOrder']);
+    Route::post('/trackOrder',[WebController::class, 'handle_trackOrder']);
+    Route::get('/detail-track-order',[WebController::class, 'detailTrackOrder']);
     //! Carts
     Route::get('/cart',[WebController::class, 'cart']);
     Route::post('/cart',[WebController::class, 'handle_cart']);
@@ -65,8 +68,6 @@ Route::middleware('language')->group(function(){
     Route::delete('/deleteCart',[WebController::class, 'deleteCart']);
     Route::get('/checkout',[WebController::class, 'checkout']);
     Route::post('/checkout',[WebController::class, 'handle_checkout']);
-    Route::get('/myOrder',[WebController::class, 'myOrder']);
-    Route::get('/trackOrder',[WebController::class, 'trackOrder']);
     Route::get('/verify-email',[WebController::class,'verify_email']);
    
 

@@ -174,7 +174,7 @@
     "Order completed!":"Đặt hàng thành công!",
     "Your Order":"Đơn hàng của bạn",
     "Quick Tracking Order":"Theo dõi đơn hàng của bạn",
-    "Invoice ID":"ID hóa đơn",
+    "Invoice ID":"Mã đơn hàng",
     "New Entries":"Sản phẩm mới",
     "Order Number":"Mã đơn hàng",
     "Date":"Ngày",
@@ -238,6 +238,15 @@
     "Confirm":"Xác nhận",
     "Cancel":"Hủy đơn",
     "Are you sure you want to cancel your order ?":"Bạn có chắc muốn hủy đơn hàng này ?",
-    "Completed":"Hoàn thành"
+    "Completed":"Hoàn thành",
+    "Sender's lastname":"Họ người gửi",
+    "Sender's firstname":"Tên người gửi",
+    "Sender's phone":"Số điện thoại người gửi",
+    "Tracking Orders":"Theo dõi đơn hàng",
+    "Order ID":"ID đơn hàng",
+    "Estimated Delivery time":"Thời gian giao hàng ước tính",
+    "Shipping BY":"Người vận chuyển",
+    "Tracking":"Đơn hàng",
+    "Sender BY":"Người gửi"
 
 }

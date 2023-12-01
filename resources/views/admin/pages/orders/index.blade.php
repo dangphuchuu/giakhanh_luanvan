@@ -51,17 +51,13 @@ active
                             <!-- <td class="text-center">{{$order->content}}</td> -->
                             <td class="text-center" id="status{{$order->id}}">
                                 @if($order->status == 1)
-                               <span
-                                        class="badge bg-warning">{{__("In Progress")}}</span>
+                               <span class="badge bg-warning">{{__("In Progress")}}</span>
                                 @elseif($order->status == 2)
-                               <span
-                                        class="badge bg-info">{{__("Delivery in Progress")}}</span>
+                               <span class="badge bg-info">{{__("Delivery in Progress")}}</span>
                                 @elseif($order->status == 3)
-                               <span
-                                        class="badge bg-success">{{__("Delivered")}}</span>
+                               <span class="badge bg-success">{{__("Delivered")}}</span>
                                 @else
-                               <span
-                                        class="badge bg-danger">{{__("Cancelled")}}</span>
+                               <span class="badge bg-danger">{{__("Cancelled")}}</span>
                                 @endif
                             </td>
                             <td class="text-center">

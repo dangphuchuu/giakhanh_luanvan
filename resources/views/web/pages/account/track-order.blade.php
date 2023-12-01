@@ -10,9 +10,10 @@
 					<div class="col-xl-7 col-lg-9">
 						<img src="web_assets/img/track_order.svg" alt="" class="img-fluid add_bottom_15" width="200" height="177">
 						<p>{{__('Quick Tracking Order')}}</p>
-						<form>
+						<form action="/detail-track-order" method="GET">
+                            @csrf
 							<div class="search_bar">
-								<input type="text" class="form-control" placeholder="{{__('Invoice ID')}}">
+								<input type="text" name="id" class="form-control" placeholder="{{__('Invoice ID')}}">
 								<input type="submit" value="{{__('Search')}}">
 							</div>
 						</form>
@@ -23,7 +24,6 @@
 			<!-- /container -->
 		</div>
 		<!-- /track_order -->
-		
 		<div class="bg_white">
 		<div class="container margin_60_35">
 			<div class="main_title">

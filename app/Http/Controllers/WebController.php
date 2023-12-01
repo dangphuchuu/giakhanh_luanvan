@@ -441,6 +441,36 @@ class WebController extends Controller
         return redirect()->back()->with('toast_success',__("Update successfully"));
     }
 
+    public function detailTrackOrder(Request $request){
+        $order = Orders::find($request->id);
+        return view('web.pages.account.detail-track-order',[
+            'order'=>$order
+        ]);
+    }
+
+    public function myOrder(){
+        if(Auth::check()){
+        $orders = Orders::where('users_id',Auth::user()->id)->orderBy('id', 'DESC')->paginate(5);
+            // dd($orders);
+            return view('web.pages.account.my-order',[
+                'orders'=>$orders
+            ]);
+        }else{
+            abort(404);
+        }
+    }
+
+    public function trackOrder(){
+        if(Auth::check()){
+        $products = Products::all()->where('status',1)->sortByDesc('created_at')->take(8);
+            return view('web.pages.account.track-order',[
+                'products'=>$products
+            ]);
+        }else{
+            abort(404);
+        }
+    }
+    
     //! Cart
     public function cart(){
         return view('web.pages.cart.index');
@@ -605,27 +635,6 @@ class WebController extends Controller
         return view('web.pages.cart.confirm');
     }
 
-    public function myOrder(){
-        if(Auth::check()){
-        $orders = Orders::where('users_id',Auth::user()->id)->orderBy('id', 'DESC')->paginate(5);
-            // dd($orders);
-            return view('web.pages.account.my-order',[
-                'orders'=>$orders
-            ]);
-        }else{
-            abort(404);
-        }
-    }
-
-    public function trackOrder(){
-        if(Auth::check()){
-        $products = Products::all()->where('status',1)->sortByDesc('created_at')->take(8);
-            return view('web.pages.account.track-order',[
-                'products'=>$products
-            ]);
-        }else{
-            abort(404);
-        }
-    }
+   
 
 }
