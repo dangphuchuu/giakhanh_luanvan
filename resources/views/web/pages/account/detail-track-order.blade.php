@@ -4,6 +4,26 @@
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
 @endsection
 @section('content')
+@if($order->status == 1)
+<style>
+.track .step::before{
+    width: 50%!important;
+}
+</style>
+@elseif($order->status == 0)
+<style>
+.track .step.active .icon{
+    background: #f00!important;
+    color: #fff!important
+}
+.track .step.active:before{
+    background: #f00!important
+}
+.track .step.active .text{
+    color: #f00!important;
+}
+</style>
+@endif
 <div class="container">
     @if($order!=null)
     <article class="card">
@@ -26,37 +46,46 @@
                     <div class="col">
                         <strong>{{__("Status")}}:</strong> <br>
                         @if($order->status == 1)
-                        <span style="color:#fdac41">{{__("In Progress")}}</span>
+                        <span style="color:#fdac41;font-weight: 700!important;">{{__("In Progress")}}</span>
                         @elseif($order->status == 2)
-                        <span style="color:#41b1f9">{{__("Delivery in Progress")}}</span>
+                        <span style="color:#41b1f9;font-weight: 700!important;">{{__("Delivery in Progress")}}</span>
                         @elseif($order->status == 3)
-                        <span style="color:#39da8a">{{__("Delivered")}}</span>
+                        <span style="color:#39da8a;font-weight: 700!important;">{{__("Delivered")}}</span>
                         @else
-                        <span style="color:#ff5b5c">{{__("Cancelled")}}</span>
+                        <span style="color:#ff5b5c;font-weight: 700!important;">{{__("Order is canceled")}}</span>
                         @endif
                     </div>
                     <div class="col"> <strong>{{__("Tracking")}} #:</strong> <br> {{date('dmY')}}{{$order->id}} </div>
                 </div>
             </article>
             <div class="track">
-                <div class="step active">
+                @if($order->status == 1 || $order->status == 2 || $order->status == 3)
+                <div class="step @if($order->status == 1 || $order->status == 2 || $order->status == 3) active @endif ">
                     <span class="icon">
                         <i class="fa fa-home" style="margin-top: 7px;font-size: 25px;"></i>
                     </span>
                     <span class="text">{{__("In Progress")}}</span>
                 </div>
-                <div class="step active">
+                <div class="step @if($order->status == 2 || $order->status == 3) active @endif">
                     <span class="icon">
                         <i class="fa fa-truck" style="margin-top: 7px;font-size: 24px;margin-right: 3px;"></i>
                     </span>
                     <span class="text">{{__("Delivery in Progress")}}</span>
                 </div>
-                <div class="step active">
+                <div class="step @if($order->status == 3) active @endif">
                     <span class="icon">
                         <i class="fa fa-check" style="margin-top: 8px;font-size: 24px;"></i>
                     </span>
                     <span class="text">{{__("Delivered")}}</span>
                 </div>
+                @else
+                <div class="step active ">
+                    <span class="icon">
+                    <i class="fa fa-times" style="margin-top: 8px;font-size: 24px;"></i>
+                    </span>
+                    <span class="text">{{__("Order is canceled")}}</span>
+                </div>
+                @endif
             </div>
             <hr>
             <ul class="row">

@@ -47,22 +47,6 @@
                                 @endforeach
                             </ul>
                             <ul>
-                                <li class="clearfix">
-                                    <em>
-                                        <strong>{{__("Status")}}</strong>
-                                    </em>
-
-                                    @if($order->status == 1)
-                                    <span style="color:#fdac41">{{__("In Progress")}}</span>
-                                    @elseif($order->status == 2)
-                                    <span style="color:#41b1f9">{{__("Delivery in Progress")}}</span>
-                                    @elseif($order->status == 3)
-                                    <span style="color:#39da8a">{{__("Delivered")}}</span>
-                                    @else
-                                    <span style="color:#ff5b5c">{{__("Cancelled")}}</span>
-                                    @endif
-
-                                </li>
 
                                 <li class="clearfix">
                                     <em>
