@@ -442,6 +442,7 @@ class WebController extends Controller
     }
 
     public function detailTrackOrder(Request $request){
+        // dd($request->id);
         $order = Orders::find($request->id);
         return view('web.pages.account.detail-track-order',[
             'order'=>$order

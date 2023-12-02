@@ -60,10 +60,10 @@ active
                             <td class="text-center" id="status{{$brand->id}}">
                                 @if($brand->status == 1)
                                 <a href="javascript:void(0)" onclick="status({{$brand->id}},0)"><span
-                                        class="badge bg-success">Active</span></a>
+                                        class="badge bg-success">Published</span></a>
                                 @else
                                 <a href="javascript:void(0)" onclick="status({{$brand->id}},1)"><span
-                                        class="badge bg-danger">Inactive</span></a>
+                                        class="badge bg-danger">Pending</span></a>
                                 @endif
                             </td>
                             <td class="text-center" >

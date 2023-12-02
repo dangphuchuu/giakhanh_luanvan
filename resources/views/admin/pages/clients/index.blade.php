@@ -60,9 +60,9 @@ active
                             <td>{{$users->phone}}</td>
                             <td id="status{{$users->id}}">
                                 @if($users->status == 1)
-                                <a href="javascript:void(0)" onclick="status({{$users->id}},0)"><span class="badge bg-success">Active</span></a>
+                                <a href="javascript:void(0)" onclick="status({{$users->id}},0)"><span class="badge bg-success">Published</span></a>
                                 @else
-                                <a href="javascript:void(0)" onclick="status({{$users->id}},1)"><span class="badge bg-danger">Inactive</span></a>
+                                <a href="javascript:void(0)" onclick="status({{$users->id}},1)"><span class="badge bg-danger">Pending</span></a>
                                 @endif
                             </td>
                             <td>
