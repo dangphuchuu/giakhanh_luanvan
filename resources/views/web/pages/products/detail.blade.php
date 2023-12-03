@@ -227,11 +227,12 @@
 					</div>
 					@if(count($reviews)!=0)
 					@foreach($reviews as $review)
-					<div id="collapse-B" class="collapse" role="tabpanel" aria-labelledby="heading-B">
+					<div id="collapse-B" class="collapse" role="tabpanel" aria-labelledby="heading-B" style="margin-top: -30px;margin-left: 15px;">
 						<div class="card-body">
-							<div class="row justify-content-between">
+							<div class="row" >
 								<div class="col-lg-12">
 									<div class="review_content">
+										<span>{{$review->users->firstname}}</span>
 										<div class="clearfix add_bottom_10">
 											<span>
 												<?php
@@ -258,6 +259,7 @@
 											<em>{{$review->updated_at->format('d-m-Y - H:i A')}}</em>
 										</div>
 										<p>{{$review->content}}</p>
+										<hr/>
 									</div>
 								</div>
 							</div>

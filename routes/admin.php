@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BannersController;
 use App\Http\Controllers\BannersFeaturedController;
 use App\Http\Controllers\BrandsController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\OrdersController;
@@ -75,6 +76,15 @@ Route::prefix('admin')->middleware('admin','role:admin|staff')->group(function()
         Route::post('/edit/{id}',[BannersFeaturedController::class, 'edit']);
         Route::get('/delete/{id}',[BannersFeaturedController::class, 'destroy']);
         Route::get('/status',[BannersFeaturedController::class, 'status']);
+
+    });
+
+    Route::prefix('news')->group(function(){
+        Route::get('/',[NewsController::class, 'index']);
+        Route::post('/create',[NewsController::class, 'create']);
+        Route::post('/edit/{id}',[NewsController::class, 'edit']);
+        Route::get('/delete/{id}',[NewsController::class, 'destroy']);
+        Route::get('/status',[NewsController::class, 'status']);
 
     });
 

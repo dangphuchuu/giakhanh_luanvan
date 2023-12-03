@@ -58,9 +58,11 @@
                         <li>
                             <a href="/admin/banners">{{__("Banners")}}</a>
                         </li>
-
                         <li>
                             <a href="/admin/bannersfeatured">{{__("Banners Collection")}}</a>
+                        </li>
+                        <li>
+                            <a href="/admin/news">{{__("News")}}</a>
                         </li>
                         <li>
                             <a href="/admin/info">{{__("Contact Info")}}</a>

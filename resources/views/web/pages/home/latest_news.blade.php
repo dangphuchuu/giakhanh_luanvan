@@ -1,7 +1,7 @@
 <div class="container margin_60_35">
 				<div class="main_title">
-					<h2>{{__("Latest News")}}</h2>
-					<span>{{__("Latest News")}}</span>
+					<h2>{{__("News")}}</h2>
+					<span>{{__("News")}}</span>
 					<!-- <p>Cum doctus civibus efficiantur in imperdiet deterruisset</p> -->
 				</div>
 				<div class="row">
