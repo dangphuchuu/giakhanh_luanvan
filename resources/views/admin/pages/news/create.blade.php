@@ -1,6 +1,6 @@
 <div class="modal fade text-left" id="news_create" tabindex="-1" role="dialog" aria-labelledby="news_create"
     aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="news_create">{{__("Create")}} {{__("News")}}</h5>
@@ -11,9 +11,9 @@
                 <form action="admin/news/create" method="post" enctype="multipart/form-data">
                     @csrf
                 <div class="modal-body">
-                    <label>{{__("Name")}}: </label>
+                    <label>{{__("Title")}}: </label>
                     <div class="form-group">
-                        <input type="text" placeholder="{{__('Type')}}...." class="form-control" name="name" >
+                        <input type="text" placeholder="{{__('Type')}}...." class="form-control" name="title" >
                     </div>
 
                     <label>{{__("Image")}}: </label>
@@ -22,9 +22,9 @@
                         <img style="width: 400px" src="" class="img_news d-none" alt="user1">
                     </div>
 
-                    <label>{{__("Link")}}: </label>
+                    <label>{{__("Content")}}: </label>
                     <div class="form-group">
-                        <input type="text" placeholder="{{__('Type')}}...." class="form-control" name="link" >
+                        <textarea class="form-control content" name="content" ></textarea>
                     </div>
 
                 </div>

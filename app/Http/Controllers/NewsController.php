@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\News;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
 {
@@ -13,28 +15,51 @@ class NewsController extends Controller
         return view('admin/pages/news/index',['news' => $news]);
     }
     public function create(Request $request){
+        $validate = Validator::make($request->all(),[
+            'title' =>'required'
+        ],[
+            'title.required'=>__("Title field is required")
+        ]);
+        if($validate->fails()){
+            return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
+        }
         if ($request->hasFile('Image')) {
-
-            foreach($request->file('Image') as $file){
-                $img = $file;
+                $img = $request->file('Image');
                 $cloud = Cloudinary::upload($img->getRealPath(), [
                     'folder' => 'news',
                     'format' => 'jpg',
                 ])->getPublicId();
-
+                
                 $news = new News(
                     [
-                        'image' => $cloud
+                        'title'=>$request->title,
+                        'image' => $cloud,
+                        'content'=>$request->content,
+                        'users_id'=>Auth::user()->id
                     ]
                 );
                 $news->save();
-            }
-           
+        }else{
+            return redirect()->back()->with('toast_warning',__("Please choose image"));
         }
        
         return redirect()->back()->with('toast_success',__("Create successfully"));
     }
+    public function edit_pages($id){
+        $news = News::find($id);
+        return view('admin.pages.news.edit',[
+            'news'=>$news
+        ]);
+    }
     public function edit(Request $request,$id){
+        $validate = Validator::make($request->all(),[
+            'title' =>'required'
+        ],[
+            'title.required'=>__("Title field is required")
+        ]);
+        if($validate->fails()){
+            return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
+        }
         $news = News::find($id);
         if ($request->hasFile('Image')) {
             $img = $request->file('Image');
@@ -47,8 +72,11 @@ class NewsController extends Controller
 
             ])->getPublicId();
             $news->image= $cloud;
-            $news->save();
         }
+        $news->title = $request->title;
+        $news->content = $request->content;
+        $news->users_id = Auth::user()->id;
+        $news->save();
         return redirect()->back()->with('toast_success',__("Update successfully"));
     }
     public function destroy($id){

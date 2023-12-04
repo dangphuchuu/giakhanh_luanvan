@@ -82,6 +82,7 @@ Route::prefix('admin')->middleware('admin','role:admin|staff')->group(function()
     Route::prefix('news')->group(function(){
         Route::get('/',[NewsController::class, 'index']);
         Route::post('/create',[NewsController::class, 'create']);
+        Route::get('/edit/{id}',[NewsController::class, 'edit_pages']);
         Route::post('/edit/{id}',[NewsController::class, 'edit']);
         Route::get('/delete/{id}',[NewsController::class, 'destroy']);
         Route::get('/status',[NewsController::class, 'status']);

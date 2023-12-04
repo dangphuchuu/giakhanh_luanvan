@@ -46,7 +46,11 @@ active
                         @foreach($news as $key => $new)
                         <tr>
                             <td class="text-center">{{$key+1}}</td>
-                            <td class="text-center">{{$new->name}}</td>
+                            <td class="text-center">
+                                <span style="max-width:200px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical"> 
+                                    {{$new->title}}
+                                </span>
+                            </td>
                             <td class="text-center">
                                 @if($new->image == NULL)
                                     <img style="width: 300px">
@@ -58,7 +62,11 @@ active
                                     @endif
                                 @endif
                             </td>
-                            <td class="text-center">{{$new->link}}</td>
+                            <td class="text-center">
+                                <span style="max-width:400px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical"> 
+                                {!! $new->content !!}
+                                </span>
+                            </td>
                             <td id="status{{$new->id}}">
                                 @if($new->status == 1)
                                 <a href="javascript:void(0)" onclick="status({{$new->id}},0)"><span class="badge bg-success">Published</span></a>
@@ -67,15 +75,13 @@ active
                                 @endif
                             </td>
                             <td class="text-center">
-                            <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#news_edit{{$new->id}}">
-                                <i data-feather="edit"></i>
-                             </a>
+                                <a href="admin/news/edit/{{$new->id}}">
+                                    <i data-feather="edit"></i>
+                                </a>
                              <a href="admin/news/delete/{{$new->id}}" onclick="return confirm(`{{__('Are you sure you want to delete this ?')}}`)">
                                     <i data-feather="trash-2" stroke="red"></i>
                              </a> 
                             </td>
-                            @include('admin/pages/news/edit')
-
                         </tr>
                         @endforeach
                     </tbody>
@@ -138,4 +144,16 @@ active
         readURL(this);
     });
 </script>
+<script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
+<script>
+ClassicEditor
+    .create(document.querySelector('.content'))
+    .then(content => {
+        // console.log( content );
+    })
+    .catch(error => {
+        // console.error( error );
+    });
+</script>
+
 @endsection

@@ -1,48 +1,77 @@
-<div class="modal fade text-left" id="news_edit{{$new->id}}" tabindex="-1" role="dialog" aria-labelledby="news_edit"
-aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="news_edit">{{__("Edit")}} {{__("Banners Collection")}}</h5>
-                <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
-                    <i data-feather="x"></i>
-                </button>
+@extends('admin/layout/index')
+@section('info')
+active
+@endsection
+@section('content')
+<div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <form method="post" action="/admin/news/edit/{{$news->id}}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="card-body">
+                            <button type="submit" class="btn btn-primary ml-1 float-end ">{{__("Edit")}}</button>
+                            <br>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <label>{{__("Title")}}: </label>
+                                    <div class="form-group">
+                                        <input type="text" value="{{$news->title}}" class="form-control" name="title">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-7">
+                                    <label>{{__("Image")}}: </label>
+                                    <input type="file" name="Image" class="form-control image-news">
+                                    <div class="form-group file-uploader">
+                                        @if(strstr($news->image,"https") == "")
+                                        <img style="width: 400px" class="img_news" src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ $news->image }}.jpg" alt="">
+                                        @else
+                                        <img style="width: 400px" class="img_news" src="{{$news->image}}" alt="">
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <label>{{__("Content")}}: </label>
+                                    <div class="form-group">
+                                        <textarea class="content form-control" name="content" >{{$news->content}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <form action="admin/news/edit/{{$new->id}}" method="post" enctype="multipart/form-data">
-                @csrf
-                <div class="modal-body">
-                    <label>{{__("Name")}}: </label>
-                    <div class="form-group">
-                        <input type="text" placeholder="{{__('Type')}}...." value="{{$new->name}}" class="form-control" name="name" >
-                    </div>
-
-                    <label>{{__("Image")}}: </label>
-                    <input type="file" name="Image" class="form-control image-news">
-                    <div class="form-group file-uploader">
-                        @if(strstr($new->image,"https") == "")
-                        <img style="width: 400px" class="img_news" src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ $new->image }}.jpg" alt="">
-                        @else
-                        <img style="width: 400px" class="img_news" src="{{$new->image}}" alt="">
-                        @endif
-                    </div>
-
-                    <label>{{__("Link")}}: </label>
-                    <div class="form-group">
-                        <input type="text" placeholder="{{__('Type')}}...." value="{{$new->link}}" class="form-control" name="link" >
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn" data-bs-dismiss="modal">
-                        <i class="bx bx-x d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">{{__("Close")}}</span>
-                    </button>
-                    <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                        <i class="bx bx-check d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">{{__("Accept")}}</span>
-                    </button>
-                </div>
-            </form>
         </div>
     </div>
-</div>
+@endsection
+@section('scripts')
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('.file-uploader .img_news').attr('src', e.target.result).removeClass('d-none');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(".image-news").change(function() {
+        readURL(this);
+    });
+</script>
+
+<script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
+<script>
+ClassicEditor
+.create( document.querySelector( '.content' ) )
+.then( content => {
+        // console.log( content );
+} )
+.catch( error => {
+        // console.error( error );
+} );
+</script>
+@endsection

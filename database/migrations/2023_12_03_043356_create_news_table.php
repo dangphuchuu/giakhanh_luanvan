@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('image');
-            $table->text('content');
+            $table->text('content')->nullable();
             $table->boolean('status')->default(true);
             $table->bigInteger('users_id')->unsigned();
             $table->foreign('users_id')->references('id')->on('users');

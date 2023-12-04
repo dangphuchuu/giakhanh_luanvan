@@ -75,7 +75,7 @@
     "Subcategory field is required":"Tên danh mục con không được để trống",
     "Subcategory already exists":"Tên danh mục con đã tồn tại",
     "Create subcategory successfully":"Tạo danh mục con thành công !",
-    "Create successfully":"Tạo thành công !",
+    "Create successfully":"Thêm thành công !",
     "Update successfully":"Cập nhật thành công !",
     "Can't delete because there are products in subcategory":"Không thể xóa vì còn tồn tại sản phẩm trong danh mục con",
     "Can't delete because there are products in brand":"Không thể xóa vì còn tồn tại sản phẩm trong thương hiệu",
@@ -252,6 +252,7 @@
     "Order not found":"Không tìm thấy đơn hàng",
     "piece":"cái",
     "News":"Tin tức",
-    "Title":"Tiêu đề"
+    "Title":"Tiêu đề",
+    "Title field is required":"Tiêu đề không được để trống"
 
 }
