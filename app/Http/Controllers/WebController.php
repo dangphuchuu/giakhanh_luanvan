@@ -13,6 +13,7 @@ use App\Models\Products;
 use App\Models\Reviews;
 use App\Models\Subcategories;
 use App\Models\User;
+use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -41,13 +42,15 @@ class WebController extends Controller
         $bannersfeatured = BannersFeatured::all()->where('status',1)->take(3);
         $products_featured = Products::all()->where('status',1)->where('featured_product',1);
         $top_selling = Products::all()->where('status',1)->sortBy('created_at')->take(5);
+        $news = News::all()->where('status',1)->sortByDesc('created_at')->take(4);
         return view('web/pages/home/index',[
             'brands'=>$brands,
             'products' => $products,
             'banners'=>$banners,
             'bannersfeatured'=>$bannersfeatured,
             'products_featured'=>$products_featured,
-            'top_selling'=>$top_selling
+            'top_selling'=>$top_selling,
+            'news'=>$news
         ]);
     }
 
@@ -636,6 +639,25 @@ class WebController extends Controller
         return view('web.pages.cart.confirm');
     }
 
+    //! News
+    public function newsDetail($id){
+        $news = News::find($id);
+        $news_all = News::get()->where('id', '!=', $id)->where('status',1)->sortByDesc('created_at');
+        $categories = Categories::all()->where('status',1)->sortByDesc('created_at');
+        return view('web.pages.news.detail',[
+            'news'=>$news,
+            'news_all'=>$news_all,
+            'categories'=>$categories
+        ]);
+    }
+
+    public function newsList(){
+        $news = News::all()->where('status',1)->sortByDesc('updated_at');
+        $categories = Categories::all()->where('status',1)->sortByDesc('created_at');
+        return view('web.pages.news.list',[
+            'news'=>$news
+        ]);
+    }
    
 
 }

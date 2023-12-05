@@ -5,70 +5,25 @@
 					<!-- <p>Cum doctus civibus efficiantur in imperdiet deterruisset</p> -->
 				</div>
 				<div class="row">
+					@foreach($news as $new)
 					<div class="col-lg-6">
-						<a class="box_news" href="blog.html">
+						<a class="box_news" href="/news/{{$new->id}}">
 							<figure>
-								<img src="web_assets/img/blog-thumb-placeholder.jpg" data-src="web_assets/img/blog-thumb-1.jpg" alt="" width="400" height="266" class="lazy">
-								<figcaption><strong>28</strong>Dec</figcaption>
+								<img data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$new->image}}.jpg" width="400" height="266" class="lazy">
+								<figcaption><strong>{{$new->created_at->format('d')}}</strong>{{$new->created_at->format('M')}}</figcaption>
 							</figure>
 							<ul>
-								<li>by Mark Twain</li>
-								<li>20.11.2017</li>
+								<li>by {{$new->users->firstname}}</li>
+								<li>{{$new->created_at->format('d.m.Y')}}</li>
 							</ul>
-							<h4>Pri oportere scribentur eu</h4>
-							<p>Cu eum alia elit, usu in eius appareat, deleniti sapientem honestatis eos ex. In ius esse
-								ullum vidisse....</p>
+							<h4>{{$new->title}}</h4>
+							<p style="max-width: 300px; height:60px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+								{!! strip_tags($new->content) !!}
+							</p>
 						</a>
 					</div>
 					<!-- /box_news -->
-					<div class="col-lg-6">
-						<a class="box_news" href="blog.html">
-							<figure>
-								<img src="web_assets/img/blog-thumb-placeholder.jpg" data-src="web_assets/img/blog-thumb-2.jpg" alt="" width="400" height="266" class="lazy">
-								<figcaption><strong>28</strong>Dec</figcaption>
-							</figure>
-							<ul>
-								<li>By Jhon Doe</li>
-								<li>20.11.2017</li>
-							</ul>
-							<h4>Duo eius postea suscipit ad</h4>
-							<p>Cu eum alia elit, usu in eius appareat, deleniti sapientem honestatis eos ex. In ius esse
-								ullum vidisse....</p>
-						</a>
-					</div>
-					<!-- /box_news -->
-					<div class="col-lg-6">
-						<a class="box_news" href="blog.html">
-							<figure>
-								<img src="web_assets/img/blog-thumb-placeholder.jpg" data-src="web_assets/img/blog-thumb-3.jpg" alt="" width="400" height="266" class="lazy">
-								<figcaption><strong>28</strong>Dec</figcaption>
-							</figure>
-							<ul>
-								<li>By Luca Robinson</li>
-								<li>20.11.2017</li>
-							</ul>
-							<h4>Elitr mandamus cu has</h4>
-							<p>Cu eum alia elit, usu in eius appareat, deleniti sapientem honestatis eos ex. In ius esse
-								ullum vidisse....</p>
-						</a>
-					</div>
-					<!-- /box_news -->
-					<div class="col-lg-6">
-						<a class="box_news" href="blog.html">
-							<figure>
-								<img src="web_assets/img/blog-thumb-placeholder.jpg" data-src="web_assets/img/blog-thumb-4.jpg" alt="" width="400" height="266" class="lazy">
-								<figcaption><strong>28</strong>Dec</figcaption>
-							</figure>
-							<ul>
-								<li>By Paula Rodrigez</li>
-								<li>20.11.2017</li>
-							</ul>
-							<h4>Id est adhuc ignota delenit</h4>
-							<p>Cu eum alia elit, usu in eius appareat, deleniti sapientem honestatis eos ex. In ius esse
-								ullum vidisse....</p>
-						</a>
-					</div>
-					<!-- /box_news -->
+					@endforeach
 				</div>
 				<!-- /row -->
 </div>

@@ -70,5 +70,8 @@ Route::middleware('language')->group(function(){
     Route::post('/checkout',[WebController::class, 'handle_checkout']);
     Route::get('/verify-email',[WebController::class,'verify_email']);
    
+    //TODO News
+    Route::get('/news/list',[WebController::class, 'newsList']);
+    Route::get('/news/{id}',[WebController::class, 'newsDetail']);
 
 });

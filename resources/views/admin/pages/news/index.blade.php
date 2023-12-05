@@ -38,6 +38,7 @@ active
                             <th class="text-center">{{__("Title")}}</th>
                             <th class="text-center">{{__("Image")}}</th>
                             <th class="text-center">{{__("Content")}}</th>
+                            <th class="text-center">{{__("Staff")}}</th>
                             <th class="text-center">{{__("Status")}}</th>
                             <th class="text-center">{{__("Operations")}}</th>
                         </tr>
@@ -63,9 +64,12 @@ active
                                 @endif
                             </td>
                             <td class="text-center">
-                                <span style="max-width:400px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical"> 
+                                <span style="max-width:300px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical"> 
                                 {!! $new->content !!}
                                 </span>
+                            </td>
+                            <td class="text-center">
+                                {{$new->users->firstname}}
                             </td>
                             <td id="status{{$new->id}}">
                                 @if($new->status == 1)
