@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class NewsController extends Controller
 {
     public function index(){
-        $news = News::all();
+        $news = News::orderBy('id', 'DESC')->get();
         return view('admin/pages/news/index',['news' => $news]);
     }
     public function create(Request $request){
@@ -77,7 +77,7 @@ class NewsController extends Controller
         $news->content = $request->content;
         $news->users_id = Auth::user()->id;
         $news->save();
-        return redirect()->back()->with('toast_success',__("Update successfully"));
+        return redirect('/admin/news')->with('toast_success',__("Update successfully"));
     }
     public function destroy($id){
         $news = News::find($id);
