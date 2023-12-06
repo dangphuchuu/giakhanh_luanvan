@@ -652,12 +652,11 @@ class WebController extends Controller
     }
 
     public function newsList(){
-        $news = News::all()->where('status',1)->sortByDesc('updated_at');
+        $news = News::where('status',1)->orderBy('id', 'ASC')->Paginate(8);
         $categories = Categories::all()->where('status',1)->sortByDesc('created_at');
         return view('web.pages.news.list',[
             'news'=>$news
         ]);
     }
-   
 
 }
