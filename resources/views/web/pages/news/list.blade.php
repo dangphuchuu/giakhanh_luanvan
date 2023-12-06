@@ -36,8 +36,8 @@
                             </figure>
                             <div class="post_info" style="width:431.25px; height:261.38px">
                                 <small>{{__("News")}} - {{$new->updated_at->format('d.m.Y')}}</small>
-                                <h2><a href="/news/{{$new->id}}">{{$new->title}}</a></h2>
-                                <p style="width: 555px; height:60px; overflow: hidden;text-overflow: ellipsis;white-space: normal;">
+                                <h2 style="width: 550px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><a href="/news/{{$new->id}}">{{$new->title}}</a></h2>
+                                <p style="width: 550px; height:60px; overflow: hidden;text-overflow: ellipsis;white-space: normal;">
 								{!! strip_tags($new->content) !!}
 							    </p>
                                 <ul>

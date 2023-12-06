@@ -48,7 +48,7 @@ active
                         <tr>
                             <td class="text-center">{{$key+1}}</td>
                             <td class="text-center">
-                                <span style="max-width:200px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical"> 
+                                <span style="max-width:170px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical"> 
                                     {{$new->title}}
                                 </span>
                             </td>
@@ -64,7 +64,7 @@ active
                                 @endif
                             </td>
                             <td class="text-center">
-                                <span style="max-width:300px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical"> 
+                                <span style="max-width:250px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical"> 
                                 {!! $new->content !!}
                                 </span>
                             </td>
