@@ -3,15 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Orders;
+use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Carbon;
 class AdminController extends Controller
 {
+    
     public function index()
     {
-        return view('admin/pages/home/index');
+        $sum = 0;
+        $sum_today = 0;
+        $orders = Orders::all();
+        $new_orders = Orders::orderBy('id', 'DESC')->take(3)->get();
+        $orders_today = Orders::whereDate('created_at', Carbon::today())->get();
+
+        foreach ($orders as $order) {
+            $sum += $order->total;
+        }
+
+        foreach($orders_today as $today){
+            $sum_today += $today->total;
+        }
+        return view('admin/pages/home/index',[
+            'orders' => $orders,
+            'sum' => $sum,
+            'orders_today'=>$orders_today,
+            'sum_today'=>$sum_today,
+            'new_orders'=>$new_orders
+        ]);
     }
 
     public function login(){

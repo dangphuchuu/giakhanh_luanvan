@@ -13,20 +13,22 @@
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-large">
-                    <h6 class='py-2 px-4'>Notifications</h6>
+                    <h6 class='py-2 px-4'>{{__("Notifications")}}</h6>
+                    @foreach($new_orders as $new)
                     <ul class="list-group rounded-none">
                         <li class="list-group-item border-0 align-items-start">
                             <div class="avatar bg-success me-3">
                                 <span class="avatar-content"><i data-feather="shopping-cart"></i></span>
                             </div>
                             <div>
-                                <h6 class='text-bold'>New Order</h6>
+                                <h6 class='text-bold'>{{__("New Order")}}</h6>
                                 <p class='text-xs'>
-                                    An order made by Ahmad Saugi for product Samsung Galaxy S69
+                                    {{__("An order made by")}} {{$new->firstname}} {{__("with Order ID")}}: {{$new->id}}
                                 </p>
                             </div>
                         </li>
                     </ul>
+                    @endforeach
                 </div>
             </li>
             <li class=" nav-icon me-2">

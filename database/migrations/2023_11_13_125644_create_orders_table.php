@@ -22,9 +22,9 @@ return new class extends Migration
             $table->string('district', 255)->nullable();
             $table->string('city', 255)->nullable();
             $table->longtext('content')->nullable();
-            $table->integer('tax');
-            $table->integer('subtotal');
-            $table->integer('total');
+            $table->bigInteger('tax');
+            $table->bigInteger('subtotal');
+            $table->bigInteger('total');
             $table->string('lastname_sender', 255)->nullable();
             $table->string('firstname_sender', 255)->nullable();
             $table->string('phone_sender', 12)->nullable();

@@ -14,7 +14,7 @@
     "Orders":"Đơn hàng",
     "Sales Today":"Đơn trong ngày",
     "New Clients":"Khách hàng mới",
-    "Revenue Today":"Doanh thu ",
+    "Revenue Today":"Doanh thu",
     "Total Revenue":"Tổng doanh thu",
     "Total Orders":"Tổng đơn hàng",
     "Login":"Đăng nhập",
@@ -254,6 +254,11 @@
     "News":"Tin tức",
     "Title":"Tiêu đề",
     "Title field is required":"Tiêu đề không được để trống",
-    "Read more":"Xem thêm"
+    "Read more":"Xem thêm",
+    "Orders Today":"Đơn đặt hàng trong ngày",
+    "Notifications":"Thông báo",
+    "New Order":"Đơn hàng mới",
+    "An order made by":"Đơn hàng vừa được mua bởi",
+    "with Order ID":"với mã đơn hàng"
 
 }

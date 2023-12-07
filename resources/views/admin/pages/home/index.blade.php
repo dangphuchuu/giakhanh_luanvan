@@ -16,8 +16,8 @@ active
                     <div class="d-flex flex-column">
                         <div class='px-3 py-3 d-flex justify-content-between'>
                             <h3 class='card-title'>{{__("Sales Today")}}</h3>
-                            <div class="card-right d-flex align-items-center">
-                                <p>423 </p>
+                            <div class="card-right d-flex align-items-center text-nowrap">
+                                <p>{{$orders_today->count()}} </p>
                             </div>
                         </div>
                         <div class="chart-wrapper">
@@ -33,8 +33,8 @@ active
                     <div class="d-flex flex-column">
                         <div class='px-3 py-3 d-flex justify-content-between'>
                             <h3 class='card-title'>{{__("Revenue Today")}}</h3>
-                            <div class="card-right d-flex align-items-center">
-                                <p>$532,2 </p>
+                            <div class="card-right d-flex align-items-center text-nowrap">
+                                <p>{{number_format($sum_today,0,',','.')}} <sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup> </p>
                             </div>
                         </div>
                         <div class="chart-wrapper">
@@ -50,8 +50,8 @@ active
                     <div class="d-flex flex-column">
                         <div class='px-3 py-3 d-flex justify-content-between'>
                             <h3 class='card-title'>{{__("Total Orders")}}</h3>
-                            <div class="card-right d-flex align-items-center">
-                                <p>1,544 </p>
+                            <div class="card-right d-flex align-items-center text-nowrap" >
+                                <p>{{$orders->count()}} </p>
                             </div>
                         </div>
                         <div class="chart-wrapper">
@@ -65,10 +65,10 @@ active
             <div class="card card-statistic">
                 <div class="card-body p-0">
                     <div class="d-flex flex-column">
-                        <div class='px-3 py-3 d-flex justify-content-between'>
+                        <div class='px-3 py-3 d-flex justify-content-between '>
                             <h3 class='card-title'>{{__("Total Revenue")}}</h3>
-                            <div class="card-right d-flex align-items-center">
-                                <p>$50 </p>
+                            <div class="card-right d-flex align-items-center text-nowrap">
+                                <p>{{number_format($sum,0,',','.')}} <sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup> </p>
                             </div>
                         </div>
                         <div class="chart-wrapper">
@@ -80,7 +80,7 @@ active
         </div>
     </div>
     <div class="row mb-4">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
                     <h3 class='card-heading p-1 pl-3'>Sales</h3>
@@ -109,7 +109,7 @@ active
             </div>
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="card-title">Orders Today</h4>
+                    <h4 class="card-title">{{__("Orders Today")}}</h4>
                     <div class="d-flex ">
                         <i data-feather="download"></i>
                     </div>
@@ -119,151 +119,54 @@ active
                         <table class='table mb-0' id="table1">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
+                                    <th>{{__("Name")}}</th>
                                     <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>City</th>
-                                    <th>Status</th>
+                                    <th>{{__("Phone")}}</th>
+                                    <th>{{__("City")}}</th>
+                                    <th>{{__("Status")}}</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($orders_today as $order)
                                 <tr>
-                                    <td>Graiden</td>
-                                    <td>vehicula.aliquet@semconsequat.co.uk</td>
-                                    <td>076 4820 8838</td>
-                                    <td>Offenburg</td>
+                                    @if(Session("language") == "en")
+                                    <td>{{$order->firstname}} {{$order->lastname}}</td>
+                                    @else
+                                    <td>{{$order->lastname}} {{$order->firstname}}</td>
+                                    @endif
+                                    <td>{{$order->email}}</td>
+                                    <td>{{$order->phone}}</td>
                                     <td>
-                                        <span class="badge bg-success">Active</span>
+                                        @if($order->city == "hcm")
+                                        Hồ Chí Minh
+                                        @elseif($order->city == "hn")
+                                        Hà Nội
+                                        @elseif($order->city == "dn")
+                                        Đà Nẵng
+                                        @elseif($order->city == "ct")
+                                        Cần Thơ
+                                        @elseif($order->city == "bd")
+                                        Bình Dương
+                                        @elseif($order->city == "vt")
+                                        Vũng Tàu
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($order->status == 1)
+                                    <span class="badge bg-warning">{{__("In Progress")}}</span>
+                                        @elseif($order->status == 2)
+                                    <span class="badge bg-info">{{__("Delivery in Progress")}}</span>
+                                        @elseif($order->status == 3)
+                                    <span class="badge bg-success">{{__("Delivered")}}</span>
+                                        @else
+                                    <span class="badge bg-danger">{{__("Cancelled")}}</span>
+                                        @endif
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>Dale</td>
-                                    <td>fringilla.euismod.enim@quam.ca</td>
-                                    <td>0500 527693</td>
-                                    <td>New Quay</td>
-                                    <td>
-                                        <span class="badge bg-success">Active</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Nathaniel</td>
-                                    <td>mi.Duis@diam.edu</td>
-                                    <td>(012165) 76278</td>
-                                    <td>Grumo Appula</td>
-                                    <td>
-                                        <span class="badge bg-danger">Inactive</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Darius</td>
-                                    <td>velit@nec.com</td>
-                                    <td>0309 690 7871</td>
-                                    <td>Ways</td>
-                                    <td>
-                                        <span class="badge bg-success">Active</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Ganteng</td>
-                                    <td>velit@nec.com</td>
-                                    <td>0309 690 7871</td>
-                                    <td>Ways</td>
-                                    <td>
-                                        <span class="badge bg-success">Active</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Oleg</td>
-                                    <td>rhoncus.id@Aliquamauctorvelit.net</td>
-                                    <td>0500 441046</td>
-                                    <td>Rossignol</td>
-                                    <td>
-                                        <span class="badge bg-success">Active</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Kermit</td>
-                                    <td>diam.Sed.diam@anteVivamusnon.org</td>
-                                    <td>(01653) 27844</td>
-                                    <td>Patna</td>
-                                    <td>
-                                        <span class="badge bg-success">Active</span>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card ">
-                <div class="card-header">
-                    <h4>Your Earnings</h4>
-                </div>
-                <div class="card-body">
-                    <div id="radialBars"></div>
-                    <div class="text-center mb-5">
-                        <h6>From last month</h6>
-                        <h1 class='text-green'>+$2,134</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="card widget-todo">
-                <div class="card-header border-bottom d-flex justify-content-between align-items-center">
-                    <h4 class="card-title d-flex">
-                        <i class='bx bx-check font-medium-5 pl-25 pr-75'></i>Progress
-                    </h4>
-
-                </div>
-                <div class="card-body px-0 py-1">
-                    <table class='table table-borderless'>
-                        <tr>
-                            <td class='col-3'>UI Design</td>
-                            <td class='col-6'>
-                                <div class="progress progress-info">
-                                    <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                            <td class='col-3 text-center'>60%</td>
-                        </tr>
-                        <tr>
-                            <td class='col-3'>VueJS</td>
-                            <td class='col-6'>
-                                <div class="progress progress-success">
-                                    <div class="progress-bar" role="progressbar" style="width: 35%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                            <td class='col-3 text-center'>30%</td>
-                        </tr>
-                        <tr>
-                            <td class='col-3'>Laravel</td>
-                            <td class='col-6'>
-                                <div class="progress progress-danger">
-                                    <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                            <td class='col-3 text-center'>50%</td>
-                        </tr>
-                        <tr>
-                            <td class='col-3'>ReactJS</td>
-                            <td class='col-6'>
-                                <div class="progress progress-primary">
-                                    <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                            <td class='col-3 text-center'>80%</td>
-                        </tr>
-                        <tr>
-                            <td class='col-3'>Go</td>
-                            <td class='col-6'>
-                                <div class="progress progress-secondary">
-                                    <div class="progress-bar" role="progressbar" style="width: 65%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                            <td class='col-3 text-center'>65%</td>
-                        </tr>
-                    </table>
                 </div>
             </div>
         </div>
