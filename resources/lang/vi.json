@@ -259,6 +259,9 @@
     "Notifications":"Thông báo",
     "New Order":"Đơn hàng mới",
     "An order made by":"Đơn hàng vừa được mua bởi",
-    "with Order ID":"với mã đơn hàng"
+    "with Order ID":"với mã đơn hàng",
+    "Phone numbers are from 0 to 9 and do not include characters":"Số điện thoại từ 0 đến 9 và không bao gồm ký tự",
+    "Phone number at least 10 digits":"Số điện thoại ít nhất 10 chữ số",
+    "Phone number maximum 20 digits":"Số điện thoại tối đa 20 chữ số"
 
 }

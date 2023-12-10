@@ -350,8 +350,8 @@ class WebController extends Controller
             'phone' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:12|nullable',
         ],[
             'phone.regex' => __("Phone numbers are from 0 to 9 and do not include characters"),
-            'phone.min' => __("Phone number at least 10 characters"),
-            'phone.max' => __("Phone number maximum 20 characters"),
+            'phone.min' => __("Phone number at least 10 digits"),
+            'phone.max' => __("Phone number maximum 20 digits"),
         ]);
         $user = User::find(Auth::user()->id);
         $email = User::where('email', "=", $request->email)->first();
