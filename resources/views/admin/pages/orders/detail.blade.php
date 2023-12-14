@@ -21,8 +21,8 @@
                             <th class="text-center">{{__("Products")}}</th>
                             <th class="text-center">{{__("Image")}}</th>
                             <th class="text-center">{{__("Quantity")}}</th>
+                            <th class="text-center">{{__("Order date")}}</th>
                             <th class="text-center">{{__("Unit Price")}}</th>
-                            <th class="text-center">{{__("Created Date")}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,6 +35,7 @@
                                     src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ $orderPro->ProductsImage->first()->image }}.jpg">
                             </td>
                             <td class="text-center" style="width:5%">{{$orderPro->pivot->quantity}}</td>
+                            <td class="text-center">{{$order->created_at->format('d/m/Y - H:i')}}</td>
                             <td class="text-center" style="width:200px">
                                 @if($orderPro->price_new)
                                 {{number_format($orderPro->price_new,0,',','.')}}<sup
@@ -44,13 +45,15 @@
                                     style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                                 @endif
                             </td>
-                            <td class="text-center">{{$order->created_at->format('d/m/Y - H:i')}}</td>
                         </tr>
                         @endforeach
                         <tr>
                             <th class="text-center" style="width:5%">{{__("Content")}}</th>
-                            <td colspan="5" class="text-wrap">{{$order->content}}</td>
+                            <td colspan="3" class="text-wrap">{{$order->content}}</td>
+                            <th class="text-center" style="width:5%">{{__("Total")}}</th>
+                            <td class="text-wrap">{{number_format($order->total,0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></td>
                         </tr>
+                       
                         <thead>
                             <tr>
                                 <th colspan="2" class="text-center">{{__("Sender's lastname")}}</th>

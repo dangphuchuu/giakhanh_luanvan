@@ -67,7 +67,7 @@ active
                     <div class="d-flex flex-column">
                         <div class='px-3 py-3 d-flex justify-content-between '>
                             <h3 class='card-title'>{{__("Total Revenue")}}</h3>
-                            <div class="card-right d-flex align-items-center text-nowrap">
+                            <div class="card-right d-flex align-items-center text-nowrap" style="margin-left:2px">
                                 <p>{{number_format($sum,0,',','.')}} <sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup> </p>
                             </div>
                         </div>
@@ -124,6 +124,7 @@ active
                                     <th>{{__("Phone")}}</th>
                                     <th>{{__("City")}}</th>
                                     <th>{{__("Status")}}</th>
+                                    <th>{{__("Order date")}}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -161,6 +162,9 @@ active
                                         @else
                                     <span class="badge bg-danger">{{__("Cancelled")}}</span>
                                         @endif
+                                    </td>
+                                    <td>
+                                        {{$order->created_at->format('d/m/Y | H:i')}}
                                     </td>
                                 </tr>
                                 @endforeach

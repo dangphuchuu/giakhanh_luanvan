@@ -16,7 +16,7 @@ class AdminController extends Controller
     {
         $sum = 0;
         $sum_today = 0;
-        $orders = Orders::all();
+        $orders = Orders::all()->where('status',3);
         $new_orders = Orders::orderBy('id', 'DESC')->take(3)->get();
         $orders_today = Orders::whereDate('created_at', Carbon::today())->get();
 
@@ -24,7 +24,7 @@ class AdminController extends Controller
             $sum += $order->total;
         }
 
-        foreach($orders_today as $today){
+        foreach($orders_today->where('status',3) as $today){
             $sum_today += $today->total;
         }
         return view('admin/pages/home/index',[
