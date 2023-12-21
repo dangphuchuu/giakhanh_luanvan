@@ -10,7 +10,7 @@ class BannersController extends Controller
 {
     public function index(){
         $banners = Banners::all();
-        return view('admin/pages/banners/index',['banners' => $banners]);
+        return view('admin.pages.banners.index',['banners' => $banners]);
     }
     public function create(Request $request){
         if ($request->hasFile('Image')) {

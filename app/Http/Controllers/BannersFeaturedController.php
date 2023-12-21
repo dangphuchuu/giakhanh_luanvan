@@ -11,7 +11,7 @@ class BannersFeaturedController extends Controller
 {
     public function index(){
         $bannersfeatured = BannersFeatured::all();
-        return view('admin/pages/bannersfeatured/index',['bannersfeatured' => $bannersfeatured]);
+        return view('admin.pages.bannersfeatured.index',['bannersfeatured' => $bannersfeatured]);
     }
     public function create(Request $request){
         $validate = Validator::make($request->all(),[

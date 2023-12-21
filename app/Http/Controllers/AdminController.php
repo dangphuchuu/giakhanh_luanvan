@@ -27,7 +27,7 @@ class AdminController extends Controller
         foreach($orders_today->where('status',3) as $today){
             $sum_today += $today->total;
         }
-        return view('admin/pages/home/index',[
+        return view('admin.pages.home.index',[
             'orders' => $orders,
             'sum' => $sum,
             'orders_today'=>$orders_today,
@@ -37,7 +37,7 @@ class AdminController extends Controller
     }
 
     public function login(){
-        return view('admin/pages/auth/login');
+        return view('admin.pages.auth.login');
     }
 
     public function handle_login(Request $request){
@@ -66,7 +66,7 @@ class AdminController extends Controller
 
     public function clients(){
         $user = User::role('client')->orderBy('id', 'DESC')->get();
-        return view('admin/pages/clients/index',[
+        return view('admin.pages.clients.index',[
             'user'=>$user
         ]);
     }

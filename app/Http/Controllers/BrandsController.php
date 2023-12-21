@@ -12,7 +12,7 @@ class BrandsController extends Controller
 {
     public function index(){
         $brands = Brands::all();
-        return view('admin/pages/brands/index',['brands' => $brands]);
+        return view('admin.pages.brands.index',['brands' => $brands]);
     }
     public function create(Request $request){
         $validate = Validator::make($request->all(),[

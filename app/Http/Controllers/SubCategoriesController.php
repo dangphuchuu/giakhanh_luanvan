@@ -17,7 +17,7 @@ class SubCategoriesController extends Controller
     {
         $subcategories = Subcategories::all();
         $categories = Categories::all();
-        return view('admin/pages/subcategories/index',['subcategories' => $subcategories,'categories'=>$categories]);
+        return view('admin.pages.subcategories.index',['subcategories' => $subcategories,'categories'=>$categories]);
     }
 
     public function create(Request $request)

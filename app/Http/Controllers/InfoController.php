@@ -9,7 +9,7 @@ class InfoController extends Controller
 {
     public function index(){
         $info = Info::find(1);
-        return view('admin/pages/information/index',[
+        return view('admin.pages.information.index',[
             'info'=>$info
         ]);
     }

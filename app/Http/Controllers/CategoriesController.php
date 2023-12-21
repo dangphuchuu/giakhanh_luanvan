@@ -17,7 +17,7 @@ class CategoriesController extends Controller
     public function index()
     {
         $categories = Categories::all();
-        return view('admin/pages/categories/index',['categories' => $categories]);
+        return view('admin.pages.categories.index',['categories' => $categories]);
     }
 
     public function create(Request $request)

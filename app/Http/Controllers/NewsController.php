@@ -12,7 +12,7 @@ class NewsController extends Controller
 {
     public function index(){
         $news = News::orderBy('id', 'DESC')->get();
-        return view('admin/pages/news/index',['news' => $news]);
+        return view('admin.pages.news.index',['news' => $news]);
     }
     public function create(Request $request){
         $validate = Validator::make($request->all(),[

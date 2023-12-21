@@ -21,7 +21,7 @@ class ProductsController extends Controller
         $categories = Categories::all();
         $subcategories = Subcategories::all();
         $brands = Brands::all();
-        return view('admin/pages/products/index',
+        return view('admin.pages.products.index',
         [
             'products' => $products,
             'categories' => $categories,
