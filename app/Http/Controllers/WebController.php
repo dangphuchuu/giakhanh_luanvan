@@ -139,6 +139,23 @@ class WebController extends Controller
         ]);
         $user->save();
         $user->syncRoles('client');
+
+        //email
+        $token = Str::random(20);
+        $to_email = $request->email;
+        $link_verify = url('/verify-email?email=' . $to_email . '&token=' . $token);
+
+        if (isset($request->email) && $user->email_verified == 0) {
+            Mail::send('web.pages.account.verify_account_mail', [
+                'to_email' => $to_email,
+                'link_verify' => $link_verify,
+            ], function ($email) use ($to_email) {
+                $email->subject(__("Activate your account ") . $to_email);
+                $email->to($to_email);
+            });
+            return redirect()->back()->with('toast_success', __("Please check your mail to activated!"));
+        }
+        
         return redirect()->back()->with('toast_success',__("Sign Up Successfully"));
     }
 
