@@ -41,9 +41,9 @@ class WebController extends Controller
         $banners = Banners::all()->where('status',1);
         $bannersfeatured = BannersFeatured::all()->where('status',1)->take(3);
         $products_featured = Products::all()->where('status',1)->where('featured_product',1);
-        $top_selling = Products::all()->where('status',1)->sortBy('created_at')->take(5);
+        $top_selling = Products::all()->where('price','!=',0)->where('price_new','!=',0)->where('status',1)->sortBy('created_at')->take(4);
         $news = News::all()->where('status',1)->sortByDesc('created_at')->take(4);
-        return view('web/pages/home/index',[
+        return view('web.pages.home.index',[
             'brands'=>$brands,
             'products' => $products,
             'banners'=>$banners,
@@ -59,7 +59,7 @@ class WebController extends Controller
         if(Auth::check()){
             return redirect('/');
         }
-        return view('web/common/signin_signup');
+        return view('web.common.signin_signup');
     }
     
     public function handle_login(Request $request){

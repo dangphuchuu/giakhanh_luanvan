@@ -151,7 +151,7 @@
 						@if($loop->first)
 						<div class="col-6 col-md-4 col-xl-3">
 							<div class="grid_item">
-										@if(isset($pro->price_new) && isset($pro->price))
+										@if(isset($pro->price_new) && isset($pro->price) && $pro->price != 0 && $pro->price_new != 0)
 											<span class="ribbon off">-{{round((($pro->price - $pro->price_new)/$pro->price)*100,0) }} %</span>
 										@elseif($pro->featured_product == 1)
 											<span class="ribbon hot">Hot</span>
@@ -172,7 +172,7 @@
 											<h3 class="d-block" style="max-width: 270px; height:50px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{$pro->name}}</h3>
 										</a>
 										<div class="price_box">
-										@if(isset($pro->price_new) && isset($pro->price))
+										@if(isset($pro->price_new) && isset($pro->price) && $pro->price != 0 && $pro->price_new != 0)
 												<span class="new_price">{{number_format($pro->price_new,0,",",".")}} Vnđ</span>
 												<span class="old_price">{{number_format($pro->price,0,",",".")}} Vnđ</span>
 

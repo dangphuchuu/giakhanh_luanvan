@@ -151,7 +151,7 @@
 						@if($loop->first)
 						<div class="col-6 col-md-4 col-xl-3">
 							<div class="grid_item">
-										@if(isset($pro->price_new) && isset($pro->price))
+										@if(isset($pro->price_new) && isset($pro->price) && $pro->price != 0 && $pro->price_new != 0)
 											<span class="ribbon off">-{{round((($pro->price - $pro->price_new)/$pro->price)*100,0) }} %</span>
 										@elseif($pro->featured_product == 1)
 											<span class="ribbon hot">Hot</span>

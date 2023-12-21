@@ -15,7 +15,9 @@
 									<div class="col-6 col-md-4 col-xl-3 isotope-item sale">
 										<div class="grid_item">
 											<figure>
-												<span class="ribbon off">-{{round((($pro->price - $pro->price_new)/$pro->price)*100,0) }} %</span>
+												<span class="ribbon off">
+													-{{round((($pro->price - $pro->price_new)/$pro->price)*100,0) }} %
+												</span>
 												<a href="/detail/{{$pro->id}}">
 												@if(strstr($img->image,"https") == "")
 													<img style="width:270px; height:250px" class="img-fluid lazy" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$img->image}}.jpg" alt="">

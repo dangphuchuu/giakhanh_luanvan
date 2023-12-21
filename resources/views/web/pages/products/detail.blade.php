@@ -116,35 +116,51 @@
 						<div class="row">
 							<div class="col-lg-5 col-md-6">
 								@if($products->status == 1)
-								@if(isset($products->price) && isset($products->price_new))
-								<div class="price_main"><span class="new_price">{{number_format($products->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></span><span class="percentage">-{{round((($products->price - $products->price_new)/$products->price)*100,0) }}%</span> <span class="old_price">{{number_format($products->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></span></div>
+								@if(isset($products->price) && isset($products->price_new) && $products->price != 0 && $products->price_new != 0)
+								<div class="price_main">
+									<span class="new_price">{{number_format($products->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+									</span>
+									<span class="percentage">-{{round((($products->price - $products->price_new)/$products->price)*100,0) }}%</span>
+									<span class="old_price">{{number_format($products->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+									</span>
+								</div>
 
 								@elseif(!isset($products->price) && isset($products->price_new))
-								<div class="price_main"><span class="new_price">{{number_format($products->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></span></div>
+								<div class="price_main">
+									<span class="new_price">{{number_format($products->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+									</span>
+								</div>
 
 								@elseif(isset($products->price) && !isset($products->price_new))
-								<div class="price_main"><span class="new_price">{{number_format($products->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></span></div>
+								<div class="price_main">
+									<span class="new_price">{{number_format($products->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+									</span>
+								</div>
 
 								@else
-								<div class="price_main"><span class="new_price" style="color: red !important">{{__("Contact")}}</span></div>
+								<div class="price_main">
+									<span class="new_price" style="color: red !important">{{__("Contact")}}</span>
+								</div>
 
 								@endif
 
 								@else
-								<div class="price_main"><span class="new_price" style="color: red !important">{{__("Out Stock")}}</span></div>
+								<div class="price_main">
+									<span class="new_price" style="color: red !important">{{__("Out Stock")}}</span>
+								</div>
 
 								@endif
 							</div>
 							@if($products->status == 1)
 
-									@if(isset($products->price) || isset($products->price_new))
-									<div class="col-lg-4 col-md-6">
-										<div class="btn_add_to_cart"><button type="submit" class="btn_1">{{__("Add to Cart")}}</button></div>
-									</div>
-									<input type="hidden" name="products_id" value="{{$products->id}}" />
-									@endif
+							@if(isset($products->price) || isset($products->price_new))
+							<div class="col-lg-4 col-md-6">
+								<div class="btn_add_to_cart"><button type="submit" class="btn_1">{{__("Add to Cart")}}</button></div>
+							</div>
+							<input type="hidden" name="products_id" value="{{$products->id}}" />
+							@endif
 
-							
+
 							@endif
 						</div>
 					</div>
@@ -229,7 +245,7 @@
 					@foreach($reviews as $review)
 					<div id="collapse-B" class="collapse" role="tabpanel" aria-labelledby="heading-B" style="margin-top: -30px;margin-left: 15px;">
 						<div class="card-body">
-							<div class="row" >
+							<div class="row">
 								<div class="col-lg-12">
 									<div class="review_content">
 										<span>{{$review->users->firstname}}</span>
@@ -259,7 +275,7 @@
 											<em>{{$review->updated_at->format('d-m-Y - H:i A')}}</em>
 										</div>
 										<p>{{$review->content}}</p>
-										<hr/>
+										<hr />
 									</div>
 								</div>
 							</div>
@@ -295,7 +311,7 @@
 			@if($loop->first)
 			<div class="item">
 				<div class="grid_item">
-					@if(isset($re->price_new) && isset($re->price))
+					@if(isset($re->price_new) && isset($re->price) && $re->price != 0 && $re->price_new != 0)
 					<span class="ribbon off">-{{round((($re->price - $re->price_new)/$re->price)*100,0) }} %</span>
 					@elseif($re->featured_product == 1)
 					<span class="ribbon hot">Hot</span>
