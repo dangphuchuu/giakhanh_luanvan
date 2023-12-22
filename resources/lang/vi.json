@@ -263,6 +263,7 @@
     "Phone numbers are from 0 to 9 and do not include characters":"Số điện thoại từ 0 đến 9 và không bao gồm ký tự",
     "Phone number at least 10 digits":"Số điện thoại ít nhất 10 chữ số",
     "Phone number maximum 20 digits":"Số điện thoại tối đa 20 chữ số",
-    "Order date":"Ngày đặt đơn"
+    "Order date":"Ngày đặt đơn",
+    "The password must be at least 6 characters":"Mật khẩu phải có ít nhất 6 ký tự"
 
 }

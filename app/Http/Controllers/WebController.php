@@ -107,15 +107,17 @@ class WebController extends Controller
     public function register(Request $request){
          $credentials = Validator::make($request->all(),[
              'username' => 'required|min:4|max:20|unique:users',
-             'password' => 'required',
+             'password' => 'required|min:6',
              'repassword'=>'required|same:password',
              'email'=>'required|unique:users',
              'firstname'=>'required',
-            'lastname'=>'required',
+             'lastname'=>'required',
+             'phone' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:12|nullable'
         ],
         [
             'username.required'=>__("the username field is required"),
             'password.required'=>__("the passwords field is required"),
+            'password.min'=>__("The password must be at least 6 characters"),
             'lastname.required'=>__("the last name field is required"),
             'firstname.required'=>__("the first name field is required"),
             'username.unique'=>__("the username is already exists"),
@@ -124,7 +126,10 @@ class WebController extends Controller
             'email.required'=>__("the email field is required"),
             'email.unique'=>__("the email is already exists"),
             'repassword.required'=>__("the repassword field is required"),
-            'repassword.same'=>__("the repassword is incorrect")
+            'repassword.same'=>__("the repassword is incorrect"),
+            'phone.regex' => __("Phone numbers are from 0 to 9 and do not include characters"),
+            'phone.min' => __("Phone number at least 10 digits"),
+            'phone.max' => __("Phone number maximum 20 digits")
         ]);
         if($credentials->fails()){
             return back()->with('toast_error', $credentials->messages()->all()[0])->withInput();
