@@ -23,10 +23,8 @@
                     <form action="/detail-track-order" id="formSubmitTrackOrder_{{$order->id}}" method="GET">
                         @csrf
                         <h3>
-                            {{__("Order Number")}}: {{$order->id}}
-                            <a href="javascript:void(0)"
-                                onclick="document.getElementById('formSubmitTrackOrder_{{$order->id}}').submit();">
-                                <span style="margin-left: 980px; color:white;">{{__("Detail")}}</span>
+                            <a href="javascript:void(0)" onclick="document.getElementById('formSubmitTrackOrder_{{$order->id}}').submit();">
+                                <span style="color:white;">{{__("Click to see order details")}}</span>
                             </a>
                         </h3>
                         <input type="hidden" name="id" value="{{$order->id}}" />
@@ -56,7 +54,12 @@
                             @endforeach
                         </ul>
                         <ul>
-
+                            <li class="clearfix">
+                                <em>
+                                    <strong>{{__("Order Number")}}</strong>
+                                </em>
+                                <span>{{$order->id}}</span>
+                            </li>
                             <li class="clearfix">
                                 <em>
                                     <strong>{{__("Quantity")}}</strong>

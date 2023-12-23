@@ -1,6 +1,10 @@
 <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="card-title">{{__("Orders Today")}}</h4>
+                    <h4 class="card-title">
+                        <a style="color:#475f7b" href="/admin/orders">
+                            {{__("Orders Today")}}
+                        </a>
+                    </h4>
                     <div class="d-flex ">
                         <i data-feather="download"></i>
                     </div>
