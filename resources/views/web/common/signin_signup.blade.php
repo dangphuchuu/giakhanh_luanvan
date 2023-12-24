@@ -115,7 +115,17 @@
 									</div>
 									<div class="col-6 pl-1">
 										<div class="form-group">
-											<input type="text" name="city" class="form-control" placeholder="{{__('City')}}">
+										<div class="custom-select-form">
+                                    <select class="wide add_bottom_15" name="city" id="city">
+                                        <option value="">{{__("City")}}</option>
+                                        <option value="hcm">Hồ Chí Minh</option>
+                                        <option value="hn">Hà Nội</option>
+                                        <option value="dn">Đà Nẵng</option>
+                                        <option value="vt">Vũng Tàu</option>
+                                        <option value="ct">Cần Thơ</option>
+                                        <option value="bd">Bình Dương</option>
+                                    </select>
+                                </div>
 										</div>
 									</div>
 								</div>

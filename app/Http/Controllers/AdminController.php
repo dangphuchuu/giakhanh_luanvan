@@ -77,4 +77,9 @@ class AdminController extends Controller
         $user->save();
         return response('success',200);
     }
+    public function filter_by_date(Request $request){
+        $from = $request->from;
+        $to = $request->to;
+        return response()->json();
+    }
 }

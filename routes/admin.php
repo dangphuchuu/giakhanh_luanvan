@@ -106,4 +106,5 @@ Route::prefix('admin')->middleware('admin','role:admin|staff')->group(function()
         Route::get('/status',[OrdersController::class, 'status']);
 
     });
+    Route::get('/filter-by-date',[AdminController::class, 'filter_by_date']);
 });

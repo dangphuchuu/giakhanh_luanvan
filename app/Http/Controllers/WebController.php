@@ -112,7 +112,7 @@ class WebController extends Controller
              'email'=>'required|unique:users',
              'firstname'=>'required',
              'lastname'=>'required',
-             'phone' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:12|nullable'
+             'phone' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:12||unique:users|nullable'
         ],
         [
             'username.required'=>__("the username field is required"),
@@ -129,7 +129,8 @@ class WebController extends Controller
             'repassword.same'=>__("the repassword is incorrect"),
             'phone.regex' => __("Phone numbers are from 0 to 9 and do not include characters"),
             'phone.min' => __("Phone number at least 10 digits"),
-            'phone.max' => __("Phone number maximum 20 digits")
+            'phone.max' => __("Phone number maximum 20 digits"),
+            'phone.unique' => __("Phone number is already exists"),
         ]);
         if($credentials->fails()){
             return back()->with('toast_error', $credentials->messages()->all()[0])->withInput();
@@ -140,7 +141,11 @@ class WebController extends Controller
             'username'=>$request->username,
             'email'=>$request->email,
             'image'=>'https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper.png',
-            'password'=>Hash::make($request->password)
+            'password'=>Hash::make($request->password),
+            'address'=>$request->address,
+            'district'=>$request->district,
+            'phone'=>$request->phone,
+            'city'=>$request->city
         ]);
         $user->save();
         $user->syncRoles('client');
@@ -403,10 +408,11 @@ class WebController extends Controller
 
         if($request->changepassword == 'on'){
             $validate = Validator::make($request->all(),[
-                'password' => 'required',
+                'password' => 'required|min:6',
                 'repassword'=>'required|same:password',
             ],[
                 'password.required'=>__("the passwords field is required"),
+                'password.min'=>__("The password must be at least 6 characters"),
                 'repassword.required'=>__("the repassword field is required"),
                 'repassword.same'=>__("the repassword is incorrect")
             ]);
@@ -414,12 +420,21 @@ class WebController extends Controller
             if($validate->fails()){
                 return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
             }
+
+            if(Hash::check($request->password,$user->password)){
+                return redirect()->back()->with('warning',__("The new password matches the old password !"));
+            }
             $request->password = Hash::make($request->password);
             $user->password = $request->password;
+            
+            if($user->isDirty('password')){
+                $user->save();
+                Auth::logout();
+                Cart::instance()->destroy();
+                return redirect('/signin_signup')->with('success',__("Change password successfully. Please re-login to continue using the website."));
+            }
         }
        
-
-
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
         $user->email = $request->email;
@@ -432,7 +447,7 @@ class WebController extends Controller
         {
             $user->email_verified = 0;
         }
-
+       
         $user->save();
         if (isset($request->email) && $user->email_verified == 0) {
             Mail::send('web.pages.account.verify_account_mail', [

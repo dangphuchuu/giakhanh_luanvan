@@ -264,6 +264,8 @@
     "Phone number at least 10 digits":"Số điện thoại ít nhất 10 chữ số",
     "Phone number maximum 20 digits":"Số điện thoại tối đa 20 chữ số",
     "Order date":"Ngày đặt đơn",
-    "The password must be at least 6 characters":"Mật khẩu phải có ít nhất 6 ký tự"
+    "The password must be at least 6 characters":"Mật khẩu phải có ít nhất 6 ký tự",
+    "Phone number is already exists":"Số điện thoại đã tồn tại trong hệ thống",
+    "Change password successfully. Please re-login to continue using the website.":"Thay đổi mật khẩu thành công. Vui lòng đăng nhập lại để tiếp tục sử dụng website."
 
 }

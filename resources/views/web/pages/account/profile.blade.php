@@ -142,7 +142,7 @@
                                 <h6 class="mb-0">{{__("Password")}}</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" name="password" class="password form-control" disabled>
+                                <input type="password" name="password" class="password form-control" disabled>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -150,7 +150,7 @@
                                 <h6 class="mb-0">{{__("RePassword")}}</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" name="repassword" class="password form-control" disabled>
+                                <input type="password" name="repassword" class="password form-control" disabled>
                             </div>
                         </div>
                         <div class="row">
