@@ -266,6 +266,18 @@
     "Order date":"Ngày đặt đơn",
     "The password must be at least 6 characters":"Mật khẩu phải có ít nhất 6 ký tự",
     "Phone number is already exists":"Số điện thoại đã tồn tại trong hệ thống",
-    "Change password successfully. Please re-login to continue using the website.":"Thay đổi mật khẩu thành công. Vui lòng đăng nhập lại để tiếp tục sử dụng website."
+    "Change password successfully. Please re-login to continue using the website.":"Thay đổi mật khẩu thành công. Vui lòng đăng nhập lại để tiếp tục sử dụng website.",
+    "Discounts":"Mã giảm giá",
+    "Percent":"Phần trăm",
+    "Code":"Mã",
+    "Code field is required":"Vui lòng nhập mã giảm giá",
+    "Code is already exists":"Mã giảm giá đã tồn tại",
+    "Maximum discount code is 100":"Mã giảm tối đa 100",
+    "Minimum discount code is 0":"Mã giảm tối thiểu 0",
+    "Quantity field is required":"Vui lòng nhập số lượng",
+    "The Coupon code is expired !":"Mã giảm giá đã hết hạn sử dụng !",
+    "Apply Coupon code successfully !":"Áp dụng mã giảm giá thành công !",
+    "The Coupon code doesn't exists !":"Mã giảm giá không tồn tại !",
+    "Wrong coupon code !":"Nhập sai mã giảm giá !"
 
 }

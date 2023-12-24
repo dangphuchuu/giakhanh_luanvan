@@ -10,13 +10,13 @@ active
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>{{__("Brands")}}</h3>
+                <h3>{{__("Discounts")}}</h3>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class='breadcrumb-header'>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/admin">{{__("Dashboard")}}</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">{{__("Brands")}}</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{__("Discounts")}}</li>
                     </ol>
                 </nav>
             </div>
@@ -26,58 +26,51 @@ active
         <div class="card">
             <div class="card-header">
                 <button type="button" class="btn btn-outline-primary block" data-bs-toggle="modal"
-                    data-bs-target="#brands_create">
+                    data-bs-target="#discounts_create">
                     {{__("Create")}}
                 </button>
-                @include('admin/pages/brands/create')
+                @include('admin/pages/discounts/create')
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
+                            <th class="text-center">Id</th>
                             <th class="text-center">{{__("Name")}}</th>
-                            <th class="text-center">{{__("Image")}}</th>
+                            <th class="text-center">{{__("Code")}}</th>
+                            <th class="text-center">{{__("Percent")}}</th>
+                            <th class="text-center">{{__("Quantity")}}</th>
                             <th class="text-center">{{__("Status")}}</th>
                             <th class="text-center">{{__("Operations")}}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($brands as $key => $brand)
+                        @foreach($discounts as $key => $dis)
                         <tr>
-                            <td class="text-center">{{$brand->name}}</td>
-                            <td class="text-center">
-                                @if($brand->image == NULL)
-                                <img style="width: 300px">
-                                @else
-                                @if(strstr($brand->image,"https") == "")
-                                <img style="width: 300px"
-                                    src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ $brand->image }}.jpg">
-                                @elseif(strstr($brand->image,"https") != "")
-                                <img style="width: 300px" src="{{ $brand->image }}">
-                                @endif
-                                @endif
-                            </td>
-                            <td class="text-center" id="status{{$brand->id}}">
-                                @if($brand->status == 1)
-                                <a href="javascript:void(0)" onclick="status({{$brand->id}},0)"><span
+                            <td class="text-center">{{$key+1}}</td>
+                            <td class="text-center">{{$dis->name}}</td>
+                            <td class="text-center">{{$dis->code}}</td>
+                            <td class="text-center">{{$dis->percent}}</td>
+                            <td class="text-center">{{$dis->quantity}}</td>
+                            <td class="text-center" id="status{{$dis->id}}">
+                                @if($dis->status == 1)
+                                <a href="javascript:void(0)" onclick="status({{$dis->id}},0)"><span
                                         class="badge bg-success">Published</span></a>
                                 @else
-                                <a href="javascript:void(0)" onclick="status({{$brand->id}},1)"><span
+                                <a href="javascript:void(0)" onclick="status({{$dis->id}},1)"><span
                                         class="badge bg-danger">Pending</span></a>
                                 @endif
                             </td>
-                            <td class="text-center" >
-                                <a  href="javascript:void(0)" data-bs-toggle="modal"
-                                    data-bs-target="#brands_edit{{$brand->id}}">
-                                    <i data-feather="edit"></i>
+                            <td class="text-center">
+                                <a href="javascript:void(0)" data-bs-toggle="modal"
+                                    data-bs-target="#discounts_edit{{$dis->id}}">
+                                    <i data-feather="edit" ></i>
                                 </a>
-                                
-                                <a href="admin/brands/delete/{{$brand->id}}"
+                                <a href="admin/discounts/delete/{{$dis->id}}"
                                     onclick="return confirm(`{{__('Are you sure you want to delete this ?')}}`)">
                                     <i data-feather="trash-2" stroke="red"></i>
-                                </a>
                             </td>
-                            @include('admin/pages/brands/edit')
+                            @include('admin/pages/discounts/edit')
                         </tr>
                         @endforeach
                     </tbody>
@@ -108,7 +101,7 @@ function status(status_id, active) {
         }
     });
     $.ajax({
-        url: "/admin/brands/status",
+        url: "/admin/discounts/status",
         type: 'GET',
         dataType: 'json',
         data: {
@@ -124,20 +117,5 @@ function status(status_id, active) {
         }
     });
 }
-</script>
-<script>
-function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            $('.file-uploader .img_brands').attr('src', e.target.result).removeClass('d-none');
-        }
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
-$(".image-brands").change(function() {
-    readURL(this);
-});
 </script>
 @endsection

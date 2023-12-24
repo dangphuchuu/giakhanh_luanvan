@@ -7,6 +7,7 @@
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
 $carts = Cart::instance();
+
 // Cart::destroy();
 // dd( Request::path()=="cart");
 // dd($carts->count());
@@ -63,7 +64,7 @@ $carts = Cart::instance();
                         <th>
                             {{__("Quantity")}}
                         </th>
-                        <th>
+                        <th style="white-space: nowrap;">
                             {{__("Subtotal")}}
                         </th>
                         <th>
@@ -128,15 +129,21 @@ $carts = Cart::instance();
 
             <div class="row add_top_30 flex-sm-row-reverse cart_actions">
                 <div class="col-sm-4 text-end">
-                    <button type="submit" class="btn_1 gray">{{__("Update Cart")}}</button>
                 </div>
                 <div class="col-sm-8 text-start">
                     <div class="apply-coupon">
                         <div class="form-group">
+                            <form action="/cart/discounts" method="post">
+                                @csrf
                             <div class="row g-2">
-                                <div class="col-md-6"><input type="text" name="coupon-code" value="" placeholder="{{__('Promo code')}}" class="form-control"></div>
-                                <div class="col-md-4"><button type="button" class="btn_1 outline">{{__("Apply Coupon")}}</button></div>
+                                <div class="col-md-6">
+                                    <input type="text" name="code" value="" placeholder="{{__('Promo code')}}" class="form-control">
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn_1 outline">{{__("Apply Coupon")}}</button>
+                                </div>
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>

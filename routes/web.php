@@ -65,6 +65,7 @@ Route::middleware('language')->group(function(){
     Route::get('/cart',[WebController::class, 'cart']);
     Route::post('/cart',[WebController::class, 'handle_cart']);
     Route::post('/updateCart',[WebController::class, 'update']);
+    Route::post('/cart/discounts',[WebController::class, 'discounts']);
     Route::delete('/deleteCart',[WebController::class, 'deleteCart']);
     Route::get('/checkout',[WebController::class, 'checkout']);
     Route::post('/checkout',[WebController::class, 'handle_checkout']);
@@ -73,5 +74,8 @@ Route::middleware('language')->group(function(){
     //TODO News
     Route::get('/news/list',[WebController::class, 'newsList']);
     Route::get('/news/{id}',[WebController::class, 'newsDetail']);
+
+    
+
 
 });

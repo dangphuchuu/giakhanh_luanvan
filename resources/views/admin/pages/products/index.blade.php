@@ -138,11 +138,11 @@ $(document).ready(function() {
 function status(status_id, active) {
     if (active === 1) {
         $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',0)">\
-                <span class="badge bg-success">Active</span>\
+                <span class="badge bg-success">Published</span>\
             </a>')
     } else {
         $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',1)">\
-                <span class="badge bg-danger">Inactive</span>\
+                <span class="badge bg-danger">Pending</span>\
             </a>')
     }
     $.ajaxSetup({

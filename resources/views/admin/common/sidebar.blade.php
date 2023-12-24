@@ -48,6 +48,12 @@
                         <span>{{__("Orders")}}</span>
                     </a>
                 </li>
+                <li class="sidebar-item @yield('manage_orders') ">
+                    <a href="/admin/discounts" class='sidebar-link'>
+                        <i data-feather="file-text" width="20"></i>
+                        <span>{{__("Discounts")}}</span>
+                    </a>
+                </li>
                 <li class='sidebar-title'>{{__("Information")}}</li>
                 <li class="sidebar-item  has-sub @yield('info')">
                     <a href="#" class='sidebar-link'>

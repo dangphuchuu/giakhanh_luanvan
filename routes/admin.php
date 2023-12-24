@@ -6,6 +6,7 @@ use App\Http\Controllers\BannersFeaturedController;
 use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\DiscountsController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
@@ -106,6 +107,16 @@ Route::prefix('admin')->middleware('admin','role:admin|staff')->group(function()
         Route::get('/status',[OrdersController::class, 'status']);
 
     });
+
+    Route::prefix('discounts')->group(function(){
+        Route::get('/',[DiscountsController::class, 'index']);
+        Route::post('/create',[DiscountsController::class, 'create']);
+        Route::post('/edit/{id}',[DiscountsController::class, 'edit']);
+        Route::get('/delete/{id}',[DiscountsController::class, 'destroy']);
+        Route::get('/status',[DiscountsController::class, 'status']);
+
+    });
+
     Route::get('/filter-by-date',[AdminController::class, 'filter_by_date']);
     Route::get('/profile',[AdminController::class, 'profile']);
     Route::post('/profile',[AdminController::class, 'editProfile']);

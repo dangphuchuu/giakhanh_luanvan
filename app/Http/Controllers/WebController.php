@@ -6,6 +6,7 @@ use App\Models\Banners;
 use App\Models\BannersFeatured;
 use App\Models\Brands;
 use App\Models\Categories;
+use App\Models\Discounts;
 use App\Models\Info;
 use App\Models\Orders;
 use App\Models\Orders_Detail;
@@ -527,6 +528,7 @@ class WebController extends Controller
             $img[] = $value->image;
         }
         // dd($img[0]);
+
         if($quantity <= 0){
             return redirect()->back()->with('toast_warning',__("Please choose product at least 1 !"));
         }
@@ -535,6 +537,7 @@ class WebController extends Controller
             'name'=> $products->name,
             'qty'=> $request->quantity,
             'price'=> $products->price,
+            'weight' => 550,
             'options'=>[
                 'price_new'=>$products->price_new,
                 'image'=>  $img[0],
@@ -568,8 +571,29 @@ class WebController extends Controller
             // print_r($data);
             // Cart::instance(Auth::user()->id)->update($request->cartId);
             // return response();
-
        
+    }
+
+    public function discounts(Request $request){
+        $discounts = Discounts::all();
+        $cart = Cart::instance();
+        foreach($discounts as $dis){
+            if($dis->code == $request->code){
+                if($dis->status == 1){
+                    foreach($cart->content() as $cart_id)
+                    {
+                        $cart->setDiscount($cart_id->rowId,$dis->percent);
+                    }
+                    return redirect()->back()->with('toast_success',__("Apply Coupon code successfully !"));
+                }else{
+                    return redirect()->back()->with('toast_error',__("The Coupon code is expired !"));
+                }
+            }else{
+                return redirect()->back()->with('toast_error',__("The Coupon code doesn't exists !"));
+
+            }
+        }
+        return redirect()->back()->with('toast_success',__("Wrong coupon code !"));
     }
 
     public function deleteCart(Request $request){
