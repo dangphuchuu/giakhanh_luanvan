@@ -13,30 +13,30 @@ $carts = Cart::instance();
 ?>
 <style>
     .numbers-cart {
-    position: relative;
-    width: 100%;
-    height: 40px;
-    overflow: visible;
-    border: 1px solid #dddddd;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
-    border-radius: 3px;
-    background-color: #fff;
-    text-align: left !important;
-}
-.button_cart {
-    cursor: pointer;
-    position: absolute;
-    width: 33px;
-    height: 40px;
-    line-height: 38px;
-    text-align: center;
-    z-index: 2;
-    font-size: 26px;
-    font-weight: 300!important;
-    color: #999;
-}
+        position: relative;
+        width: 100%;
+        height: 40px;
+        overflow: visible;
+        border: 1px solid #dddddd;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        -ms-border-radius: 3px;
+        border-radius: 3px;
+        background-color: #fff;
+        text-align: left !important;
+    }
+    .button_cart {
+        cursor: pointer;
+        position: absolute;
+        width: 33px;
+        height: 40px;
+        line-height: 38px;
+        text-align: center;
+        z-index: 2;
+        font-size: 26px;
+        font-weight: 300!important;
+        color: #999;
+    }
 </style>
 <main class="bg_gray">
     <div class="container margin_30">
@@ -100,7 +100,7 @@ $carts = Cart::instance();
                             <div class="numbers-cart">
                                 <input type="text" value="{{$cart->qty}}" id="quantity_1" class="qty2" name="quantity">
                                 <div class="inc button_cart" data-id="{{$cart->rowId}}" data-priceNew="{{$cart->options->price_new}}" data-priceOld="{{$cart->price}}">+</div>
-                                <div class="dec button_cart" data-id="{{$cart->rowId}}"data-priceNew="{{$cart->options->price_new}}" data-priceOld="{{$cart->price}}">-</div>
+                                <div class="dec button_cart" data-id="{{$cart->rowId}}" data-priceNew="{{$cart->options->price_new}}" data-priceOld="{{$cart->price}}">-</div>
                             </div>
                         </td>
                         <td>
@@ -126,7 +126,7 @@ $carts = Cart::instance();
                 </tbody>
             </table>
 
-            <!-- <div class="row add_top_30 flex-sm-row-reverse cart_actions">
+            <div class="row add_top_30 flex-sm-row-reverse cart_actions">
                 <div class="col-sm-4 text-end">
                     <button type="submit" class="btn_1 gray">{{__("Update Cart")}}</button>
                 </div>
@@ -140,7 +140,7 @@ $carts = Cart::instance();
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
      
         <!-- /cart_actions -->
 
