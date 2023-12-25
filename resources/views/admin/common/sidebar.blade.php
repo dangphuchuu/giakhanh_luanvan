@@ -50,7 +50,7 @@
                 </li>
                 <li class="sidebar-item @yield('manage_orders') ">
                     <a href="/admin/discounts" class='sidebar-link'>
-                        <i data-feather="file-text" width="20"></i>
+                        <i data-feather="percent" width="20"></i>
                         <span>{{__("Discounts")}}</span>
                     </a>
                 </li>
@@ -71,7 +71,7 @@
                             <a href="/admin/news">{{__("News")}}</a>
                         </li>
                         <li>
-                            <a href="/admin/info">{{__("Contact Info")}}</a>
+                            <a href="/admin/info">{{__("Information")}}</a>
                         </li>
 
                     </ul>

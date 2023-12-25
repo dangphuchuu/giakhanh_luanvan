@@ -18,6 +18,7 @@ class Info extends Model
         'youtube',
         'address',
         'worktime',
-        'copyright'
+        'copyright',
+        'tax'
     ];
 }

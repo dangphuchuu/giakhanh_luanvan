@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('worktime')->nullable();
             $table->string('copyright')->nullable();
+            $table->float('tax')->default(0);
             $table->timestamps();
         });
     }

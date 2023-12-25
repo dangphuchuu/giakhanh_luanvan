@@ -95,6 +95,13 @@ active
                                     </div>
                                 </div>
 
+                                <div class="col-md-4">
+                                    <label>{{__("Tax")}}: </label>
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" name="tax" value="{{$info->tax}}"/>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </form>

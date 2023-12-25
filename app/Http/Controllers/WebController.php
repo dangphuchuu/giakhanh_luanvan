@@ -575,25 +575,54 @@ class WebController extends Controller
     }
 
     public function discounts(Request $request){
-        $discounts = Discounts::all();
+        $discount = Discounts::where('code',$request->discount)->get()->first();
         $cart = Cart::instance();
-        foreach($discounts as $dis){
-            if($dis->code == $request->code){
-                if($dis->status == 1){
+        if($discount){
+            if($discount->status == 1){
+                if($discount->quantity ==0){
+                    return response()->json(['error'=>__("Out of discount codes !")]);
+                }else{
                     foreach($cart->content() as $cart_id)
                     {
-                        $cart->setDiscount($cart_id->rowId,$dis->percent);
+                        $cart->setDiscount($cart_id->rowId,$discount->percent);
                     }
-                    return redirect()->back()->with('toast_success',__("Apply Coupon code successfully !"));
-                }else{
-                    return redirect()->back()->with('toast_error',__("The Coupon code is expired !"));
+                    $sum = $cart->subtotal(0,',','.'); 
+                    $total = $cart->total(0,',','.'); 
+                    $tax = $cart->tax(0,',','.');
+                    return response()->json([
+                        'success'=>__("Apply Coupon code successfully !"),
+                        'sum'=>$sum,
+                        'total'=>$total,
+                        'tax'=>$tax
+                    ]);
                 }
             }else{
-                return redirect()->back()->with('toast_error',__("The Coupon code doesn't exists !"));
-
+                return response()->json(['error'=>__("The Coupon code is expired !")]);
             }
         }
-        return redirect()->back()->with('toast_success',__("Wrong coupon code !"));
+        return response()->json([
+            'error'=>__("The Coupon code doesn't exists !")
+        ]);
+    }
+    public function cancelDiscounts(){
+        $cart = Cart::instance();
+        if($cart->count() > 0){
+            foreach($cart->content() as $cart_id)
+            {
+                $cart->setDiscount($cart_id->rowId,0);
+            }
+            $sum = $cart->subtotal(0,',','.'); 
+            $total = $cart->total(0,',','.'); 
+            $tax = $cart->tax(0,',','.');
+        return response()->json([
+            'success'=>__("Cancel code successfully !"),
+            'sum'=>$sum,
+            'total'=>$total,
+            'tax'=>$tax
+        ]);
+        }
+        return response()->json(['error' => 'Oops ! Something went wrong']);
+
     }
 
     public function deleteCart(Request $request){

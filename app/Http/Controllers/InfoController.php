@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Info;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class InfoController extends Controller
@@ -15,6 +16,18 @@ class InfoController extends Controller
     }
     public function info(Request $request){
         $info = Info::find(1);
+        $validate = Validator::make($request->all(),[
+            'tax' =>'required|numeric|min:0|max:100'
+        ],[
+            'tax.required'=>__("Title field is required"),
+            'tax.max'=>__("Maximum tax is 100"),
+            'tax.min'=>__("Minimum tax is 0"),
+            'tax.numeric'=>__("Tax must be number")
+        ]);
+        if($validate->fails()){
+            return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
+        }
+
         if($request->hasFile('Image')){
             $img = $request->file('Image');
             $format = $img ->getClientOriginalExtension();
@@ -36,6 +49,7 @@ class InfoController extends Controller
         $info->address = $request->address;
         $info->worktime = $request->worktime;
         $info->copyright = $request->copyright;
+        $info->tax = $request->tax;
         $info->save();
         return redirect()->back()->with('toast_success',__("Update successfully"));
     }

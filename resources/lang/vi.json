@@ -272,12 +272,19 @@
     "Code":"Mã",
     "Code field is required":"Vui lòng nhập mã giảm giá",
     "Code is already exists":"Mã giảm giá đã tồn tại",
-    "Maximum discount code is 100":"Mã giảm tối đa 100",
-    "Minimum discount code is 0":"Mã giảm tối thiểu 0",
+    "Maximum discount code is 100":"Mã giảm tối đa là 100",
+    "Minimum discount code is 0":"Mã giảm tối thiểu là 0",
     "Quantity field is required":"Vui lòng nhập số lượng",
     "The Coupon code is expired !":"Mã giảm giá đã hết hạn sử dụng !",
     "Apply Coupon code successfully !":"Áp dụng mã giảm giá thành công !",
     "The Coupon code doesn't exists !":"Mã giảm giá không tồn tại !",
-    "Wrong coupon code !":"Nhập sai mã giảm giá !"
+    "Wrong coupon code !":"Nhập sai mã giảm giá !",
+    "Out of discount codes !":"Hết mã giảm giá !",
+    "Tax must be number":"Thuế bắt buộc là số",
+    "Maximum tax is 100":"Thuế tối đa là 100",
+    "Minimum tax is 0":"Thuế tối thiểu là 0",
+    "Cancel code":"Hủy mã",
+    "Cancel code successfully !":"Hủy mã thành công",
+    "Oops ! Something went wrong":"Hình như có gì đó sai sai !"
 
 }

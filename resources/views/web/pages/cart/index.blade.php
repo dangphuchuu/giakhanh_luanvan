@@ -7,7 +7,7 @@
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
 $carts = Cart::instance();
-
+Cart::setGlobalTax($info->tax);
 // Cart::destroy();
 // dd( Request::path()=="cart");
 // dd($carts->count());
@@ -133,17 +133,14 @@ $carts = Cart::instance();
                 <div class="col-sm-8 text-start">
                     <div class="apply-coupon">
                         <div class="form-group">
-                            <form action="/cart/discounts" method="post">
-                                @csrf
                             <div class="row g-2">
                                 <div class="col-md-6">
-                                    <input type="text" name="code" value="" placeholder="{{__('Promo code')}}" class="form-control">
+                                    <input type="text" id="discount" placeholder="{{__('Promo code')}}" class="form-control">
                                 </div>
-                                <div class="col-md-4">
-                                    <button type="submit" class="btn_1 outline">{{__("Apply Coupon")}}</button>
+                                <div class="col-md-4" id="formCoupon">
+                                    <button id="applyCoupon" class="btn_1 outline">{{__("Apply Coupon")}}</button>
                                 </div>
                             </div>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -166,7 +163,7 @@ $carts = Cart::instance();
                             </p>
                         </li>
                         <li>
-                            <span>{{__("Tax")}} ({{env('TAX',0)}}%)</span> 
+                            <span>{{__("Tax")}} ({{$info->tax}}%)</span> 
                             <p id="tax">
                             {{$carts->tax(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                             </p>
@@ -269,15 +266,96 @@ $carts = Cart::instance();
                 dataType: 'json',
                 success: function(data){
                     Obj.parents('tr').remove();
-                    $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN'));
-                    $('#totalCart').text(data.total.toLocaleString('vi-VN'));
-                    $('#tax').text(data.tax.toLocaleString('vi-VN'));
+                    $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                 },error: function(){
                     alert("error");
 
                 }
             })
         });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $('#formCoupon').on('click','#applyCoupon',function(){
+            var discount = $('#discount').val();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url:'/cart/discounts',
+                type:'POST',
+                dataType:'json',
+                data:{
+                    'discount': discount,
+                },
+                success: function(data){
+                    if(data['success']){
+                        alert(data.success)
+                        $("#discount").prop('disabled',true);
+                        $("#applyCoupon").replaceWith('<button id="cancelCoupon" class="btn_1 outline">{{__("Cancel code")}}</button>')
+                        $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    }
+                    if(data['error']){
+                        alert(data.error)
+                    }
+                }
+            });
+
+        });
+
+        $('#formCoupon').on('click','#cancelCoupon',function(){
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url:'/cart/canceldiscounts',
+                type:'POST',
+                dataType:'json',
+                success: function(data){
+                    if(data['success']){
+                        alert(data.success);
+                        $("#discount").prop('disabled',false);
+                        $("#cancelCoupon").replaceWith('<button id="applyCoupon" class="btn_1 outline">{{__("Apply Coupon")}}</button>')
+                        $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    }
+                    if(data['error']){
+                        alert(data.error)
+                    }
+                }
+            });
+        });
+
+       if(window.history && window.history.pushState)
+       {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url:'/cart/canceldiscounts',
+                type:'POST',
+                dataType:'json',
+                success: function(data){
+                    if(data['success']){
+                         window.history.pushState('forward','null','./cart');// button refresh page (we must to use it because refresh this page to delete the coupon code and if you refresh page without this function so the subtotal,total won't change)
+                        $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        // 3 lines above to set the total when it's changed
+                    }
+                    if(data['error']){
+                        alert(data.error)
+                    }
+                }
+            });
+        }
+        
     });
 </script>
 @endsection

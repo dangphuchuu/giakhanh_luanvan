@@ -66,6 +66,7 @@ Route::middleware('language')->group(function(){
     Route::post('/cart',[WebController::class, 'handle_cart']);
     Route::post('/updateCart',[WebController::class, 'update']);
     Route::post('/cart/discounts',[WebController::class, 'discounts']);
+    Route::post('/cart/canceldiscounts',[WebController::class, 'cancelDiscounts']);
     Route::delete('/deleteCart',[WebController::class, 'deleteCart']);
     Route::get('/checkout',[WebController::class, 'checkout']);
     Route::post('/checkout',[WebController::class, 'handle_checkout']);
