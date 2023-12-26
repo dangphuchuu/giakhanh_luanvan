@@ -134,12 +134,23 @@ Cart::setGlobalTax($info->tax);
                     <div class="apply-coupon">
                         <div class="form-group">
                             <div class="row g-2">
+                                @if(Auth::check())
                                 <div class="col-md-6">
-                                    <input type="text" id="discount" placeholder="{{__('Promo code')}}" class="form-control">
+                                    <input type="text" name="code" id="discount" placeholder="{{__('Promo code')}}" class="form-control">
                                 </div>
                                 <div class="col-md-4" id="formCoupon">
                                     <button id="applyCoupon" class="btn_1 outline">{{__("Apply Coupon")}}</button>
                                 </div>
+                                @else
+                                <div class="col-md-6">
+                                    <input type="text" disabled placeholder="{{__('Promo code')}}" class="form-control">
+                                </div>
+                                <div class="col-md-4">
+                                    <form action="/signin_signup">
+                                    <button type="submit" class="btn_1 outline">{{__("Login")}}</button>
+                                    </form>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -159,13 +170,19 @@ Cart::setGlobalTax($info->tax);
                         <li>
                             <span >{{__("Subtotal")}}</span> 
                             <p id="sumSubtotal">
-                            {{$carts->subtotal(0,',','.');}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                            {{$carts->priceTotal(0,',','.');}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                             </p>
                         </li>
                         <li>
                             <span>{{__("Tax")}} ({{$info->tax}}%)</span> 
                             <p id="tax">
                             {{$carts->tax(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                            </p>
+                        </li>
+                        <li>
+                            <span id="discountPercent">{{__("Discount")}} (0%)</span> 
+                            <p id="valueDiscount">
+                            {{$carts->discount(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                             </p>
                         </li>
                         <li>
@@ -238,6 +255,8 @@ Cart::setGlobalTax($info->tax);
                     $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    $('#valueDiscount').text(data.discount.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    
                     // alert(data.total.toLocaleString('vi-VN'));
                 },error: function(){
                     alert("error");
@@ -266,9 +285,11 @@ Cart::setGlobalTax($info->tax);
                 dataType: 'json',
                 success: function(data){
                     Obj.parents('tr').remove();
-                    $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    $('#sumSubtotal').text(data.subtotal.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    $('#valueDiscount').text(data.discount.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                
                 },error: function(){
                     alert("error");
 
@@ -295,10 +316,12 @@ Cart::setGlobalTax($info->tax);
                     if(data['success']){
                         alert(data.success)
                         $("#discount").prop('disabled',true);
-                        $("#applyCoupon").replaceWith('<button id="cancelCoupon" class="btn_1 outline">{{__("Cancel code")}}</button>')
-                        $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#discountPercent').text('{{__("Discounts")}} ('+data.percent.toLocaleString('vi-VN')+'%)');
+                        $("#applyCoupon").replaceWith('<button id="cancelCoupon" class="btn_1 outline">{{__("Cancel coupon")}}</button>')
+                        $('#sumSubtotal').text(data.subtotal.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#valueDiscount').text(data.discount.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     }
                     if(data['error']){
                         alert(data.error)
@@ -321,9 +344,11 @@ Cart::setGlobalTax($info->tax);
                         alert(data.success);
                         $("#discount").prop('disabled',false);
                         $("#cancelCoupon").replaceWith('<button id="applyCoupon" class="btn_1 outline">{{__("Apply Coupon")}}</button>')
-                        $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#discountPercent').text('{{__("Discounts")}} (0%)');
+                        $('#sumSubtotal').text(data.subtotal.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#valueDiscount').text(data.discount.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     }
                     if(data['error']){
                         alert(data.error)
@@ -344,10 +369,11 @@ Cart::setGlobalTax($info->tax);
                 success: function(data){
                     if(data['success']){
                          window.history.pushState('forward','null','./cart');// button refresh page (we must to use it because refresh this page to delete the coupon code and if you refresh page without this function so the subtotal,total won't change)
-                        $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#sumSubtotal').text(data.subtotal.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
-                        // 3 lines above to set the total when it's changed
+                        $('#valueDiscount').text(data.discount.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        // 4 lines above to set the total when it's changed
                     }
                     if(data['error']){
                         alert(data.error)

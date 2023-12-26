@@ -283,8 +283,9 @@
     "Tax must be number":"Thuế bắt buộc là số",
     "Maximum tax is 100":"Thuế tối đa là 100",
     "Minimum tax is 0":"Thuế tối thiểu là 0",
-    "Cancel code":"Hủy mã",
-    "Cancel code successfully !":"Hủy mã thành công",
-    "Oops ! Something went wrong":"Hình như có gì đó sai sai !"
+    "Cancel coupon":"Hủy mã",
+    "Cancel coupon successfully !":"Hủy mã thành công",
+    "Oops ! Something went wrong":"Hình như có gì đó sai sai !",
+    "Discount":"Giảm giá"
 
 }

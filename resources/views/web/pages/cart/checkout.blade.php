@@ -163,7 +163,7 @@ $carts = Cart::instance();
                                     <em>
                                         <strong>{{__("Subtotal")}}</strong>
                                     </em>
-                                    <span>{{$carts->subtotal(0,',','.');}}<sup
+                                    <span>{{$carts->priceTotal(0,',','.');}}<sup
                                             style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></span>
                                 </li>
 
@@ -172,6 +172,14 @@ $carts = Cart::instance();
                                         <strong>{{__("Tax")}}</strong>
                                     </em>
                                     <span>{{$carts->tax(0,',','.')}}<sup
+                                            style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></span>
+                                </li>
+
+                                <li class="clearfix">
+                                    <em>
+                                        <strong>{{__("Discount")}}</strong>
+                                    </em>
+                                    <span>{{$carts->discount(0,',','.')}}<sup
                                             style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></span>
                                 </li>
 

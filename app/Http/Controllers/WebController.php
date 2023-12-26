@@ -558,14 +558,16 @@ class WebController extends Controller
         }
         $cart = Cart::instance();
         $cart->update($id,$qty);
-        $sum = $cart->subtotal(0,',','.'); 
+        $sum = $cart->priceTotal(0,',','.'); 
         $tax = $cart->tax(0,',','.');
         $total = $cart->total(0,',','.'); 
+        $discount = $cart->discount(0,',','.');
         return response()->json([
             'subtotal'=>$subtotal,
             'sum'=>$sum,
             'tax'=>$tax,
-            'total'=>$total
+            'total'=>$total,
+            'discount'=>$discount
         ],200);
             // $data = $request->all();
             // print_r($data);
@@ -586,14 +588,18 @@ class WebController extends Controller
                     {
                         $cart->setDiscount($cart_id->rowId,$discount->percent);
                     }
-                    $sum = $cart->subtotal(0,',','.'); 
+                    $subtotal = $cart->priceTotal(0,',','.'); 
                     $total = $cart->total(0,',','.'); 
                     $tax = $cart->tax(0,',','.');
+                    $percent =  $discount->percent;
+                    $discount = $cart->discount(0,',','.');
                     return response()->json([
                         'success'=>__("Apply Coupon code successfully !"),
-                        'sum'=>$sum,
+                        'subtotal'=>$subtotal,
                         'total'=>$total,
-                        'tax'=>$tax
+                        'tax'=>$tax,
+                        'percent'=>$percent,
+                        'discount'=>$discount
                     ]);
                 }
             }else{
@@ -611,14 +617,16 @@ class WebController extends Controller
             {
                 $cart->setDiscount($cart_id->rowId,0);
             }
-            $sum = $cart->subtotal(0,',','.'); 
+            $subtotal = $cart->priceTotal(0,',','.'); 
             $total = $cart->total(0,',','.'); 
             $tax = $cart->tax(0,',','.');
+            $discount = $cart->discount(0,',','.');
         return response()->json([
-            'success'=>__("Cancel code successfully !"),
-            'sum'=>$sum,
+            'success'=>__("Cancel coupon successfully !"),
+            'subtotal'=>$subtotal,
             'total'=>$total,
-            'tax'=>$tax
+            'tax'=>$tax,
+            'discount'=>$discount
         ]);
         }
         return response()->json(['error' => 'Oops ! Something went wrong']);
@@ -629,18 +637,21 @@ class WebController extends Controller
         $id = $request->cartId;
         $cart = Cart::instance();
         $cart->remove($id);
-        $sum = $cart->subtotal(0,',','.'); 
+        $subtotal = $cart->priceTotal(0,',','.'); 
         $total = $cart->total(0,',','.'); 
         $tax = $cart->tax(0,',','.');
+        $discount = $cart->discount(0,',','.');
+
         return response()->json([
-            'sum'=>$sum,
+            'subtotal'=>$subtotal,
             'total'=>$total,
-            'tax'=>$tax
+            'tax'=>$tax,
+            'discount'=>$discount
         ],200);
         
     }
 
-    public function checkout(){
+    public function checkout(Request $request){
         if(Auth::check()){
             return view('web.pages.cart.checkout');
         }
@@ -676,15 +687,6 @@ class WebController extends Controller
         }
         $cart = Cart::instance();
         $user = Auth::user()->id;
-        
-        // $user->lastname = $request->lastname;
-        // $user->firstname = $request->firstname;
-        // $user->email = $request->email;
-        // $user->phone = $request->phone;
-        // $user->address = $request->address;
-        // $user->district = $request->district;
-        // $user->city = $request->city;
-        // $user->save();
         $orders = new Orders([
             'users_id'=> $user,
             'lastname'=>$request->lastname,
