@@ -101,7 +101,7 @@
 						<p><small>{{$products->categories->name}}: {{$products->subcategories->name}}-{{$products->id}}</small>
 							<!-- <br>Sed ex labitur adolescens scriptorem. Te saepe verear tibique sed. Et wisi ridens vix, lorem iudico blandit mel cu. Ex vel sint zril oportere, amet wisi aperiri te cum. -->
 						</p>
-						@if(isset($products->price) || isset($products->price_new))
+						@if($products->price!=0 || $products->price_new!=0)
 						<div class="prod_options">
 							<div class="row">
 								<label class="col-xl-5 col-lg-5  col-md-6 col-6"><strong>{{__("Quantity")}}</strong></label>
@@ -116,51 +116,42 @@
 						<div class="row">
 							<div class="col-lg-5 col-md-6">
 								@if($products->status == 1)
-								@if(isset($products->price) && isset($products->price_new) && $products->price != 0 && $products->price_new != 0)
-								<div class="price_main">
-									<span class="new_price">{{number_format($products->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
-									</span>
-									<span class="percentage">-{{round((($products->price - $products->price_new)/$products->price)*100,0) }}%</span>
-									<span class="old_price">{{number_format($products->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
-									</span>
-								</div>
-
-								@elseif(!isset($products->price) && isset($products->price_new))
-								<div class="price_main">
-									<span class="new_price">{{number_format($products->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
-									</span>
-								</div>
-
-								@elseif(isset($products->price) && !isset($products->price_new))
-								<div class="price_main">
-									<span class="new_price">{{number_format($products->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
-									</span>
-								</div>
-
-								@else
-								<div class="price_main">
-									<span class="new_price" style="color: red !important">{{__("Contact")}}</span>
-								</div>
-
-								@endif
-
-								@else
-								<div class="price_main">
-									<span class="new_price" style="color: red !important">{{__("Out Stock")}}</span>
-								</div>
-
+									@if($products->price != 0 && $products->price_new != 0)
+									<div class="price_main">
+										<span class="new_price">{{number_format($products->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+										</span>
+										<span class="percentage">-{{round((($products->price - $products->price_new)/$products->price)*100,0) }}%</span>
+										<span class="old_price">{{number_format($products->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+										</span>
+									</div>
+									@elseif($products->price == 0 && $products->price_new !=0)
+									<div class="price_main">
+										<span class="new_price">{{number_format($products->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+										</span>
+									</div>
+									@elseif($products->price != 0 && $products->price_new == 0)
+									<div class="price_main">
+										<span class="new_price">{{number_format($products->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+										</span>
+									</div>
+									@else
+									<div class="price_main">
+										<span class="new_price" style="color: red !important">{{__("Contact")}}</span>
+									</div>
+									@endif
+									@else
+									<div class="price_main">
+										<span class="new_price" style="color: red !important">{{__("Out Stock")}}</span>
+									</div>
 								@endif
 							</div>
 							@if($products->status == 1)
-
-							@if(isset($products->price) || isset($products->price_new))
-							<div class="col-lg-4 col-md-6">
-								<div class="btn_add_to_cart"><button type="submit" class="btn_1">{{__("Add to Cart")}}</button></div>
-							</div>
-							<input type="hidden" name="products_id" value="{{$products->id}}" />
-							@endif
-
-
+								@if($products->price != 0 || $products->price_new != 0)
+								<div class="col-lg-4 col-md-6">
+									<div class="btn_add_to_cart"><button type="submit" class="btn_1">{{__("Add to Cart")}}</button></div>
+								</div>
+								<input type="hidden" name="products_id" value="{{$products->id}}" />
+								@endif
 							@endif
 						</div>
 					</div>

@@ -29,18 +29,18 @@
 						<h3 class="d-block" style="max-width: 270px; height:50px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{$pro->name}}</h3>
 						</a>
 						<div class="price_box">
-							@if(isset($pro->price_new) && isset($pro->price))
-							<span class="new_price">{{number_format($pro->price_new,0,",",".")}} Vnđ</span>
-							<span class="old_price">{{number_format($pro->price,0,",",".")}} Vnđ</span>
+							@if($pro->price_new!=0 && $pro->price !=0)
+								<span class="new_price">{{number_format($pro->price_new,0,",",".")}} Vnđ</span>
+								<span class="old_price">{{number_format($pro->price,0,",",".")}} Vnđ</span>
 
-							@elseif(!isset($pro->price_new) && isset($pro->price))
-							<span class="new_price">{{number_format($pro->price,0,",",".")}} Vnđ</span>
+							@elseif($pro->price_new == 0 && $pro->price !=0)
+								<span class="new_price">{{number_format($pro->price,0,",",".")}} Vnđ</span>
 
-							@elseif(!isset($pro->price) && isset($pro->price_new))
-							<span class="new_price">{{number_format($pro->price_new,0,",",".")}} Vnđ</span>
+							@elseif($pro->price == 0 && $pro->price_new !=0)
+								<span class="new_price">{{number_format($pro->price_new,0,",",".")}} Vnđ</span>
 
 							@else
-							<span class="new_price">{{__("Contact")}}</span>
+								<span class="new_price">{{__("Contact")}}</span>
 							
 							@endif
 						</div>

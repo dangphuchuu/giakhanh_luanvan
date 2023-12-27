@@ -11,7 +11,7 @@
 						@foreach($top_selling as $pro)
 							@foreach($pro->ProductsImage as $img)
 								@if($loop ->first)
-									@if(isset($pro->price) && isset($pro->price_new))
+									@if($pro->price != 0 && $pro->price_new != 0)
 									<div class="col-6 col-md-4 col-xl-3 isotope-item sale">
 										<div class="grid_item">
 											<figure>

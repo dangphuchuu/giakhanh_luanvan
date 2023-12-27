@@ -30,7 +30,7 @@
 												<h3 class="d-block" style="max-width: 270px; height:50px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{$img->name}}</h3>
 											</a>
 											<div class="price_box ">
-												@if(isset($new->price_new) && isset($new->price) && $new->price != 0 && $new->price_new != 0)
+												@if($new->price_new !=0 && $new->price !=0)
 												<span class="new_price">{{number_format($new->price_new,0,",",".")}} Vnđ</span>
 												<span class="old_price">{{number_format($new->price,0,",",".")}} Vnđ</span>
 
