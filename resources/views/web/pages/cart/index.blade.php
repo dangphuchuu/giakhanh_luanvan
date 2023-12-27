@@ -332,13 +332,17 @@ Cart::setGlobalTax($info->tax);
         });
 
         $('#formCoupon').on('click','#cancelCoupon',function(){
+            var discount = $('#discount').val();
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 url:'/cart/canceldiscounts',
-                type:'POST',
+                type:'DELETE',
                 dataType:'json',
+                data:{
+                    'discount': discount,
+                },
                 success: function(data){
                     if(data['success']){
                         alert(data.success);
@@ -359,13 +363,19 @@ Cart::setGlobalTax($info->tax);
 
        if(window.history && window.history.pushState)
        {
+        // $(window).on('popstate', function() {
+        // });
+            var discount = $('#discount').val();
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 url:'/cart/canceldiscounts',
-                type:'POST',
+                type:'DELETE',
                 dataType:'json',
+                data:{
+                    'discount': discount,
+                },
                 success: function(data){
                     if(data['success']){
                          window.history.pushState('forward','null','./cart');// button refresh page (we must to use it because refresh this page to delete the coupon code and if you refresh page without this function so the subtotal,total won't change)
@@ -374,13 +384,18 @@ Cart::setGlobalTax($info->tax);
                         $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         $('#valueDiscount').text(data.discount.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         // 4 lines above to set the total when it's changed
+                        window.location.replace('/');
                     }
                     if(data['error']){
                         alert(data.error)
                     }
                 }
             });
+        
+        
         }
+      
+       
         
     });
 </script>

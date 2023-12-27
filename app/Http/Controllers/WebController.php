@@ -577,22 +577,28 @@ class WebController extends Controller
     }
 
     public function discounts(Request $request){
-        $discount = Discounts::where('code',$request->discount)->get()->first();
+        $discounts = Discounts::where('code',$request->discount)->get()->first();
         $cart = Cart::instance();
-        if($discount){
-            if($discount->status == 1){
-                if($discount->quantity ==0){
+        if($discounts){
+            if($discounts->status == 1){
+                if($discounts->quantity ==0){
                     return response()->json(['error'=>__("Out of discount codes !")]);
                 }else{
                     foreach($cart->content() as $cart_id)
                     {
-                        $cart->setDiscount($cart_id->rowId,$discount->percent);
+                        $cart->setDiscount($cart_id->rowId,$discounts->percent);
                     }
+
                     $subtotal = $cart->priceTotal(0,',','.'); 
                     $total = $cart->total(0,',','.'); 
                     $tax = $cart->tax(0,',','.');
-                    $percent =  $discount->percent;
+                    $percent =  $discounts->percent;
                     $discount = $cart->discount(0,',','.');
+
+                    $discount_id = Discounts::find($discounts->id);
+                    $discount_id->quantity--;
+                    $discount_id->save();
+
                     return response()->json([
                         'success'=>__("Apply Coupon code successfully !"),
                         'subtotal'=>$subtotal,
@@ -610,17 +616,24 @@ class WebController extends Controller
             'error'=>__("The Coupon code doesn't exists !")
         ]);
     }
-    public function cancelDiscounts(){
+    public function cancelDiscounts(Request $request){
+        $discounts = Discounts::where('code',$request->discount)->get()->first();
         $cart = Cart::instance();
         if($cart->count() > 0){
             foreach($cart->content() as $cart_id)
             {
                 $cart->setDiscount($cart_id->rowId,0);
             }
+
+            $discount_id = Discounts::find($discounts->id);
+            $discount_id->quantity++;
+            $discount_id->save();
+
             $subtotal = $cart->priceTotal(0,',','.'); 
             $total = $cart->total(0,',','.'); 
             $tax = $cart->tax(0,',','.');
             $discount = $cart->discount(0,',','.');
+
         return response()->json([
             'success'=>__("Cancel coupon successfully !"),
             'subtotal'=>$subtotal,
@@ -698,8 +711,9 @@ class WebController extends Controller
             'city'=>$request->city,
             'content'=> $request->content,
             'tax'=> (int)preg_replace("/[,]+/", "", $cart->tax(0)),
-            'subtotal'=> (int)preg_replace("/[,]+/", "", $cart->subtotal(0)),
+            'subtotal'=> (int)preg_replace("/[,]+/", "", $cart->priceTotal(0)),
             'total'=> (int)preg_replace("/[,]+/", "", $cart->total(0)),
+            'discount'=> (int)preg_replace("/[,]+/", "", $cart->discount(0)),
             'lastname_sender'=>$request->lastname_sender,
             'firstname_sender'=>$request->firstname_sender,
             'phone_sender'=>$request->phone_sender

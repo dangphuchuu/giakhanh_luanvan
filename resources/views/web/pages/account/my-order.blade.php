@@ -86,9 +86,17 @@
 
                             <li class="clearfix">
                                 <em>
-                                    <strong>{{__("Tax")}} ({{(($order->total-$order->subtotal)/$order->subtotal)*100}}%)</strong>
+                                    <strong>{{__("Tax")}} ({{(($order->total-($order->subtotal-$order->discount))/($order->subtotal-$order->discount))*100}}%)</strong>
                                 </em>
                                 <span>{{number_format($order->tax,0,',','.')}}<sup
+                                        style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></span>
+                            </li>
+
+                            <li class="clearfix">
+                                <em>
+                                    <strong>{{__("Discount")}} ({{(($order->subtotal-($order->total-$order->tax))/$order->subtotal)*100}}%)</strong>
+                                </em>
+                                <span>{{number_format($order->discount,0,',','.')}}<sup
                                         style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></span>
                             </li>
 

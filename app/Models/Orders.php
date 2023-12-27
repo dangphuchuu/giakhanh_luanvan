@@ -21,6 +21,7 @@ class Orders extends Model
         'tax',
         'subtotal',
         'total',
+        'discount',
         'lastname_sender',
         'firstname_sender',
         'phone_sender',
