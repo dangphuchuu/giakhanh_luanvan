@@ -36,28 +36,10 @@
 
         </tr>
         @endforeach
-        <!-- <tr>
-            <th style="border: 0px !important"></th>
-            <th style="border: 0px !important"></th>
-            <th style="text-align: center">{{__("Subtotal")}}</th>
-            <td style="text-align: center">{{$cart->subtotal(0,',','.');}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></td>
-        </tr>
         <tr>
             <th style="border: 0px !important"></th>
             <th style="border: 0px !important"></th>
-            <th style="text-align: center">{{__("Tax")}} ({{env('TAX',0)}}%)</th>
-            <td style="text-align: center">{{$cart->tax(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></td>
-        </tr>
-        <tr>
-            <th style="border: 0px !important"></th>
-            <th style="border: 0px !important"></th>
-            <th style="text-align: center">{{__("Shipping")}}</th>
-            <td style="text-align: center">{{__("Free")}}</td>
-        </tr> -->
-        <tr>
-            <th style="border: 0px !important"></th>
-            <th style="border: 0px !important"></th>
-            <th style="text-align: center">{{__("Total")}} + {{__("Tax")}} ({{env('TAX',0)}}%)</th>
+            <th style="text-align: center">{{__("Total")}} + {{__("Tax")}} ({{(($orders->total-($orders->subtotal-$orders->discount))/($orders->subtotal-$orders->discount))*100}}%) + {{__("Discount")}} ({{(($orders->subtotal-($orders->total-$orders->tax))/$orders->subtotal)*100}}%) </th>
             <td style="text-align: center">{{$cart->total(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></td>
         </tr>
     </table>

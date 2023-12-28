@@ -49,11 +49,25 @@
                         @endforeach
                         <tr>
                             <th class="text-center" style="width:5%">{{__("Content")}}</th>
-                            <td colspan="3" class="text-wrap">{{$order->content}}</td>
-                            <th class="text-center" style="width:5%">{{__("Total")}}</th>
-                            <td class="text-wrap">{{number_format($order->total,0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></td>
+                            <td colspan="5" class="text-wrap">{{$order->content}}</td>
                         </tr>
-                       
+                        <tr>
+                            <th class="text-center" colspan="2" style="width:5%">{{__("Subtotal")}}</th>
+                            <td colspan="4" class="text-wrap">{{number_format($order->subtotal,0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></td>
+                        </tr>
+                        <tr>
+                            <th class="text-center" colspan="2" style="width:5%">{{__("Tax")}} ({{(($order->total-($order->subtotal-$order->discount))/($order->subtotal-$order->discount))*100}}%)</th>
+                            <td colspan="4" class="text-wrap">{{number_format($order->tax,0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></td>
+                        </tr>
+                        <tr>
+                            <th class="text-center" colspan="2" style="width:5%">{{__("Discount")}} ({{(($order->subtotal-($order->total-$order->tax))/$order->subtotal)*100}}%)</th>
+                            <td colspan="4" class="text-wrap">{{number_format($order->discount,0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></td>
+                        </tr>
+                        <tr>
+                            <th class="text-center" colspan="2" style="width:5%">{{__("Total")}}</th>
+                            <td colspan="4" class="text-wrap">{{number_format($order->total,0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup></td>
+                        </tr>
+                        
                         <thead>
                             <tr>
                                 <th colspan="2" class="text-center">{{__("Sender's lastname")}}</th>
