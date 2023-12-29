@@ -1,5 +1,5 @@
 @extends('admin/layout/index')
-@section('manage_products')
+@section('manage_discounts')
 active
 @endsection
 @section('css')

@@ -118,6 +118,7 @@ Route::prefix('admin')->middleware('admin','role:admin|staff')->group(function()
     });
 
     Route::get('/filter-by-date',[AdminController::class, 'filter_by_date']);
+    Route::get('/sort-by',[AdminController::class, 'sort_by']);
     Route::get('/profile',[AdminController::class, 'profile']);
     Route::post('/profile',[AdminController::class, 'editProfile']);
     Route::post('/imageProfile',[AdminController::class, 'imageProfile']);

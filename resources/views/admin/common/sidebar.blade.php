@@ -48,7 +48,7 @@
                         <span>{{__("Orders")}}</span>
                     </a>
                 </li>
-                <li class="sidebar-item @yield('manage_orders') ">
+                <li class="sidebar-item @yield('manage_discounts') ">
                     <a href="/admin/discounts" class='sidebar-link'>
                         <i data-feather="percent" width="20"></i>
                         <span>{{__("Discounts")}}</span>

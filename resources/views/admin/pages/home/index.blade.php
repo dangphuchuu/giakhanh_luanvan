@@ -1,7 +1,8 @@
 @extends('admin/layout/index')
 @section('css')
-
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
 @endsection
 @section('dashboard')
 active
@@ -90,31 +91,34 @@ active
                     <!-- <h3 class='card-heading p-1 pl-3'>Sales</h3> -->
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-2">
-                                <p>{{__("From:")}} <input type="text" id="datepickerFrom" class="form-control" style="width:70%"/>
-                                </p>
-                                <input id="btn-filter" class="btn btn-primary mt-2" type="button" value="submit"/>
-                                <h3 class='mt-5'>Sales</h3>
-                                <h1 >$21,102</h1>
-                                <p class='text-xs'><span class="text-green"><i data-feather="bar-chart" width="15"></i> +19%</span> than last month</p>
-                                <div class="legends">
-                                    <div class="legend d-flex flex-row align-items-center">
-                                        <div class='w-3 h-3 rounded-full bg-info me-2'></div><span class='text-xs'>Last Month</span>
-                                    </div>
-                                    <div class="legend d-flex flex-row align-items-center">
-                                        <div class='w-3 h-3 rounded-full bg-blue me-2'></div><span class='text-xs'>Current Month</span>
-                                    </div>
-                                </div>
+                    <form autocomplete="off">
+                        <div class="row">
+                            <div class="col-md-2">
+                                    <p>{{__("From:")}} <input type="text" id="datepickerFrom" class="form-control" style="width:70%"/></p>
+                                <input id="btn-filter"  class="btn btn-primary mb-3" type="button" value="submit"/>
+                            </div>
+                            
+                            <div class="col-md-2">
+                                    <p>{{__("To:")}} <input type="text" id="datepickerTo" class="form-control" style="width:70%"/></p>
+                            </div>
+
+                            <div class="col-md-2">
+                                    <p>
+                                        {{__("Sort by:")}}
+                                        <select id="statistical" style="width:70%;background-color: #ffffff !important;" class="form-control">
+                                            <option value="null" selected>{{__("Select")}}</option>
+                                            <option value="week">{{__("Sort by 7 days")}}</option>
+                                            <option value="last_month">{{__("Sort by last month")}}</option>
+                                            <option value="this_month">{{__("Sort by this month")}}</option>
+                                            <option value="year">{{__("Sort by year")}}</option>
+                                        </select>
+                                    </p>
+                            </div>
+                            <div class="col-md-12 col-12">
+                                <div id="myfirstchart" style="height: 400px; width: 100%"></div>
+                            </div>
                         </div>
-                        <div class="col-md-2">
-                                <p>{{__("To:")}} <input type="text" id="datepickerTo" class="form-control" style="width:70%"/>
-                                </p>
-                        </div>
-                        <div class="col-md-8 col-12">
-                            <canvas id="bar"></canvas>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             @include('admin.pages.home.orders_today')
@@ -124,31 +128,62 @@ active
 </div>
 @endsection
 @section('scripts')
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 <script>
-  $( function() {
-    $( "#datepickerTo" ).datepicker({
-        maxDate: '0',
-        dateFormat:"yy-mm-dd",
-        duration:"slow"
-    });
-  });
-  $( function() {
+$(function() {
+     // Tạo một đối tượng Date cho ngày hiện tại
+     var currentDate = new Date();
+
+    // Trừ đi 1 ngày
+    currentDate.setDate(currentDate.getDate() - 1);
+
     $( "#datepickerFrom" ).datepicker({
+        maxDate: currentDate,
+        dateFormat:"yy-mm-dd",
+        duration:"slow",
+        onSelect: function(selectedDate) {
+            // Chuyển đổi ngày được chọn thành đối tượng Date
+            var fromDate = new Date(selectedDate);
+            
+            // Tăng ngày lên 1
+            fromDate.setDate(fromDate.getDate() + 1);
+
+            // Đặt minDate của #datepickerTo thành ngày tăng lên 1 từ #datepickerFrom
+            $("#datepickerTo").datepicker("option", "minDate", fromDate);
+        }
+    });
+});
+
+$(function() {
+    $( "#datepickerTo" ).datepicker({
+        maxDate: 'today',
         dateFormat:"yy-mm-dd",
         duration:"slow"
     });
   });
 </script>
 <script>
-    $("#btn-filter").click(function(){
+    $(document).ready(function() {
+        var chart = new Morris.Line({
+            element: 'myfirstchart',
+            barColors: ['#09b1f3', '#fc8710', '#FF6541', '#A4ADD3', '#766B56'],
+            parseTime: false,
+            hideHover: 'auto',
+            xkey: 'date',
+            ykeys: ['total'],
+            labels: ['total']
+        });
+        //filter by date
+     $("#btn-filter").click(function(){
+        var from = $('#datepickerFrom').val();
+        var to = $('#datepickerTo').val();
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        var from = $('#datepickerFrom').val();
-        var to = $('#datepickerTo').val();
-        $.ajjax({
+        $.ajax({
             url:"admin/filter-by-date",
             method:"GET",
             dataType:"json",
@@ -157,10 +192,49 @@ active
                 to:to
             },
             success:function(data){
+                if (data['success']) {
+                    chart.setData(data.chart_data);
+                } else if (data['error']) {
+                    alert(data.error);
+                }
+            }
+        });
 
+    });
+      //sortBy
+      $("#statistical").change(function(){
+        var statistical = $(this).val();
+        if(statistical === "null"){
+            chart.setData([{
+                date:null,
+                total:null,
+            }]);
+            return;
+        }
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url:"admin/sort-by",
+            method:"GET",
+            dataType:"json",
+            data:{
+               'statistical': statistical
+            },
+            success:function(data){
+                if (data['success']) {
+                    chart.setData(data.chart_data);
+                } else if (data['error']) {
+                    alert(data.error);
+                }
             }
         });
     });
+});
+   
 </script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
 @endsection

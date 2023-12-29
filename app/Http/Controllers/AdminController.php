@@ -15,7 +15,7 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class AdminController extends Controller
 {
-    
+
     public function index(){
         $sum = 0;
         $sum_today = 0;
@@ -122,7 +122,7 @@ class AdminController extends Controller
                 'repassword.required'=>__("the repassword field is required"),
                 'repassword.same'=>__("the repassword is incorrect")
             ]);
-            
+
             if($validate->fails()){
                 return back()->with('toast_error', $validate->messages()->all()[0])->withInput();
             }
@@ -132,14 +132,14 @@ class AdminController extends Controller
             }
             $request->password = Hash::make($request->password);
             $user->password = $request->password;
-            
+
             if($user->isDirty('password')){
                 $user->save();
                 Auth::logout();
                 return redirect('/admin')->with('success',__("Change password successfully. Please re-login to continue using the website."));
             }
         }
-       
+
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
         $user->email = $request->email;
@@ -176,8 +176,114 @@ class AdminController extends Controller
         return response('success',200);
     }
     public function filter_by_date(Request $request){
-        $from = $request->from;
-        $to = $request->to;
-        return response()->json();
+        $start_time = Carbon::createFromFormat('Y-m-d', $request->from)->startOfDay();
+        $end_time = Carbon::createFromFormat('Y-m-d',  $request->to)->endOfDay(); // lấy ngày cuối cùng
+
+        $filters = Orders::whereBetween('updated_at',[$start_time,$end_time])->where('status',3)->orderBy('updated_at','ASC')->get();
+        $filters_first = $filters->first();
+        $filters_last = $filters->last();
+
+        $current_date = date('d-m-Y', strtotime($filters_first->updated_at));
+
+        $total = 0;
+        $chart_data = [];
+          
+        foreach($filters as $filter){
+           if($current_date == date('d-m-Y',strtotime($filter->updated_at))){
+            $total+= $filter['total'];
+           }else{
+                $data = [
+                    'date'=>$current_date,
+                    'total'=>$total
+                ];
+                $current_date = date("d-m-Y", strtotime($filter->updated_at));
+                $total = $filter->total;
+                array_push($chart_data,$data);
+            }
+           if($filters_last->id == $filter->id){
+            $data = [
+                'date'=>date("d-m-Y", strtotime($filter->updated_at)),
+                'total'=>$total
+            ];
+            array_push($chart_data,$data);
+
+           }
+        }
+        return response()->json([
+            'success'=>__("Successfully !"),
+            'chart_data'=>$chart_data,
+            'current_date'=>$current_date
+        ]);
+    }
+    public function sort_by(Request $request){
+
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->endOfDay();
+        $week = Carbon::now('Asia/Ho_Chi_Minh')->subDays(7)->startOfDay()->toDateString();//7
+        $this_month = Carbon::now('Asia/Ho_Chi_Minh')->startOfMonth()->toDateString();//1-31
+        $start_last_month = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->startOfMonth()->toDateString();//1
+        $end_last_month = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->endOfMonth()->toDateString();//30 hoặc 31
+        $year = Carbon::now('Asia/Ho_Chi_Minh')->subDays(365)->startOfYear()->toDateString();
+
+        if($request->statistical == 'week'){
+            $statistical = Orders::whereBetween('updated_at',[$week,$now])->where('status',3)->orderBy('updated_at','ASC')->get();
+            $statistical_first = $statistical->first();
+            $statistical_last = $statistical->last();
+            $current_date = date('d-m-Y',strtotime($statistical_first->updated_at));
+        }
+        if($request->statistical == 'last_month'){
+            $statistical = Orders::whereBetween('updated_at',[$start_last_month,$end_last_month])->where('status',3)->orderBy('updated_at','ASC')->get();
+            $statistical_first = $statistical->first();
+            $statistical_last = $statistical->last();
+            $current_date = date('d-m-Y',strtotime($statistical_first->updated_at));
+        }
+        if($request->statistical == 'this_month'){
+            $statistical = Orders::whereBetween('updated_at',[$this_month,$now])->where('status',3)->orderBy('updated_at','ASC')->get();
+            $statistical_first = $statistical->first();
+            $statistical_last = $statistical->last();
+            $current_date = date('d-m-Y',strtotime($statistical_first->updated_at));
+        }
+        if($request->statistical == 'year'){
+            $statistical = Orders::whereBetween('updated_at',[$year,$now])->where('status',3)->orderBy('updated_at','ASC')->get();
+            $statistical_first = $statistical->first();
+            $statistical_last = $statistical->last();
+            $current_date = date('m-Y',strtotime($statistical_first->updated_at));
+        }
+
+        function date_statistical($option, $date)
+        {
+            if ($option == 'year') {
+                return date("m-Y", strtotime($date));
+            } else {
+                return date("d-m-Y", strtotime($date));
+            }
+        }
+        $total =0;
+        $chart_data = [];
+
+        foreach($statistical as $statis){
+            if($current_date == date_statistical($request->statistical,$statis->updated_at)) {
+                $total += $statis->total;
+            }else{
+                $data = [
+                    'date'=>$current_date,
+                    'total'=>$total
+                ];
+                $current_date = date_statistical($request->statistical,$statis->updated_at);
+                $total = $statis->total;
+                array_push($chart_data,$data);
+            }
+            if($statistical_last->id == $statis->id){
+                $data =[
+                    'date'=>date_statistical($request->statistical,$statis->updated_at),
+                    'total'=>$total
+                ];
+                array_push($chart_data,$data);
+            }
+        }
+        return response()->json([
+            'success' => __("Successfully !"),
+            'chart_data'=>$chart_data,
+            'statistical'=>$statistical
+        ]);
     }
 }

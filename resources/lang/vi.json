@@ -286,6 +286,14 @@
     "Cancel coupon":"Hủy mã",
     "Cancel coupon successfully !":"Hủy mã thành công",
     "Oops ! Something went wrong":"Hình như có gì đó sai sai !",
-    "Discount":"Giảm giá"
+    "Discount":"Giảm giá",
+    "From:":"Từ:",
+    "To:":"Đến",
+    "Sort by 7 days":"Lọc 7 ngày",
+    "Select":"Chọn",
+    "Sort by last month":"Lọc tháng trước",
+    "Sort by this month":"Lọc tháng này",
+    "Sort by year":"Lọc năm",
+    "Sort by:":"Bộ lọc:"
 
 }
