@@ -273,8 +273,10 @@ class WebController extends Controller
     //! Products
     public function list(){
         $products = Products::orderBy('id', 'DESC')->where('status',1)->paginate(8);
+        $categories = Categories::orderBy('id','DESC')->where('status',1)->get();
         return view('web.pages.products.list',[
-            'products'=>$products
+            'products'=>$products,
+            'categories'=>$categories
         ]);
     }
 
@@ -360,6 +362,21 @@ class WebController extends Controller
         }else{
             abort(404);
         }
+    }
+
+    public function sortCategories(Request $request){
+        $catValue = $request->input('cat_value', []);
+        if(!empty($catValue)){
+            $products = Products::where('status',1)->whereIn('cat_id',$catValue)->paginate(1000000);
+        }else{
+            $products = Products::orderBy('id', 'DESC')->where('status',1)->paginate(8);
+        }
+        $categories = Categories::orderBy('id','DESC')->where('status',1)->get();
+        return view('web.pages.products.list',[
+            'categories'=>$categories,
+            'products'=>$products,
+            'catValue'=> $catValue
+        ]);
     }
 
     //TODO Profile

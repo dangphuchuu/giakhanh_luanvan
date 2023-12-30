@@ -47,6 +47,8 @@ Route::middleware('language')->group(function(){
     Route::get('/detail/{id}',[WebController::class, 'detail']);
     Route::get('/search',[WebController::class, 'search']);
     Route::post('/reviews',[WebController::class, 'reviews']);
+    Route::get('/sort',[WebController::class, 'sortBy']);
+    Route::get('/sortCategories',[WebController::class, 'sortCategories']);
 
     //! Categories
     Route::get('/category/{id}',[WebController::class, 'category']);
