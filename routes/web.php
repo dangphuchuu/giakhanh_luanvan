@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -80,6 +82,9 @@ Route::middleware('language')->group(function(){
     //TODO News
     Route::get('/news/list',[WebController::class, 'newsList']);
     Route::get('/news/{id}',[WebController::class, 'newsDetail']);
+
+    //? Payment
+    Route::post('/vnpay_payment',[PaymentController::class, 'vnpay_payment']);
 
     
 
