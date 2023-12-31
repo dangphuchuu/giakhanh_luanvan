@@ -49,6 +49,8 @@ Route::middleware('language')->group(function(){
     Route::post('/reviews',[WebController::class, 'reviews']);
     Route::get('/sortCategories',[WebController::class, 'sortCategories']);
     Route::get('/sortBrands',[WebController::class, 'sortBrands']);
+    Route::get('/sortPriceIncrease',[WebController::class, 'sortPriceIncrease']);
+    Route::get('/sortPriceDecrease',[WebController::class, 'sortPriceDecrease']);
 
     //! Categories
     Route::get('/category/{id}',[WebController::class, 'category']);
@@ -63,6 +65,7 @@ Route::middleware('language')->group(function(){
     Route::get('/trackOrder',[WebController::class, 'trackOrder']);
     Route::post('/trackOrder',[WebController::class, 'handle_trackOrder']);
     Route::get('/detail-track-order',[WebController::class, 'detailTrackOrder']);
+
     //! Carts
     Route::get('/cart',[WebController::class, 'cart']);
     Route::post('/cart',[WebController::class, 'handle_cart']);

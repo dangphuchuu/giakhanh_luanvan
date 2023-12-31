@@ -30,9 +30,11 @@ class WebController extends Controller
     public function __construct(){
         $categories = Categories::all()->where('status',1);
         $subcategories = Subcategories::all()->where('status',1);
+        $brands = Brands::all()->where('status',1);
         $info = Info::find(1);
         view()->share('categories',$categories);
         view()->share('subcategories',$subcategories);
+        view()->share('brands',$brands);
         view()->share('info',$info);
     }
 
@@ -393,6 +395,20 @@ class WebController extends Controller
             'brands'=>$brands,
             'products'=>$products,
             'brandValue'=> $brandValue
+        ]);
+    }
+
+    public function sortPriceIncrease(){
+        $products = Products::orderBy('price_new', 'ASC')->where('status',1)->paginate(1000000);
+        return view('web.pages.products.list',[
+            'products'=>$products
+        ]);
+    }
+
+    public function sortPriceDecrease(){
+        $products = Products::orderBy('price_new', 'DESC')->where('status',1)->paginate(1000000);
+        return view('web.pages.products.list',[
+            'products'=>$products
         ]);
     }
 

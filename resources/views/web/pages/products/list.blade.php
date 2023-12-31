@@ -22,6 +22,7 @@
 						<div class="dropdown-menu">
 							<div class="filter_type">
 								<form action="/sortCategories" id="sortCategories" method="GET">
+									@csrf
 									<ul>
 										@foreach($categories as $cat)
 										<li>
@@ -36,7 +37,7 @@
 										</li>
 										@endforeach
 									</ul>
-									<a href="javascript:void(0)" class="apply_filter" onclick="document.getElementById('sortCategories').submit();">Apply</a>
+									<a href="javascript:void(0)" class="apply_filter" onclick="document.getElementById('sortCategories').submit();">{{__("Apply")}}</a>
 								</form>
 							</div>
 						</div>
@@ -49,6 +50,7 @@
 						<div class="dropdown-menu">
 							<div class="filter_type">
 								<form action="/sortBrands" id="sortBrands" method="GET">
+									@csrf
 									<ul>
 										@foreach($brands as $brand)
 										<li>
@@ -63,7 +65,7 @@
 										</li>
 										@endforeach
 									</ul>
-									<a href="javascript:void(0)" class="apply_filter" onclick="document.getElementById('sortBrands').submit();">Apply</a>
+									<a href="javascript:void(0)" class="apply_filter" onclick="document.getElementById('sortBrands').submit();">{{__("Apply")}}</a>
 								</form>
 								</div>
 						</div>
@@ -72,36 +74,29 @@
 				</div>
 				<div class="col-lg-3 col-md-6 col-sm-6">
 					<div class="dropdown">
-						<a href="#" data-bs-toggle="dropdown" class="drop">Price</a>
+						<a href="#" data-bs-toggle="dropdown" class="drop">{{__("Price")}}</a>
 						<div class="dropdown-menu">
 							<div class="filter_type">
 									<ul>
+
+										<form action="/sortPriceIncrease" method="GET">
+											@csrf
 										<li>
-											<label class="container_check">$0 — $50<small>11</small>
-											  <input type="checkbox">
-											  <span class="checkmark"></span>
+											<label class="container_check">{{__("Price Increase")}}
+											  <input type="submit">
 											</label>
 										</li>
+										</form>
+
+										<form action="/sortPriceDecrease" method="GET">
+											@csrf
 										<li>
-											<label class="container_check">$50 — $100<small>08</small>
-											  <input type="checkbox">
-											  <span class="checkmark"></span>
+											<label class="container_check">{{__("Price Decrease")}}
+											  <input type="submit">
 											</label>
 										</li>
-										<li>
-											<label class="container_check">$100 — $150<small>05</small>
-											  <input type="checkbox">
-											  <span class="checkmark"></span>
-											</label>
-										</li>
-										<li>
-											<label class="container_check">$150 — $200<small>18</small>
-											  <input type="checkbox">
-											  <span class="checkmark"></span>
-											</label>
-										</li>
+										</form>
 									</ul>
-									<a href="#0" class="apply_filter">Apply</a>
 								</div>
 						</div>
 					</div>
