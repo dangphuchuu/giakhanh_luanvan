@@ -45,36 +45,26 @@
 				</div>
 				<div class="col-lg-3 col-md-6 col-sm-6">
 					<div class="dropdown">
-						<a href="#" data-bs-toggle="dropdown" class="drop">Brand</a>
+						<a href="#" data-bs-toggle="dropdown" class="drop">{{__("Brands")}}</a>
 						<div class="dropdown-menu">
 							<div class="filter_type">
+								<form action="/sortBrands" id="sortBrands" method="GET">
 									<ul>
+										@foreach($brands as $brand)
 										<li>
-											<label class="container_check">Adidas <small>11</small>
-											  <input type="checkbox">
+											<label class="container_check">{{$brand->name}}<small>{{$brand->products->count()}}</small>
+											  <input type="checkbox" name="brand_value[]" value="{{$brand->id}}"
+											 	 @if(isset($brandValue))
+													@checked(in_array($brand->id,$brandValue))
+												 @endif
+											  >
 											  <span class="checkmark"></span>
 											</label>
 										</li>
-										<li>
-											<label class="container_check">Nike <small>08</small>
-											  <input type="checkbox">
-											  <span class="checkmark"></span>
-											</label>
-										</li>
-										<li>
-											<label class="container_check">Vans <small>05</small>
-											  <input type="checkbox">
-											  <span class="checkmark"></span>
-											</label>
-										</li>
-										<li>
-											<label class="container_check">Puma <small>18</small>
-											  <input type="checkbox">
-											  <span class="checkmark"></span>
-											</label>
-										</li>
+										@endforeach
 									</ul>
-									<a href="#0" class="apply_filter">Apply</a>
+									<a href="javascript:void(0)" class="apply_filter" onclick="document.getElementById('sortBrands').submit();">Apply</a>
+								</form>
 								</div>
 						</div>
 					</div>

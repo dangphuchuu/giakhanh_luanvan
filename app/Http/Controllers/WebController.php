@@ -274,9 +274,11 @@ class WebController extends Controller
     public function list(){
         $products = Products::orderBy('id', 'DESC')->where('status',1)->paginate(8);
         $categories = Categories::orderBy('id','DESC')->where('status',1)->get();
+        $brands = Brands::orderBy('id','ASC')->where('status',1)->get();
         return view('web.pages.products.list',[
             'products'=>$products,
-            'categories'=>$categories
+            'categories'=>$categories,
+            'brands'=>$brands
         ]);
     }
 
@@ -376,6 +378,21 @@ class WebController extends Controller
             'categories'=>$categories,
             'products'=>$products,
             'catValue'=> $catValue
+        ]);
+    }
+
+    public function sortBrands(Request $request){
+        $brandValue = $request->input('brand_value', []);
+        if(!empty($brandValue)){
+            $products = Products::where('status',1)->whereIn('brands_id',$brandValue)->paginate(1000000);
+        }else{
+            $products = Products::orderBy('id', 'DESC')->where('status',1)->paginate(8);
+        }
+        $brands = Brands::orderBy('id','DESC')->where('status',1)->get();
+        return view('web.pages.products.list',[
+            'brands'=>$brands,
+            'products'=>$products,
+            'brandValue'=> $brandValue
         ]);
     }
 
