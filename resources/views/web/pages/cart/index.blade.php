@@ -6,7 +6,7 @@
 <?php
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
-$carts = Cart::instance();
+$carts = Cart::instance(Auth::user()->id);
 Cart::setGlobalTax($info->tax);
 // Cart::destroy();
 // dd( Request::path()=="cart");

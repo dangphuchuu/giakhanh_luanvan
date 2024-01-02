@@ -76,6 +76,7 @@ Route::middleware('language')->group(function(){
     Route::delete('/cart/canceldiscounts',[WebController::class, 'cancelDiscounts']);
     Route::delete('/deleteCart',[WebController::class, 'deleteCart']);
     Route::get('/checkout',[WebController::class, 'checkout']);
+    // Route::get('/confirm',[WebController::class, 'confirm']);
     Route::post('/checkout',[WebController::class, 'handle_checkout']);
     Route::get('/verify-email',[WebController::class,'verify_email']);
    
@@ -85,6 +86,8 @@ Route::middleware('language')->group(function(){
 
     //? Payment
     Route::post('/vnpay_payment',[PaymentController::class, 'vnpay_payment']);
+    Route::get('/handle_payment',[PaymentController::class, 'handle_payment']);
+    Route::post('/send_mail_orders',[PaymentController::class, 'sendMail']);
 
     
 

@@ -28,6 +28,7 @@ return new class extends Migration
             $table->longtext('content')->nullable();
             $table->boolean('featured_product')->default(false);
             $table->boolean('status')->default(true);
+            $table->boolean('hold')->default(1);
             $table->timestamps();
         });
     }

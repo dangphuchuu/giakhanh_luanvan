@@ -5,7 +5,7 @@
             <div class="row small-gutters">
                 <div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
                     <div id="logo">
-                        <a href="/" ><img src="images/favicon/{{$info->logo}}" alt="" width="100" height="35"></a>
+                        <a href="/" ><img src="images/favicon/{{isset($info->logo) ? $info->logo : ''}} " alt="" width="100" height="35"></a>
                     </div>
                 </div>
                 <nav class="col-xl-6 col-lg-7">
@@ -15,7 +15,7 @@
                     <!--/main-menu -->
                 </nav>
                 <div class="col-xl-3 col-lg-2 d-lg-flex align-items-center justify-content-end text-end">
-                <a class="phone_top" href="tel://{{$info->phone}}"><strong><span>{{__("Contact")}}</span>+{{$info->phone}}</strong></a>
+                <a class="phone_top" href="tel://{{isset($info->phone) ? $info->phone : ''}}"><strong><span>{{__("Contact")}}</span>+{{isset($info->phone) ? $info->phone : ''}}</strong></a>
                 <a href="{{route('lang')}}" class="nav-link nav-link-lg nav-link-user">
                     <div class="d-lg-inline-block">
                     @if(Session("language") == "en")
@@ -83,7 +83,7 @@
                         <li>
                             <div class="dropdown dropdown-cart mt-1">
                                 @if( Request::path() != "cart" && Request::path() != "checkout")
-                                <a href="/cart"><i class="ti-shopping-cart" style="font-size: 22px;"></i><strong>{{Cart::count()}}</strong></a>
+                                <a href="/cart"><i class="ti-shopping-cart" style="font-size: 22px;"></i><strong id="cartCount">{{Cart::instance(Auth::user()->id)->count()}}</strong></a>
                                 <div class="dropdown-menu">
                                     <ul>
                                         @foreach($carts as $key =>$cart)
@@ -230,6 +230,7 @@
                     Obj.parent().remove();
                     // $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     $('#total').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    $('#cartCount').text(data.count.toLocaleString('vi-VN'));
                     // $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                 },error: function(){
                     alert("error");

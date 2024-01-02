@@ -174,7 +174,6 @@ class WebController extends Controller
 
     public function logout(){
         Auth::logout();
-        Cart::instance()->destroy();
         return redirect('/signin_signup')->with('toast_success',__("Logout Successfully"));
     }
 
@@ -481,7 +480,6 @@ class WebController extends Controller
             if($user->isDirty('password')){
                 $user->save();
                 Auth::logout();
-                Cart::instance()->destroy();
                 return redirect('/signin_signup')->with('success',__("Change password successfully. Please re-login to continue using the website."));
             }
         }
@@ -569,44 +567,50 @@ class WebController extends Controller
     }
 
     public function handle_cart(Request $request){
-        $id = $request->products_id;
-        // dd($request->email);
-        $quantity = $request->quantity;
-        $products = Products::where('id',$id)->first();
-        // dd($products);
-        foreach($products->ProductsImage as $value){
-            $img[] = $value->image;
+        if(Auth::check()){
+            $id = $request->products_id;
+            // dd($request->email);
+            $quantity = $request->quantity;
+            $products = Products::where('id',$id)->first();
+            // dd($products);
+            foreach($products->ProductsImage as $value){
+                $img[] = $value->image;
+            }
+            // dd($img[0]);
+    
+            if($quantity <= 0){
+                return redirect()->back()->with('toast_warning',__("Please choose product at least 1 !"));
+            }
+            $cart = Cart::instance(Auth::user()->id);
+            $cart->add([
+                'id'=>$id,
+                'name'=> $products->name,
+                'qty'=> $request->quantity,
+                'price'=> $products->price,
+                'weight' => 550,
+                'options'=>[
+                    'price_new'=>$products->price_new,
+                    'image'=>  $img[0],
+                ]
+            ]);
+            return redirect()->back()->with('toast_success',__("Order Successfully !"));
+        }else{
+            return redirect('/signin_signup')->with('toast_warning',__("Please login to buy products"));
         }
-        // dd($img[0]);
+       
 
-        if($quantity <= 0){
-            return redirect()->back()->with('toast_warning',__("Please choose product at least 1 !"));
-        }
-        Cart::add([
-            'id'=>$id,
-            'name'=> $products->name,
-            'qty'=> $request->quantity,
-            'price'=> $products->price,
-            'weight' => 550,
-            'options'=>[
-                'price_new'=>$products->price_new,
-                'image'=>  $img[0],
-            ]
-        ]);
-
-        return redirect()->back()->with('toast_success',__("Order Successfully !"));
     }
 
     public function update(Request $request){
         $qty = $request->qty;
         $id = $request->cartId;
-        $cart = Cart::get($id);
+        $cart = Cart::instance(Auth::user()->id)->get($id);
         if($cart->options->price_new){
             $subtotal = $cart->options->price_new*$qty;
         }else{
             $subtotal = $cart->price*$qty;
         }
-        $cart = Cart::instance();
+        $cart = Cart::instance(Auth::user()->id);
         $cart->update($id,$qty);
         $sum = $cart->priceTotal(0,',','.'); 
         $tax = $cart->tax(0,',','.');
@@ -628,7 +632,7 @@ class WebController extends Controller
 
     public function discounts(Request $request){
         $discounts = Discounts::where('code',$request->discount)->get()->first();
-        $cart = Cart::instance();
+        $cart = Cart::instance(Auth::user()->id);
         if($discounts){
             if($discounts->status == 1){
                 if($discounts->quantity ==0){
@@ -668,7 +672,7 @@ class WebController extends Controller
     }
     public function cancelDiscounts(Request $request){
         $discounts = Discounts::where('code',$request->discount)->get()->first();
-        $cart = Cart::instance();
+        $cart = Cart::instance(Auth::user()->id);
         if($cart->count() > 0){
             foreach($cart->content() as $cart_id)
             {
@@ -698,18 +702,19 @@ class WebController extends Controller
 
     public function deleteCart(Request $request){
         $id = $request->cartId;
-        $cart = Cart::instance();
+        $cart = Cart::instance(Auth::user()->id);
         $cart->remove($id);
         $subtotal = $cart->priceTotal(0,',','.'); 
         $total = $cart->total(0,',','.'); 
         $tax = $cart->tax(0,',','.');
         $discount = $cart->discount(0,',','.');
-
+        $count = Cart::instance(Auth::user()->id)->count();
         return response()->json([
             'subtotal'=>$subtotal,
             'total'=>$total,
             'tax'=>$tax,
-            'discount'=>$discount
+            'discount'=>$discount,
+            'count'=>$count
         ],200);
         
     }
@@ -748,7 +753,7 @@ class WebController extends Controller
         if($request->city == null){
             return back()->with('toast_error',__('Please choose a city'));
         }
-        $cart = Cart::instance();
+        $cart = Cart::instance(Auth::user()->id);
         $user = Auth::user()->id;
         $orders = new Orders([
             'users_id'=> $user,
@@ -795,6 +800,9 @@ class WebController extends Controller
         return view('web.pages.cart.confirm');
     }
 
+    public function confirm(){
+        return view('web.pages.cart.confirm');
+    }
     //! News
     public function newsDetail($id){
         $news = News::find($id);

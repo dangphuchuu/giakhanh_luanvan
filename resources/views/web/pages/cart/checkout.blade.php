@@ -6,7 +6,7 @@
 <?php
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
-$carts = Cart::instance();
+$carts = Cart::instance(Auth::user()->id);
 ?>
 <main class="bg_gray">
     <div class="container margin_30">
@@ -22,7 +22,7 @@ $carts = Cart::instance();
 
         </div>
         <!-- /page_header -->
-        <form action="/checkout" id="confirmCheckout" method="post">
+        <form action="/vnpay_payment" id="confirmCheckout" method="post">
             @csrf
             <div class="row">
                 <div class="col-lg-6 col-md-6">

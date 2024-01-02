@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
 	<meta name="author" content="Ansonika">
-	<title>{{$info->name}}</title>
+	<title>{{isset($info->name) ? $info->name : ''}}</title>
 
 	<base href="{{asset('')}}">
 
@@ -42,7 +42,7 @@
 	<?php
 	use Gloudemans\Shoppingcart\Facades\Cart;
 	use Illuminate\Support\Facades\Auth;
-		$carts = Cart::content();
+	$carts =Cart::instance(Auth::user()->id)->content();
 	// Cart::destroy();
 	// dd($carts);
 	?>

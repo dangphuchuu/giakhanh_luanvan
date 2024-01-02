@@ -216,7 +216,6 @@ class AdminController extends Controller
         ]);
     }
     public function sort_by(Request $request){
-
         $now = Carbon::now('Asia/Ho_Chi_Minh')->endOfDay();
         $week = Carbon::now('Asia/Ho_Chi_Minh')->subDays(7)->startOfDay()->toDateString();//7
         $this_month = Carbon::now('Asia/Ho_Chi_Minh')->startOfMonth()->toDateString();//1-31

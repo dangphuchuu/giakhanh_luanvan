@@ -2,34 +2,86 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
+use App\Models\Info;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Orders;
+use App\Models\Subcategories;
+use Illuminate\Support\Facades\Auth;
 class PaymentController extends Controller
 {
     //TODO:Payment
-    public function vnpay_payment()
+    public function vnpay_payment(Request $request)
     {
-        dd(Cart::content());
+        $credentials = Validator::make($request->all(),[
+            'lastname' => 'required',
+            'firstname' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+            'district' => 'required',
+            'phone' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:12|required',
+        ],
+        [
+            'lastname.required'=>__("the last name field is required"),
+            'firstname.required'=>__("the first name field is required"),
+            'email.required'=>__("the email field is required"),
+            'address.required'=>__("the address field is required"),
+            'district.required'=>__("the district field is required"),
+            'phone.required'=>__("the phone field is required"),
+            'phone.regex' => __("Phone numbers are from 0 to 9 and do not include characters"),
+            'phone.min' => __("Phone number at least 10 characters"),
+            'phone.max' => __("Phone number maximum 20 characters")
+        ]);
+
+        if($credentials->fails()){
+            return back()->with('toast_error', $credentials->messages()->all()[0])->withInput();
+        }
+        if($request->city == null){
+            return back()->with('toast_error',__('Please choose a city'));
+        }
+      
+        $cart = Cart::instance(Auth::user()->id);
+        $user = Auth::user()->id;
+        $orders = new Orders([
+            'users_id'=> $user,
+            'lastname'=>$request->lastname,
+            'firstname'=>$request->firstname,
+            'email'=>$request->email,
+            'phone'=>$request->phone,
+            'address'=>$request->address,
+            'district'=>$request->district,
+            'city'=>$request->city,
+            'content'=> $request->content,
+            'tax'=> (int)preg_replace("/[,]+/", "", $cart->tax(0)),
+            'subtotal'=> (int)preg_replace("/[,]+/", "", $cart->priceTotal(0)),
+            'total'=> (int)preg_replace("/[,]+/", "", $cart->total(0)),
+            'discount'=> (int)preg_replace("/[,]+/", "", $cart->discount(0)),
+            'lastname_sender'=>$request->lastname_sender,
+            'firstname_sender'=>$request->firstname_sender,
+            'phone_sender'=>$request->phone_sender,
+            'hold'=>true
+        ]);
+        $orders->save();
+        foreach($cart->content() as $carts){
+            $orders->products()->attach($carts->id,['quantity'=>$carts->qty]);
+        }
+        
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://gkcomputer.com/checkout";
+        $vnp_Returnurl = $request->getSchemeAndHttpHost() . "/handle_payment?orders=" . $orders->id;
         $vnp_TmnCode = "SJ2TDXGL"; //Mã website tại VNPAY 
         $vnp_HashSecret = "SSXAFWDTAAVKSVHEHWWKQLWWJSTRKBRF"; //Chuỗi bí mật
 
-        $vnp_TxnRef = $_POST['order_id']; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-        $vnp_OrderInfo = $_POST['order_desc'];
-        $vnp_OrderType = $_POST['order_type'];
-        $vnp_Amount = $_POST['amount'] * 100;
-        $vnp_Locale = $_POST['language'];
-        $vnp_BankCode = $_POST['bank_code'];
+        $vnp_TxnRef = $orders->id; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        $vnp_Amount = $orders->total * 100;
+        $vnp_Locale = 'vn';
+        $vnp_BankCode = 'NCB';
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
         //Add Params of 2.0.1 Version
-        $vnp_ExpireDate = $_POST['txtexpire'];
-
-
-        
-
+        // $vnp_ExpireDate = $_POST['txtexpire'];
 
         $inputData = array(
             "vnp_Version" => "2.1.0",
@@ -40,11 +92,11 @@ class PaymentController extends Controller
             "vnp_CurrCode" => "VND",
             "vnp_IpAddr" => $vnp_IpAddr,
             "vnp_Locale" => $vnp_Locale,
-            "vnp_OrderInfo" => $vnp_OrderInfo,
-            "vnp_OrderType" => $vnp_OrderType,
+            "vnp_OrderInfo" =>"Thanh toan GD" . $vnp_TxnRef,
+            "vnp_OrderType" => "other",
             "vnp_ReturnUrl" => $vnp_Returnurl,
             "vnp_TxnRef" => $vnp_TxnRef,
-            "vnp_ExpireDate" => $vnp_ExpireDate
+            // "vnp_ExpireDate" => $vnp_ExpireDate
 
         );
 
@@ -72,6 +124,44 @@ class PaymentController extends Controller
             $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
+
        return redirect($vnp_Url);
+    }
+
+    public function handle_payment(Request $request){
+        // dd($request->orders);
+        $orders = Orders::find($request->orders);
+        // dd($request->vnp_TransactionStatus == 00);//Mã phản hồi kết quả thanh toán. Quy định mã trả lời 00 ứng với kết quả Thành công cho tất cả các API
+        if($request->vnp_TransactionStatus == 00){
+            // dd($orders->hold);
+            $orders->hold = 0;
+            $orders->save();
+            
+            $categories = Categories::all()->where('status',1);
+            $subcategories = Subcategories::all()->where('status',1);
+            $info = Info::find(1);
+            return view('web.pages.cart.confirm',['orders'=>$orders,'categories'=>$categories,'subcategories'=>$subcategories,'info'=>$info]);
+        }else{
+                $orders->delete();
+        }
+    }
+    public function sendMail(Request $request){
+        $cart = Cart::instance(Auth::user()->id);
+        $orders = Orders::find($request->id);
+    
+        $email_cur = $orders->email;
+        $name = Auth::user()->firstname;
+        if (isset($orders->email) && Auth::user()->email_verified == 1) {
+            Mail::send('web.pages.cart.cart_mail', [
+                'name' => $name,
+                'orders'=>$orders,
+                'cart'=>$cart
+            ], function ($email) use ($email_cur) {
+                $email->subject(__("Shopping Cart Information"));
+                $email->to($email_cur);
+            });
+        }
+        $cart->destroy();
+        return response()->json(['orders' => $orders],200);
     }
 }
