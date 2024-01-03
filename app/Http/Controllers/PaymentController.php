@@ -146,22 +146,27 @@ class PaymentController extends Controller
         }
     }
     public function sendMail(Request $request){
-        $cart = Cart::instance(Auth::user()->id);
-        $orders = Orders::find($request->orders);
-    
-        $email_cur = $orders->email;
-        $name = Auth::user()->firstname;
-        if (isset($orders->email) && Auth::user()->email_verified == 1) {
-            Mail::send('web.pages.cart.cart_mail', [
-                'name' => $name,
-                'orders'=>$orders,
-                'cart'=>$cart
-            ], function ($email) use ($email_cur) {
-                $email->subject(__("Shopping Cart Information"));
-                $email->to($email_cur);
-            });
+        if(Auth::check()){
+            $cart = Cart::instance(Auth::user()->id);
+            $orders = Orders::find($request->orders);
+        
+            $email_cur = $orders->email;
+            $name = Auth::user()->firstname;
+            if (isset($orders->email) && Auth::user()->email_verified == 1) {
+                Mail::send('web.pages.cart.cart_mail', [
+                    'name' => $name,
+                    'orders'=>$orders,
+                    'cart'=>$cart
+                ], function ($email) use ($email_cur) {
+                    $email->subject(__("Shopping Cart Information"));
+                    $email->to($email_cur);
+                });
+            }
+            $cart->destroy();
+            return response(200);
+        }else{
+            return response(500);
         }
-        $cart->destroy();
-        return response(200);
+        
     }
 }

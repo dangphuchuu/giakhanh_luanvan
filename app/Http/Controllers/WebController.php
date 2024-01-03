@@ -622,12 +622,7 @@ class WebController extends Controller
             'tax'=>$tax,
             'total'=>$total,
             'discount'=>$discount
-        ],200);
-            // $data = $request->all();
-            // print_r($data);
-            // Cart::instance(Auth::user()->id)->update($request->cartId);
-            // return response();
-       
+        ],200);       
     }
 
     public function discounts(Request $request){
@@ -724,80 +719,6 @@ class WebController extends Controller
             return view('web.pages.cart.checkout');
         }
         abort(404);
-    }
-
-    public function handle_checkout(Request $request){
-        $credentials = Validator::make($request->all(),[
-            'lastname' => 'required',
-            'firstname' => 'required',
-            'email' => 'required',
-            'address' => 'required',
-            'district' => 'required',
-            'phone' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:12|required',
-        ],
-        [
-            'lastname.required'=>__("the last name field is required"),
-            'firstname.required'=>__("the first name field is required"),
-            'email.required'=>__("the email field is required"),
-            'address.required'=>__("the address field is required"),
-            'district.required'=>__("the district field is required"),
-            'phone.required'=>__("the phone field is required"),
-            'phone.regex' => __("Phone numbers are from 0 to 9 and do not include characters"),
-            'phone.min' => __("Phone number at least 10 characters"),
-            'phone.max' => __("Phone number maximum 20 characters")
-        ]);
-
-        if($credentials->fails()){
-            return back()->with('toast_error', $credentials->messages()->all()[0])->withInput();
-        }
-        if($request->city == null){
-            return back()->with('toast_error',__('Please choose a city'));
-        }
-        $cart = Cart::instance(Auth::user()->id);
-        $user = Auth::user()->id;
-        $orders = new Orders([
-            'users_id'=> $user,
-            'lastname'=>$request->lastname,
-            'firstname'=>$request->firstname,
-            'email'=>$request->email,
-            'phone'=>$request->phone,
-            'address'=>$request->address,
-            'district'=>$request->district,
-            'city'=>$request->city,
-            'content'=> $request->content,
-            'tax'=> (int)preg_replace("/[,]+/", "", $cart->tax(0)),
-            'subtotal'=> (int)preg_replace("/[,]+/", "", $cart->priceTotal(0)),
-            'total'=> (int)preg_replace("/[,]+/", "", $cart->total(0)),
-            'discount'=> (int)preg_replace("/[,]+/", "", $cart->discount(0)),
-            'lastname_sender'=>$request->lastname_sender,
-            'firstname_sender'=>$request->firstname_sender,
-            'phone_sender'=>$request->phone_sender
-        ]);
-        $orders->save();
-        foreach($cart->content() as $carts){
-            $orders->products()->attach($carts->id,['quantity'=>$carts->qty]);
-            // $orders_detail = new Orders_Detail([
-            //     'orders_id'=>$orders->id,
-            //     'products_id'=> $carts->id,
-            //     'quantity'=>$carts->qty
-            // ]);
-            // $orders_detail->save();
-        }
-        $email_cur = $request->email;
-        $name = Auth::user()->firstname;
-        // dd($cart->content());
-        if (isset($request->email) && Auth::user()->email_verified == 1) {
-            Mail::send('web.pages.cart.cart_mail', [
-                'name' => $name,
-                'orders'=>$orders,
-                'cart'=>$cart
-            ], function ($email) use ($email_cur) {
-                $email->subject(__("Shopping Cart Information"));
-                $email->to($email_cur);
-            });
-        }
-        $cart->destroy();
-        return view('web.pages.cart.confirm');
     }
 
     public function confirm(){
