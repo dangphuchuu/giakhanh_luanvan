@@ -42,7 +42,11 @@
 	<?php
 	use Gloudemans\Shoppingcart\Facades\Cart;
 	use Illuminate\Support\Facades\Auth;
-	$carts =Cart::instance(Auth::user()->id)->content();
+	if(Auth::check()){
+		$carts =Cart::instance(Auth::user()->id)->content();
+	}else{
+		$carts =Cart::instance()->content();
+	}
 	// Cart::destroy();
 	// dd($carts);
 	?>

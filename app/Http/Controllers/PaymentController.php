@@ -147,7 +147,7 @@ class PaymentController extends Controller
     }
     public function sendMail(Request $request){
         $cart = Cart::instance(Auth::user()->id);
-        $orders = Orders::find($request->id);
+        $orders = Orders::find($request->orders);
     
         $email_cur = $orders->email;
         $name = Auth::user()->firstname;
@@ -162,6 +162,6 @@ class PaymentController extends Controller
             });
         }
         $cart->destroy();
-        return response()->json(['orders' => $orders],200);
+        return response(200);
     }
 }

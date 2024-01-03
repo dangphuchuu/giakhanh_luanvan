@@ -19,7 +19,7 @@
 					<h2>{{__("Order completed!")}}</h2>
 					<p>{{__("You will receive a confirmation email soon!")}}</p>
 				</div>
-				<input type="hidden" value="{{$orders->id}}" data-id="{{$orders->id}}" />
+				<input type="hidden" id="orders_id" value="{{$orders->id}}" data-id="{{$orders->id}}" />
 			</div>
 		</div>
 		<!-- /row -->
@@ -30,8 +30,7 @@
 @section('scripts')
 <script>
 	$(document).ready(function(){
-		var orders = $(this).data('id');
-	alert(orders);
+	var orders = $('#orders_id').data('id');
 	window.onload = () => {
 		$.ajaxSetup({
                     headers: {
@@ -45,16 +44,18 @@
 				orders: orders
 			},
 			dataType: 'json',
-			200: (data) => {
+			statusCode:{
+				200: () => {
 				window.setTimeout(function() {
 					window.location.href = "/myOrder";
 				}, 5000);
-				// alert(data.orders);
-			},
-			500: (data) => {
-				// alert(data.orders);
+				},
+				500: () => {
+					
 
+				}
 			}
+			
 		})
 	}
 	});

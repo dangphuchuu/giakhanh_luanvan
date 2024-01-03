@@ -6,7 +6,12 @@
 <?php
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
-$carts = Cart::instance(Auth::user()->id);
+if(Auth::check()){
+    $carts = Cart::instance(Auth::user()->id);
+}else{
+    $carts = Cart::instance();
+}
+
 ?>
 <main class="bg_gray">
     <div class="container margin_30">

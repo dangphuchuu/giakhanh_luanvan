@@ -83,7 +83,7 @@
                         <li>
                             <div class="dropdown dropdown-cart mt-1">
                                 @if( Request::path() != "cart" && Request::path() != "checkout")
-                                <a href="/cart"><i class="ti-shopping-cart" style="font-size: 22px;"></i><strong id="cartCount">{{Cart::instance(Auth::user()->id)->count()}}</strong></a>
+                                <a href="/cart"><i class="ti-shopping-cart" style="font-size: 22px;"></i><strong id="cartCount"> @if(Auth::check()) {{ Cart::instance(Auth::user()->id)->count() }} @endif </strong></a>
                                 <div class="dropdown-menu">
                                     <ul>
                                         @foreach($carts as $key =>$cart)
