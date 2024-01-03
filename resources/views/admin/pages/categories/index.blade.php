@@ -49,10 +49,10 @@ active
                             <td class="text-center" id="status{{$cat->id}}">
                                 @if($cat->status == 1)
                                 <a href="javascript:void(0)" onclick="status({{$cat->id}},0)"><span
-                                        class="badge bg-success">Published</span></a>
+                                        class="badge bg-success">{{__("Published")}}</span></a>
                                 @else
                                 <a href="javascript:void(0)" onclick="status({{$cat->id}},1)"><span
-                                        class="badge bg-danger">Pending</span></a>
+                                        class="badge bg-danger">{{__("Pending")}}</span></a>
                                 @endif
                             </td>
                             <td class="text-center">
@@ -82,11 +82,11 @@ active
 function status(status_id, active) {
     if (active === 1) {
         $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',0)">\
-                <span class="badge bg-success">Published</span>\
+                <span class="badge bg-success">{{__("Published")}}</span>\
             </a>')
     } else {
         $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',1)">\
-                <span class="badge bg-danger">Pending</span>\
+                <span class="badge bg-danger">{{__("Pending")}}</span>\
             </a>')
     }
     $.ajaxSetup({

@@ -21,10 +21,12 @@
                                 <span class="avatar-content"><i data-feather="shopping-cart"></i></span>
                             </div>
                             <div>
-                                <h6 class='text-bold'>{{__("New Order")}}</h6>
-                                <p class='text-xs'>
-                                    {{__("An order made by")}} {{$new->firstname}} {{__("with Order ID")}}: {{$new->id}}
-                                </p>
+                                <a href="/admin/orders" style="color:#212529">
+                                    <h6 class='text-bold'>{{__("New Order")}}</h6>
+                                    <p class='text-xs'>
+                                        {{__("An order made by")}} {{$new->firstname}} {{__("with Order ID")}}: {{$new->id}}
+                                    </p>
+                                </a>
                             </div>
                         </li>
                     </ul>

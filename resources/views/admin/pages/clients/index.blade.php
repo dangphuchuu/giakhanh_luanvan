@@ -29,14 +29,14 @@ active
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
-                            <th>{{__("Image")}}</th>
-                            <th>{{__("Last Name")}}</th>
-                            <th>{{__("First Name")}}</th>
-                            <th>{{__("Username")}}</th>
-                            <th>Email</th>
-                            <th>{{__("Phone")}}</th>
-                            <th>{{__("Status")}}</th>
-                            <th>{{__("Created Date")}}</th>
+                            <th class="text-center">{{__("Image")}}</th>
+                            <th class="text-center">{{__("Last Name")}}</th>
+                            <th class="text-center">{{__("First Name")}}</th>
+                            <th class="text-center">{{__("Username")}}</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">{{__("Phone")}}</th>
+                            <th class="text-center">{{__("Status")}}</th>
+                            <th class="text-center">{{__("Created Date")}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,19 +53,19 @@ active
                                         <img src='images/avatar/avatar.png'  style="width: 80px">
                                 @endif
                             </td>
-                            <td>{{$users->lastname}}</td>
-                            <td>{{$users->firstname}}</td>
-                            <td>{{$users->username}}</td>
-                            <td>{{$users->email}}</td>
-                            <td>{{$users->phone}}</td>
-                            <td id="status{{$users->id}}">
+                            <td class="text-center">{{$users->lastname}}</td>
+                            <td class="text-center">{{$users->firstname}}</td>
+                            <td class="text-center">{{$users->username}}</td>
+                            <td class="text-center">{{$users->email}}</td>
+                            <td class="text-center">{{$users->phone}}</td>
+                            <td class="text-center" id="status{{$users->id}}">
                                 @if($users->status == 1)
-                                <a href="javascript:void(0)" onclick="status({{$users->id}},0)"><span class="badge bg-success">Published</span></a>
+                                <a href="javascript:void(0)" onclick="status({{$users->id}},0)"><span class="badge bg-success">{{__("Published")}}</span></a>
                                 @else
-                                <a href="javascript:void(0)" onclick="status({{$users->id}},1)"><span class="badge bg-danger">Pending</span></a>
+                                <a href="javascript:void(0)" onclick="status({{$users->id}},1)"><span class="badge bg-danger">{{__("Pending")}}</span></a>
                                 @endif
                             </td>
-                            <td>
+                            <td class="text-center">
                                 {{$users->created_at}}
                             </td>
                         </tr>
@@ -85,11 +85,11 @@ active
     function status(status_id, active) {
         if (active === 1) {
             $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',0)">\
-                <span class="badge bg-success">Published</span>\
+                <span class="badge bg-success">{{__("Published")}}</span>\
             </a>')
         } else {
             $("#status" + status_id).html(' <a href="javascript:void(0)" onclick="status(' + status_id + ',1)">\
-                <span class="badge bg-danger">Pending</span>\
+                <span class="badge bg-danger">{{__("Pending")}}</span>\
             </a>')
         }
         $.ajaxSetup({
