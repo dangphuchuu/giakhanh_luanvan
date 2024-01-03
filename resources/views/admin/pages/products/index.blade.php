@@ -124,7 +124,7 @@ $(document).ready(function() {
 
 
 
-    //change category to subcategory create
+    //change category to subcategory create ©Ph
     $(".category").change(function() {
         var cat_id = $(this).val();
         $.get("admin/products/subcategory/" + cat_id, function(data) {
@@ -206,7 +206,7 @@ function featured(featured_id, active) {
 <script>
 ClassicEditor
     .create(document.querySelector('.content'))
-    .then(content => {
+    .then(content => {//©Ph
         // console.log( content );
     })
     .catch(error => {

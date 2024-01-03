@@ -137,12 +137,12 @@
                                     @if(isset(Auth::user()->image))
                                     
                                         @if(strstr(Auth::user()->image,"https") == "")
-                                            <img src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ Auth::user()->image }}.jpg"   class=" me-2" style="border-radius:50%!important; width:15%">
+                                            <img src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{ Auth::user()->image }}.jpg"   class=" me-2" style="border-radius:50%!important; width:40px;height:32px">
                                         @else
-                                            <img src='{{Auth::user()->image}}'  class=" me-2" style="border-radius:50%!important; width:15%">
+                                            <img src='{{Auth::user()->image}}'  class=" me-2" style="border-radius:50%!important; width:40px;height:32px">
                                         @endif
                                     @else
-                                    <img src='images/avatar/avatar.png'  class=" me-2" style="border-radius:50%!important; width:15%">
+                                    <img src='images/avatar/avatar.png'  class=" me-2" style="border-radius:50%!important; width:40px;height:32px">
                                     @endif
 
                                             @if(Session("language") == "en")

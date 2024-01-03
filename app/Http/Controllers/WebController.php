@@ -62,6 +62,12 @@ class WebController extends Controller
         if(Auth::check()){
             return redirect('/');
         }
+         // Lấy đường dẫn trình duyệt của người dùng
+        $referer = request()->headers->get('referer');
+
+        // Lưu trữ đường dẫn trong session
+        session()->put('previous_url', $referer);
+        // dd(session()->all());
         return view('web.common.signin_signup');
     }
     
@@ -78,7 +84,7 @@ class WebController extends Controller
         if($credentials->fails()){
             return back()->with('toast_error', $credentials->messages()->all()[0])->withInput();
         }
-
+        
         $username = Auth::attempt(['username' => $request['username'], 'password' => $request['password']]);
         $email = Auth::attempt(['email' => $request['username'], 'password' => $request['password']]);
         if($username || $email)
@@ -95,13 +101,8 @@ class WebController extends Controller
                 session()->forget('username_client');
                 session()->forget('password_client');
             }
-            if(Cart::count()>0){
                 toast(__("Login Successfully"),'success');
-                return redirect('/checkout');
-            }else{
-                toast(__("Login Successfully"),'success');
-                return redirect('/');
-            }
+                return redirect(session()->get('previous_url'));
         }else{
             return redirect()->back()->with('toast_error',__("Wrong username or password. Please try again"));
         }

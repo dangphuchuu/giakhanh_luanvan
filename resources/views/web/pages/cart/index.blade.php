@@ -367,7 +367,7 @@ Cart::setGlobalTax($info->tax);
 
        if(window.history && window.history.pushState)
        {
-        // $(window).on('popstate', function() {
+        // $(window).on('popstate', function(©Ph) { 
         // });
             var discount = $('#discount').val();
             $.ajax({

@@ -34,10 +34,10 @@
 												<span class="new_price">{{number_format($new->price_new,0,",",".")}} Vnđ</span>
 												<span class="old_price">{{number_format($new->price,0,",",".")}} Vnđ</span>
 
-												@elseif(!isset($new->price_new) && isset($new->price))
+												@elseif($new->price_new == 0 && $new->price !=0)
 												<span class="new_price">{{number_format($new->price,0,",",".")}} Vnđ</span>
 
-												@elseif(!isset($new->price) && isset($new->price_new))
+												@elseif($new->price == 0 && $new->price_new !=0)
 												<span class="new_price">{{number_format($new->price_new,0,",",".")}} Vnđ</span>
 
 												@else
