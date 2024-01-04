@@ -123,15 +123,65 @@
                                 <h6 class="mt-1">{{__("City")}}</h6>
                             </div>
                             <div class="col-sm-9">
-                                <div class="custom-select-form">
+                                <div class="">
                                     <select class="wide add_bottom_15" name="city" id="city">
                                         <option value="">{{__("City")}}</option>
-                                        <option @if($user->city == 'hcm') selected @endif value="hcm">Hồ Chí Minh</option>
-                                        <option @if($user->city == 'hn') selected @endif value="hn">Hà Nội</option>
-                                        <option @if($user->city == 'dn') selected @endif value="dn">Đà Nẵng</option>
-                                        <option @if($user->city == 'vt') selected @endif value="vt">Vũng Tàu</option>
-                                        <option @if($user->city == 'ct') selected @endif value="ct">Cần Thơ</option>
-                                        <option @if($user->city == 'bd') selected @endif value="bd">Bình Dương</option>
+                                        <option value="Hà Nội">Hà Nội</option>
+                                        <option value="Hồ Chí Minh">Hồ Chí Minh</option>
+                                        <option value="Đà Nẵng">Đà Nẵng</option>
+                                        <option value="Cần Thơ">Cần Thơ</option>
+                                        <option value="Hải Phòng">Hải Phòng</option>
+                                        <option value="Nghệ An">Nghệ An</option>
+                                        <option value="Bình Dương">Bình Dương</option>
+                                        <option value="Quảng Ninh">Quảng Ninh</option>
+                                        <option value="Thanh Hóa">Thanh Hóa</option>
+                                        <option value="Đồng Nai">Đồng Nai</option>
+                                        <option value="An Giang">An Giang</option>
+                                        <option value="Lâm Đồng">Lâm Đồng</option>
+                                        <option value="Thừa Thiên Huế">Thừa Thiên Huế</option>
+                                        <option value="Đắk Lắk">Đắk Lắk</option>
+                                        <option value="Bình Phước">Bình Phước</option>
+                                        <option value="Bình Định">Bình Định</option>
+                                        <option value="Tây Ninh">Tây Ninh</option>
+                                        <option value="Bà Rịa - Vũng Tàu">Bà Rịa - Vũng Tàu</option>
+                                        <option value="Phú Yên">Phú Yên</option>
+                                        <option value="Kiên Giang">Kiên Giang</option>
+                                        <option value="Kon Tum">Kon Tum</option>
+                                        <option value="Ninh Thuận">Ninh Thuận</option>
+                                        <option value="Đồng Tháp">Đồng Tháp</option>
+                                        <option value="Long An">Long An</option>
+                                        <option value="Bạc Liêu">Bạc Liêu</option>
+                                        <option value="Cà Mau">Cà Mau</option>
+                                        <option value="Đắk Nông">Đắk Nông</option>
+                                        <option value="Gia Lai">Gia Lai</option>
+                                        <option value="Quảng Nam">Quảng Nam</option>
+                                        <option value="Thái Bình">Thái Bình</option>
+                                        <option value="Hải Dương">Hải Dương</option>
+                                        <option value="Phú Thọ">Phú Thọ</option>
+                                        <option value="Bắc Ninh">Bắc Ninh</option>
+                                        <option value="Vĩnh Phúc">Vĩnh Phúc</option>
+                                        <option value="Hà Nam">Hà Nam</option>
+                                        <option value="Nam Định">Nam Định</option>
+                                        <option value="Hưng Yên">Hưng Yên</option>
+                                        <option value="Thái Nguyên">Thái Nguyên</option>
+                                        <option value="Lạng Sơn">Lạng Sơn</option>
+                                        <option value="Tuyên Quang">Tuyên Quang</option>
+                                        <option value="Yên Bái">Yên Bái</option>
+                                        <option value="Lai Châu">Lai Châu</option>
+                                        <option value="Điện Biên">Điện Biên</option>
+                                        <option value="Sơn La">Sơn La</option>
+                                        <option value="Hà Giang">Hà Giang</option>
+                                        <option value="Cao Bằng">Cao Bằng</option>
+                                        <option value="Bắc Kạn">Bắc Kạn</option>
+                                        <option value="Tiền Giang">Tiền Giang</option>
+                                        <option value="Bến Tre">Bến Tre</option>
+                                        <option value="Trà Vinh">Trà Vinh</option>
+                                        <option value="Vĩnh Long">Vĩnh Long</option>
+                                        <option value="Cần Thơ">Cần Thơ</option>
+                                        <option value="Sóc Trăng">Sóc Trăng</option>
+                                        <option value="An Giang">An Giang</option>
+                                        <option value="Kiên Giang">Kiên Giang</option>
+                                        <option value="Cà Mau">Cà Mau</option>
                                     </select>
                                 </div>
                             </div>
@@ -187,6 +237,11 @@
         }
         });
     });
+    $(document).ready(function () {
+        $("#city option[value='{{ $user->city }}']").prop("selected",true);
+        $('#city').select2();  
+    });
 </script>
+
 
 @endsection

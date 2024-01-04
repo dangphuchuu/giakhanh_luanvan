@@ -70,12 +70,23 @@
                         
                         <thead>
                             <tr>
+                                <th colspan="2" class="text-center">{{__("Address")}}</th>
+                                <th colspan="2" class="text-center">{{__("District")}}</th>
+                                <th colspan="2" class="text-center">{{__("City")}}</th>
+                            </tr>
+                            <tr>
+                            <td colspan="2" class="text-center text-wrap">{{$order->address}}</td>
+                            <td colspan="2" class="text-center text-wrap">{{$order->district}}</td>
+                            <td colspan="2" class="text-center text-wrap">{{$order->city}}</td>
+                         </tr>
+                            <tr>
                                 <th colspan="2" class="text-center">{{__("Sender's lastname")}}</th>
                                 <th colspan="2" class="text-center">{{__("Sender's firstname")}}</th>
                                 <th colspan="2" class="text-center">{{__("Sender's phone")}}</th>
                             </tr>
                         </thead>
                     <tbody>
+                       
                         <tr>
                             <td colspan="2" class="text-center text-wrap">{{$order->lastname_sender}}</td>
                             <td colspan="2" class="text-center text-wrap">{{$order->firstname_sender}}</td>

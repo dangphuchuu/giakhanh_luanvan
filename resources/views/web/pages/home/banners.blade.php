@@ -1,3 +1,9 @@
+<style>
+	#carousel-home .owl-carousel .owl-slide, #carousel-home-2 .owl-carousel .owl-slide {
+  height: 845px;
+  position: relative;
+}
+</style>
 <div id="carousel-home">
 			<div class="owl-carousel owl-theme">
 				@foreach($banners as $banner)

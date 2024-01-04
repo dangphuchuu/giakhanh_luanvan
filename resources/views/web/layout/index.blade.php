@@ -23,7 +23,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" integrity="sha512-aD9ophpFQ61nFZP6hXYu4Q/b/USW7rpLCQLX6Bi0WJHXNO7Js/fUENpBQf/+P4NtpzNX0jSgR5zVvPOJp+W2Kg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<!-- BASE CSS -->
 	<link href="web_assets/css/bootstrap.custom.min.css" rel="stylesheet">
 	<link href="web_assets/css/style.css" rel="stylesheet">
@@ -70,7 +70,7 @@
 	<script src="web_assets/js/main.js"></script>
 	<script src="web_assets/js/carousel-home.min.js"></script>
     <script src="admin_assets/js/feather-icons/feather.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js" integrity="sha512-4MvcHwcbqXKUHB6Lx3Zb5CEAVoE9u84qN+ZSMM6s7z8IeJriExrV3ND5zRze9mxNlABJ6k864P/Vl8m0Sd3DtQ==" crossorigin="anonymous"></script>
 	<script>
     $(".numbers-row").append('<div class="inc button_inc">+</div><div class="dec button_inc">-</div>');
 	$(".button_inc").on("click", function () {

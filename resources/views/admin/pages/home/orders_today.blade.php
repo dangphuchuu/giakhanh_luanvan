@@ -33,19 +33,7 @@
                                     <td>{{$order->email}}</td>
                                     <td>{{$order->phone}}</td>
                                     <td>
-                                        @if($order->city == "hcm")
-                                        Hồ Chí Minh
-                                        @elseif($order->city == "hn")
-                                        Hà Nội
-                                        @elseif($order->city == "dn")
-                                        Đà Nẵng
-                                        @elseif($order->city == "ct")
-                                        Cần Thơ
-                                        @elseif($order->city == "bd")
-                                        Bình Dương
-                                        @elseif($order->city == "vt")
-                                        Vũng Tàu
-                                        @endif
+                                        {{$order->city}}
                                     </td>
                                     <td>
                                         @if($order->status == 1)

@@ -48,7 +48,7 @@
 				200: () => {
 				window.setTimeout(function() {
 					window.location.href = "/myOrder";
-				}, 5000);
+				}, 3000);
 				},
 				500: () => {
 					
