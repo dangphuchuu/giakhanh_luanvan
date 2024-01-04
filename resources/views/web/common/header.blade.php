@@ -101,7 +101,7 @@
 
                                                 </strong>
                                             </a>
-                                            <a href="javascript:void(0)" data-id="{{$cart->rowId}}" class="action delete-cart"><i class="ti-trash"></i></a>
+                                            <a href="javascript:void(0);" data-id="{{$cart->rowId}}" class="action delete-cart"><i class="ti-trash"></i></a>
                                         </li>
                                         @endforeach
                                     </ul>
@@ -232,7 +232,6 @@
                 },
                 dataType: 'json',
                 success: function(data){
-                    alert('ok')
                     Obj.parent().remove();
                     // $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     $('#total').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');

@@ -71,9 +71,9 @@ active
                                      <label>Video: </label>
                                      <div class="form-group">
                                         <input type="text" placeholder="https://www.youtube.com/watch?v=" value="{{$products->youtube_path}}" class="form-control" name="youtube_path">
-                                        <iframe style="height: 400px;" width="700px" src="@if(isset($products->youtube_path)) 
-                                                            https://www.youtube.com/embed/{{$products->youtube_path}}
-                                                            @endif" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        @if(isset($products->youtube_path)) 
+                                        <iframe style="height: 400px;" width="700px" src="https://www.youtube.com/embed/{{$products->youtube_path}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        @endif
                                      </div>
                                 </div>
 

@@ -1,6 +1,6 @@
 <style>
 	#carousel-home .owl-carousel .owl-slide, #carousel-home-2 .owl-carousel .owl-slide {
-  height: 845px;
+  height: 730px;
   position: relative;
 }
 </style>

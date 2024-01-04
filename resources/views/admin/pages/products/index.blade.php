@@ -36,15 +36,15 @@ active
                     <thead>
                         <tr>
                             <th class="text-center">Id</th>
-                            <th class="text-center">{{__("Image")}}</th>
-                            <th class="text-center">{{__("Name")}}</th>
-                            <th class="text-center">{{__("Categories")}}</th>
-                            <th class="text-center">{{__("SubCategories")}}</th>
-                            <th class="text-center">{{__("Brands")}}</th>
-                            <th class="text-center">{{__("Staff")}}</th>
-                            <th class="text-center">{{__("Featured")}}</th>
-                            <th class="text-center">{{__("Status")}}</th>
-                            <th class="text-center">{{__("Operations")}}</th>
+                            <th class="text-center text-nowrap">{{__("Image")}}</th>
+                            <th class="text-center text-nowrap">{{__("Name")}}</th>
+                            <th class="text-center text-nowrap">{{__("Categories")}}</th>
+                            <th class="text-center text-nowrap">{{__("SubCategories")}}</th>
+                            <th class="text-center text-nowrap">{{__("Brands")}}</th>
+                            <th class="text-center text-nowrap">{{__("Staff")}}</th>
+                            <th class="text-center text-nowrap">{{__("Featured")}}</th>
+                            <th class="text-center text-nowrap">{{__("Status")}}</th>
+                            <th class="text-center text-nowrap">{{__("Operations")}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -172,11 +172,11 @@ function status(status_id, active) {
 function featured(featured_id, active) {
     if (active === 1) {
         $("#featured" + featured_id).html(' <a href="javascript:void(0)" onclick="featured(' + featured_id + ',0)">\
-                <span class="badge bg-success">Active</span>\
+                <span class="badge bg-success">{{__("Published")}}</span>\
             </a>')
     } else {
         $("#featured" + featured_id).html(' <a href="javascript:void(0)" onclick="featured(' + featured_id + ',1)">\
-                <span class="badge bg-danger">Inactive</span>\
+                <span class="badge bg-danger">{{__("Pending")}}</span>\
             </a>')
     }
     $.ajaxSetup({
