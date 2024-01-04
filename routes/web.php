@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\WebController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -89,7 +90,11 @@ Route::middleware('language')->group(function(){
     Route::get('/handle_payment',[PaymentController::class, 'handle_payment']);
     Route::post('/send_mail_orders',[PaymentController::class, 'sendMail']);
 
-    
+    //! Wishlist
+    Route::get('/wishlist',[WishlistController::class, 'index']);
+    Route::post('/wishlist',[WishlistController::class, 'wishlist']);
+    Route::get('/count_wishlist',[WishlistController::class, 'count_wishlist']);
+
 
 
 });

@@ -46,7 +46,26 @@
 												@endif
 											</div>
 											<ul>
-												<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to favorites')}}"><i class="ti-heart"></i><span>{{__('Add to favorites')}}</span></a></li>
+												<li>
+												@if(Auth::check())
+													<?php 
+														$count = $wishlist->countWishlist($new->id);
+													?>
+													<a href="javascript:void(0)" data-productid="{{$new->id}}" class="tooltip-1 wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to favorites')}}">
+														@if($count >0)
+															<i class="fa-solid fa-heart" style="color:red"></i>
+														@else
+															<i class="fa-regular fa-heart"></i>
+														@endif	
+														<span>{{__('Add to favorites')}}</span>
+													</a>
+												@else
+													<a href="/signin_signup" data-productid="{{$new->id}}" class="tooltip-1 wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to favorites')}}">
+														<i class="fa-regular fa-heart"></i>
+														<span>{{__('Add to favorites')}}</span>
+													</a>
+												@endif
+												</li>
 												<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to compare')}}"><i class="ti-control-shuffle"></i><span>{{__('Add to compare')}}</span></a></li>
 												@if($new->price || $new->price_new)
 												<li>
@@ -71,3 +90,4 @@
 				</div>
 				<!-- /isotope-wrapper -->
 			</div>
+			

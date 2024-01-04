@@ -18,6 +18,7 @@
 	<link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="web_assets/img/apple-touch-icon-72x72-precomposed.png">
 	<link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="web_assets/img/apple-touch-icon-114x114-precomposed.png">
 	<link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="web_assets/img/apple-touch-icon-144x144-precomposed.png">
+    <link href="/web_assets/css/fonts/fontawesome/css/all.css" rel="stylesheet" />
 
 	<!-- GOOGLE WEB FONT -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -90,27 +91,7 @@
 		$button.parent().find("input").val(newVal);
 	});
 	</script>
-	<!-- SPECIFIC SCRIPTS -->
-	<!-- <script src="web_assets/js/modernizr.js"></script>
-	<script src="web_assets/js/video_header.min.js"></script>
-	<script src="web_assets/js/isotope.min.js"></script> -->
 	@yield('scripts')
-	<!-- <script>
-		// Isotope filter
-		$(window).on('load', function() {
-			var $container = $('.isotope-wrapper');
-			$container.isotope({
-				itemSelector: '.isotope-item',
-				layoutMode: 'masonry'
-			});
-		});
-		$('.isotope_filter').on('click', 'a', 'change', function() {
-			var selector = $(this).attr('data-filter');
-			$('.isotope-wrapper').isotope({
-				filter: selector
-			});
-		});
-	</script> -->
 	@yield('script')
 </body>
 

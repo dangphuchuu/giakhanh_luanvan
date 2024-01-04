@@ -4699,7 +4699,6 @@ body.modal-open .mm-slideout {
   }
 }
 .grid_item ul li a {
-  background-color: #fff;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   -ms-border-radius: 0;
@@ -4712,12 +4711,6 @@ body.modal-open .mm-slideout {
   display: block;
   margin: 0;
   padding: 0;
-}
-.grid_item ul li a:hover {
-  background-color: #004dda;
-}
-.grid_item ul li a:hover i {
-  color: #fff;
 }
 .grid_item ul li a span {
   display: none;

@@ -151,7 +151,26 @@
 												@endif
 												</div>
 												<ul>
-													<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to favorites')}}"><i class="ti-heart"></i><span>{{__("Add to favorites")}}</span></a></li>
+													<li>
+														@if(Auth::check())
+														<?php 
+															$count = $wishlist->countWishlist($pro->id);
+														?>
+														<a href="javascript:void(0)" data-productid="{{$pro->id}}" class="tooltip-1 wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to favorites')}}">
+															@if($count >0)
+															<i class="fa-solid fa-heart" style="color:red"></i>
+															@else
+															<i class="fa-regular fa-heart"></i>
+															@endif	
+															<span>{{__('Add to favorites')}}</span>
+														</a>
+														@else
+														<a href="/signin_signup" data-productid="{{$pro->id}}" class="tooltip-1 wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to favorites')}}">
+															<i class="fa-regular fa-heart"></i>
+															<span>{{__('Add to favorites')}}</span>
+														</a>
+														@endif
+													</li>
 													<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to compare')}}"><i class="ti-control-shuffle"></i><span>{{__("Add to compare")}}</span></a></li>
 													@if($pro->price || $pro->price_new)
 														<li>
@@ -189,35 +208,47 @@
 @section('scripts')
 <script src="web_assets/js/sticky_sidebar.min.js"></script>
 <script src="web_assets/js/specific_listing.js"></script>
-
-<!-- <script>
-$(document).ready(function() {
-	$('#sort').change(function() {
-		var sort = $(this).val();
-		$.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-		$.ajax({
-            url:"sort-by",
-            method:"GET",
-            dataType:"json",
-            data:{
-               'sort': sort
-            },
+<script>
+	totalWishlist();
+    function totalWishlist()
+    {
+        $.ajax({
+            type: 'GET',
+            url: '/count_wishlist',
             success:function(data){
-					// ProductsList(data.products);
-				
-					$('#products-container').html(data.data);
-               
+                $('#wishlistCount').text(data.count.toLocaleString('vi-VN'));
             }
         });
+    }
+
+	$(document).ready(function (){
+		$('.wishlist').click(function(){
+			$.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+			var user_id = "{{Auth::id()}}"
+			var product_id = $(this).data('productid');
+			$.ajax({
+				type: 'POST',
+				url: '/wishlist',
+				data:{
+					product_id:product_id,
+					user_id:user_id
+				},
+				success: function (data) {
+					if(data.action == 'add'){
+						totalWishlist();
+                        $('a[data-productid=' + product_id + ']').html('<i class="fa-solid fa-heart" style="color:red"></i>');
+					}else if (data.action == 'delete'){
+						totalWishlist();
+                        $('a[data-productid=' + product_id + ']').html('<i class="fa-regular fa-heart"></i>');
+						
+					}
+				}
+			})
+		});
 	});
-	// function ProductsList(products) {
-	// 	var productsContainer = $('products-container');
-	// 	productsContainer.empty();
-	// }
-});
-</script> -->
+</script>
 @endsection

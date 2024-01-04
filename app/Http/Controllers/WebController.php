@@ -15,6 +15,7 @@ use App\Models\Reviews;
 use App\Models\Subcategories;
 use App\Models\User;
 use App\Models\News;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -32,10 +33,12 @@ class WebController extends Controller
         $subcategories = Subcategories::all()->where('status',1);
         $brands = Brands::all()->where('status',1);
         $info = Info::find(1);
+        $wishlist = new Wishlist;
         view()->share('categories',$categories);
         view()->share('subcategories',$subcategories);
         view()->share('brands',$brands);
         view()->share('info',$info);
+        view()->share('wishlist',$wishlist);
     }
 
     public function index(){

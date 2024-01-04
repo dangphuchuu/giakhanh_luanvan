@@ -161,7 +161,24 @@
 					<div class="product_actions">
 						<ul>
 							<li>
-								<a href="#"><i class="ti-heart"></i><span>{{__("Add to Wishlist")}}</span></a>
+								@if(Auth::check())
+								<?php 
+									$count = $wishlist->countWishlist($products->id);
+								?>
+								<a href="javascript:void(0)" data-productid="{{$products->id}}" class="tooltip-1 wishlistDetail" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to favorites')}}">
+									@if($count >0)
+									<i class="fa-solid fa-heart" style="color:red"></i>
+									@else
+									<i class="fa-regular fa-heart"></i>
+									@endif	
+									<span>{{__('Add to favorites')}}</span>
+								</a>
+								@else
+								<a href="/signin_signup" data-productid="{{$products->id}}" class="tooltip-1 wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to favorites')}}">
+									<i class="fa-regular fa-heart"></i>
+									<span>{{__('Add to favorites')}}</span>
+								</a>
+								@endif
 							</li>
 							<li>
 								<a href="#"><i class="ti-control-shuffle"></i><span>{{__("Add to Compare")}}</span></a>
@@ -339,9 +356,37 @@
 						@endif
 					</div>
 					<ul>
-						<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a></li>
+						<li>
+							@if(Auth::check())
+							<?php 
+								$count = $wishlist->countWishlist($re->id);
+							?>
+							<a href="javascript:void(0)" data-productid="{{$re->id}}" class="tooltip-1 wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to favorites')}}">
+								@if($count >0)
+								<i class="fa-solid fa-heart" style="color:red"></i>
+								@else
+								<i class="fa-regular fa-heart"></i>
+								@endif	
+								<span>{{__('Add to favorites')}}</span>
+							</a>
+							@else
+							<a href="/signin_signup" data-productid="{{$re->id}}" class="tooltip-1 wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to favorites')}}">
+								<i class="fa-regular fa-heart"></i>
+								<span>{{__('Add to favorites')}}</span>
+							</a>
+							@endif
+						</li>
 						<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to compare"><i class="ti-control-shuffle"></i><span>Add to compare</span></a></li>
-						<li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
+						@if($re->price || $re->price_new)
+							<li>
+								<form action="/cart" method="post" id="formSubmitCart_{{$re->id}}">
+									@csrf
+									<a href="javascript:void(0)"  onclick="document.getElementById('formSubmitCart_{{$re->id}}').submit();" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="{{__('Add to cart')}}"><i class="ti-shopping-cart"></i><span>{{__('Add to cart')}}</span></a>
+									<input type="hidden" name="products_id" value="{{$re->id}}"/>
+									<input type="hidden" name="quantity" value="1"/>
+								</form>
+							</li>
+						@endif
 					</ul>
 				</div>
 				<!-- /grid_item -->
@@ -359,5 +404,74 @@
 @endsection
 @section('scripts')
 <script src="web_assets/js/carousel_with_thumbs.js"></script>
+<script>
+	totalWishlist();
+    function totalWishlist()
+    {
+        $.ajax({
+            type: 'GET',
+            url: '/count_wishlist',
+            success:function(data){
+                $('#wishlistCount').text(data.count.toLocaleString('vi-VN'));
+            }
+        });
+    }
 
+	$(document).ready(function (){
+		$('.wishlist').click(function(){
+			$.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+			var user_id = "{{Auth::id()}}"
+			var product_id = $(this).data('productid');
+			$.ajax({
+				type: 'POST',
+				url: '/wishlist',
+				data:{
+					product_id:product_id,
+					user_id:user_id
+				},
+				success: function (data) {
+					if(data.action == 'add'){
+						totalWishlist();
+                        $('a[data-productid=' + product_id + ']').html('<i class="fa-solid fa-heart" style="color:red"></i>');
+					}else if (data.action == 'delete'){
+						totalWishlist();
+                        $('a[data-productid=' + product_id + ']').html('<i class="fa-regular fa-heart"></i>');
+						
+					}
+				}
+			})
+		});
+		$('.wishlistDetail').click(function(){
+			$.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+			var user_id = "{{Auth::id()}}"
+			var product_id = $(this).data('productid');
+			$.ajax({
+				type: 'POST',
+				url: '/wishlist',
+				data:{
+					product_id:product_id,
+					user_id:user_id
+				},
+				success: function (data) {
+					if(data.action == 'add'){
+						totalWishlist();
+                        $('a[data-productid=' + product_id + ']').html('<i class="fa-solid fa-heart" style="color:red"></i>').append(`<span>{{__('Add to favorites')}}</span>`);
+					}else if (data.action == 'delete'){
+						totalWishlist();
+                        $('a[data-productid=' + product_id + ']').html('<i class="fa-regular fa-heart"></i>').append(`<span>{{__('Add to favorites')}}</span>`);
+						
+					}
+				}
+			})
+		});
+	});
+</script>
 @endsection

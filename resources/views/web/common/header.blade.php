@@ -78,9 +78,6 @@
                 <div class="col-xl-3 col-lg-2 col-md-3">
                     <ul class="top_tools">
                         <li>
-                            <!-- <a href="#0" class="wishlist"><span>Wishlist</span></a> -->
-                        </li>
-                        <li>
                             <div class="dropdown dropdown-cart mt-1">
                                 @if( Request::path() != "cart" && Request::path() != "checkout")
                                 <a href="/cart"><i class="ti-shopping-cart" style="font-size: 22px;"></i><strong id="cartCount"> @if(Auth::check()) {{ Cart::instance(Auth::user()->id)->count() }} @else {{ Cart::instance()->count() }} @endif </strong></a>
@@ -176,7 +173,15 @@
                             <!-- /dropdown-access-->
                         </li>
                         @endif
-                       
+                        <li>
+                            <div class="mt-1">
+                                @if(Auth::check())
+                                    <a href="/wishlist"><i class="fa-solid fa-heart" style="font-size: 21px;color:red"></i><strong id="wishlistCount"></strong></a>
+                                @else
+                                    <a href="/signin_signup"><i class="fa-regular fa-heart" style="font-size: 21px;"></i><strong id="wishlistCount"></strong></a>
+                                @endif
+                            </div>
+                        </li>
                         <li>
                             <a href="javascript:void(0);" class="btn_search_mob ti-search" ><span>Search</span></a>
                         </li>
@@ -227,6 +232,7 @@
                 },
                 dataType: 'json',
                 success: function(data){
+                    alert('ok')
                     Obj.parent().remove();
                     // $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     $('#total').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
