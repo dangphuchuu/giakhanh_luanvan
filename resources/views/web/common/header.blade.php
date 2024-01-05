@@ -83,7 +83,7 @@
                                 <a href="/cart"><i class="ti-shopping-cart" style="font-size: 22px;"></i><strong id="cartCount"> @if(Auth::check()) {{ Cart::instance(Auth::user()->id)->count() }} @else {{ Cart::instance()->count() }} @endif </strong></a>
                                 <div class="dropdown-menu">
                                     <ul>
-                                        @foreach($carts as $key =>$cart)
+                                        @foreach($carts->content() as $key =>$cart)
                                         <li>
                                             <a href="/detail/{{$cart->id}}">
                                                 @if(strstr($cart->image,"https") == "")
@@ -93,12 +93,7 @@
                                                 @endif
                                                 <strong>
                                                     <span style="max-width: 150px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{$cart->qty}} x {{$cart->name}}</span>
-                                                    @if($cart->options->price_new)
-                                                    {{number_format($cart->options->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
-                                                    @else
                                                     {{number_format($cart->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
-                                                    @endif
-
                                                 </strong>
                                             </a>
                                             <a href="javascript:void(0);" data-id="{{$cart->rowId}}" class="action delete-cart"><i class="ti-trash"></i></a>
@@ -108,11 +103,21 @@
                                     <div class="total_drop">
                                         <div class="clearfix">
                                             <strong>{{__("Subtotal")}}</strong>
-
-                                            <span id="total">
-                                            {{Cart::total(0,',','.');}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                                            <span id="sumSubtotal">
+                                            {{$carts->priceTotal(0,',','.');}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                                             </span>
-
+                                        </div>
+                                        <div class="clearfix">
+                                            <strong>{{__("Tax")}}</strong>
+                                            <span id="tax">
+                                            {{$carts->tax(0,',','.');}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                                            </span>
+                                        </div>
+                                        <div class="clearfix">
+                                            <strong>{{__("Total")}}</strong>
+                                            <span id="total">
+                                            {{$carts->total(0,',','.');}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                                            </span>
                                         </div>
                                         <a href="/cart" class="btn_1 outline">{{__("View Cart")}}</a>
                                         @if(Auth::check())
@@ -212,14 +217,12 @@
         <!-- /search_mobile -->
     </div>
     <!-- /main_nav -->
-    
 </header>
 @section('scripts')
 <script>
     $(document).ready(function(){
         $('.delete-cart').on('click',function(){
             var Obj = $(this);
-            // alert(Obj);
             var cartId = $(this).data('id');
             $.ajax({
                 headers: {
@@ -233,10 +236,10 @@
                 dataType: 'json',
                 success: function(data){
                     Obj.parent().remove();
-                    // $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    $('#sumSubtotal').text(data.subtotal.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     $('#total').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     $('#cartCount').text(data.count.toLocaleString('vi-VN'));
-                    // $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                 },error: function(){
                     alert("error");
 

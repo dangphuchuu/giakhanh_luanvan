@@ -75,9 +75,8 @@ if(Auth::check()){
                                         <input type="text" value="{{Auth::user()->district ?? ''}}" name="district"
                                             class="form-control" placeholder="{{__('District')}}">
                                     </div>
-                                    <div class="col-md-6 form-group pr-1">
-                                        <div class="">
-                                            <select class="wide add_bottom_15" name="city" id="city">
+                                    <div class="col-md-6 form-group pr-1 mt-1">
+                                            <select class="wide add_bottom_15 form-control" name="city" id="city">
                                                 <option value="">{{__("City")}}</option>
                                                 <option value="Hà Nội">Hà Nội</option>
                                                 <option value="Hồ Chí Minh">Hồ Chí Minh</option>
@@ -136,7 +135,6 @@ if(Auth::check()){
                                                 <option value="Kiên Giang">Kiên Giang</option>
                                                 <option value="Cà Mau">Cà Mau</option>
                                             </select>
-                                        </div>
                                     </div>
                                 </div>
                                 <!-- /row -->
@@ -196,13 +194,8 @@ if(Auth::check()){
                                         </em>
                                     </a>
                                     <span style="margin-top:15px">
-                                        @if($cart->options->price_new)
-                                        {{number_format($cart->options->price_new,0,',','.')}}<sup
-                                            style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
-                                        @else
                                         {{number_format($cart->price,0,',','.')}}<sup
                                             style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
-                                        @endif
                                     </span>
                                 </li>
                                 @endforeach

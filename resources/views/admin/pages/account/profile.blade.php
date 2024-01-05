@@ -115,9 +115,9 @@
                             <div class="col-sm-3 mt-2">
                                 <h6 class="mt-1">{{__("City")}}</h6>
                             </div>
-                            <div class="col-sm-9">
+                            <div class="col-sm-9 mt-2">
                                 <div class="custom-select-form">
-                                    <select class="wide add_bottom_15" name="city" id="city">
+                                    <select class="wide add_bottom_15 form-control" name="city" id="city">
                                         <option value="">{{__("City")}}</option>
                                         <option value="Hà Nội">Hà Nội</option>
                                         <option value="Hồ Chí Minh">Hồ Chí Minh</option>

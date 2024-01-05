@@ -152,7 +152,7 @@ class PaymentController extends Controller
         
             $email_cur = $orders->email;
             $name = Auth::user()->firstname;
-            if (isset($orders->email) && Auth::user()->email_verified == 1) {
+            if (isset($orders->email)) {
                 Mail::send('web.pages.cart.cart_mail', [
                     'name' => $name,
                     'orders'=>$orders,

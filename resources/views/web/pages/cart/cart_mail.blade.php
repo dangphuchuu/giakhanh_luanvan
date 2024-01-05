@@ -25,13 +25,8 @@
             </td>
             <td style="text-align:center">{{$carts->qty}}</td>
             <td style="text-align:center">
-                @if($carts->options->price_new)
-                {{number_format($carts->options->price_new,0,",",".")}}<sup
-                    style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
-                @else
                 {{number_format($carts->price,0,",",".")}}<sup
                     style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
-                @endif
             </td>
 
         </tr>

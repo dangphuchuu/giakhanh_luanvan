@@ -12,9 +12,6 @@ if(Auth::check()){
     $carts = Cart::instance();
 }
 Cart::setGlobalTax($info->tax);
-// Cart::destroy();
-// dd( Request::path()=="cart");
-// dd($carts->count());
 ?>
 <style>
     .numbers-cart {
@@ -94,29 +91,20 @@ Cart::setGlobalTax($info->tax);
                         </td>
                         <td>
                             <strong>
-                                @if($cart->options->price_new)
-                                    {{number_format($cart->options->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
-                                @else
-                                    {{number_format($cart->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
-                                @endif
+                                {{number_format($cart->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                             </strong>
                         </td>
                         <td>
                             <div class="numbers-cart">
                                 <input type="text" value="{{$cart->qty}}" id="quantity_1" class="qty2" name="quantity">
-                                <div class="inc button_cart" data-id="{{$cart->rowId}}" data-priceNew="{{$cart->options->price_new}}" data-priceOld="{{$cart->price}}">+</div>
-                                <div class="dec button_cart" data-id="{{$cart->rowId}}" data-priceNew="{{$cart->options->price_new}}" data-priceOld="{{$cart->price}}">-</div>
+                                <div class="inc button_cart" data-id="{{$cart->rowId}}">+</div>
+                                <div class="dec button_cart" data-id="{{$cart->rowId}}">-</div>
                             </div>
                         </td>
                         <td>
                             <strong id="subtotal_{{$cart->rowId}}">
                                <?php
-                                if($cart->options->price_new ){
-                                    $cart->price = $cart->options->price_new;
                                     $sum = $cart->price * $cart->qty;
-                                }else{
-                                    $sum = $cart->price * $cart->qty;
-                                }
                                ?>
                                {{number_format($sum,0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                             </strong>
@@ -241,9 +229,6 @@ Cart::setGlobalTax($info->tax);
             }
             $button.parent().find("input").val(newVal);
             var cartId = $(this).data('id');
-                // alert(cartid);
-            var priceNew = $(this).data('priceNew');
-            var priceOld = $(this).data('priceOld');
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -275,7 +260,6 @@ Cart::setGlobalTax($info->tax);
     $(document).ready(function(){
         $('.delete-cart').on('click',function(){
             var Obj = $(this);
-            // alert(Obj);
             var cartId = $(this).data('id');
             $.ajax({
                 headers: {
@@ -293,7 +277,6 @@ Cart::setGlobalTax($info->tax);
                     $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     $('#valueDiscount').text(data.discount.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
-                
                 },error: function(){
                     alert("error");
 

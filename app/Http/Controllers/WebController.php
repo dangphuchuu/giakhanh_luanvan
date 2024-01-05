@@ -585,15 +585,19 @@ class WebController extends Controller
             if($quantity <= 0){
                 return redirect()->back()->with('toast_warning',__("Please choose product at least 1 !"));
             }
+            if($products->price_new != 0){
+                $price = $products->price_new;
+            }else{
+                $price = $products->price;
+            }
             $cart = Cart::instance(Auth::user()->id);
             $cart->add([
                 'id'=>$id,
                 'name'=> $products->name,
                 'qty'=> $request->quantity,
-                'price'=> $products->price,
+                'price'=>  $price,
                 'weight' => 550,
                 'options'=>[
-                    'price_new'=>$products->price_new,
                     'image'=>  $img[0],
                 ]
             ]);
@@ -609,11 +613,7 @@ class WebController extends Controller
         $qty = $request->qty;
         $id = $request->cartId;
         $cart = Cart::instance(Auth::user()->id)->get($id);
-        if($cart->options->price_new){
-            $subtotal = $cart->options->price_new*$qty;
-        }else{
             $subtotal = $cart->price*$qty;
-        }
         $cart = Cart::instance(Auth::user()->id);
         $cart->update($id,$qty);
         $sum = $cart->priceTotal(0,',','.'); 
@@ -709,12 +709,13 @@ class WebController extends Controller
         $discount = $cart->discount(0,',','.');
         $count = Cart::instance(Auth::user()->id)->count();
         return response()->json([
+            'success'=>true,
             'subtotal'=>$subtotal,
             'total'=>$total,
             'tax'=>$tax,
             'discount'=>$discount,
             'count'=>$count
-        ],200);
+        ]);
         
     }
 
