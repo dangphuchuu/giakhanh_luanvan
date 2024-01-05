@@ -17,6 +17,7 @@ class Products extends Model
         'youtube_path',
         'price',
         'price_new',
+        'quantity',
         'content',
         'featured_product',
         'status'

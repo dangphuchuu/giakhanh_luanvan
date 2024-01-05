@@ -124,6 +124,7 @@
 										<span class="old_price">{{number_format($products->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
 										</span>
 									</div>
+									
 									@elseif($products->price == 0 && $products->price_new !=0)
 									<div class="price_main">
 										<span class="new_price">{{number_format($products->price_new,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
@@ -143,7 +144,16 @@
 									<div class="price_main">
 										<span class="new_price" style="color: red !important">{{__("Out Stock")}}</span>
 									</div>
-								@endif
+									@endif
+									<label class="col-xl-5 col-lg-5  col-md-6 col-6 mt-4">
+										<strong>{{__("Inventory")}}:
+											@if($products->quantity != 0)
+											{{$products->quantity}}
+											@else
+											<br/><span style="color:red">{{__("Out Stock")}}</span>
+											@endif
+										</strong>
+									</label>
 							</div>
 							@if($products->status == 1)
 								@if($products->price != 0 || $products->price_new != 0)

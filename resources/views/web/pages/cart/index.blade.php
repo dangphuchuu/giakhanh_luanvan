@@ -319,13 +319,6 @@ Cart::setGlobalTax($info->tax);
         });
 
         $('#formCoupon').on('click','#cancelCoupon',function(){
-            updateDiscountByPHD();
-        });
-        window.onbeforeunload = function(){//when customer reload page, discount and price will be remove!
-            updateDiscountByPHD();
-        };
-      
-        function updateDiscountByPHD(){
             var discount = $('#discount').val();
             $.ajax({
                 headers: {
@@ -347,6 +340,32 @@ Cart::setGlobalTax($info->tax);
                         $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         $('#valueDiscount').text(data.discount.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    }
+                    if(data['error']){
+                        alert(data.error)
+                    }
+                }
+            });
+        });
+        function updateDiscountByPHD(){
+                var discount = $('#discount').val();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url:'/cart/canceldiscounts',
+                type:'DELETE',
+                dataType:'json',
+                data:{
+                    'discount': discount,
+                },
+                success: function(data){
+                    if(data['success']){
+                        $('#sumSubtotal').text(data.subtotal.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#valueDiscount').text(data.discount.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        // 4 lines above to set the total when it's changed
                     }
                     if(data['error']){
                         alert(data.error)

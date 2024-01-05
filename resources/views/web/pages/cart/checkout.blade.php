@@ -270,4 +270,15 @@ $(document).ready(function () {
         $('#city').select2();  
     });
 </script>
+<script>
+     if (window.history && window.history.pushState) {
+
+window.history.pushState('forward', null, '/checkout' );
+
+$(window).on('popstate', function() { //here you know that the back button is pressed
+    window.location.reload();
+});
+
+}
+</script>
 @endsection

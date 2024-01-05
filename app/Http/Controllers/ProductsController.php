@@ -65,6 +65,7 @@ class ProductsController extends Controller
                         'youtube_path'=>$request->youtube_path,
                         'price'=>(int)preg_replace("/[,]+/", "", $request->price),
                         'price_new'=>(int)preg_replace("/[,]+/", "", $request->price_new),
+                        'quantity'=>$request->quantity,
                         'content'=>$request->content,
                     ]
                 );
@@ -121,9 +122,12 @@ class ProductsController extends Controller
         $products->name = $request->name;
         $products->youtube_path = $request->youtube_path;
         $products->price = (int)preg_replace("/[,]+/", "", $request->price);
-        $products->price_new = (int)preg_replace("/[,]+/", "", $request->price_new);
+        if($request->changeprice == "on"){
+            $products->price_new = (int)preg_replace("/[,]+/", "", $request->price_new); 
+        }
+        $products->quantity = $request->quantity;
         $products->content = $request->content;
-        $products->save();
+        $products->update();
         return redirect('/admin/products')->with('toast_success',__("Update successfully"));
     }
 

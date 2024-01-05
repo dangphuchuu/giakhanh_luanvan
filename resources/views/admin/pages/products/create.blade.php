@@ -64,6 +64,11 @@
                         <input class="new_price form-control" type="number" name="price_new" disabled/>
                     </div>
 
+                    <label>{{__("Quantity")}}: </label>
+                    <div class="form-group">
+                        <input class="form-control" type="number" name="quantity"/>
+                    </div>
+
                     <label>{{__("Content")}}: </label>
                     <div class="form-group">
                         <textarea class="form-control content" name="content" ></textarea>

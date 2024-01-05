@@ -584,12 +584,21 @@ class WebController extends Controller
             if($quantity <= 0){
                 return redirect()->back()->with('toast_warning',__("Please choose product at least 1 !"));
             }
+            if($products->quantity == 0){
+                return redirect()->back()->with('toast_warning',__("Sorry, the product is currently out of stock !"));
+            }
+
             if($products->price_new != 0){
                 $price = $products->price_new;
             }else{
                 $price = $products->price;
             }
             $cart = Cart::instance(Auth::user()->id);
+
+            if($request->quantity > $products->quantity){
+                return redirect()->back()->with('toast_warning',__("You can't order in excess of the quantity"));
+            }
+            
             $cart->add([
                 'id'=>$id,
                 'name'=> $products->name,
@@ -647,9 +656,9 @@ class WebController extends Controller
                     $percent =  $discounts->percent;
                     $discount = $cart->discount(0,',','.');
 
-                    $discount_id = Discounts::find($discounts->id);
-                    $discount_id->quantity--;
-                    $discount_id->save();
+                    // $discount_id = Discounts::find($discounts->id);
+                    // $discount_id->quantity--;
+                    // $discount_id->save();
 
                     return response()->json([
                         'success'=>__("Apply Coupon code successfully !"),
@@ -677,9 +686,9 @@ class WebController extends Controller
                 $cart->setDiscount($cart_id->rowId,0);
             }
 
-            $discount_id = Discounts::find($discounts->id);
-            $discount_id->quantity++;
-            $discount_id->save();
+            // $discount_id = Discounts::find($discounts->id);
+            // $discount_id->quantity++;
+            // $discount_id->save();
 
             $subtotal = $cart->priceTotal(0,',','.'); 
             $total = $cart->total(0,',','.'); 

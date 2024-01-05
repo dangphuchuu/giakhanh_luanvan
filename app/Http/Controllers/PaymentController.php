@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categories;
+use App\Models\Discounts;
 use App\Models\Info;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -10,6 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Orders;
+use App\Models\Products;
 use App\Models\Subcategories;
 use Illuminate\Support\Facades\Auth;
 class PaymentController extends Controller
@@ -129,6 +131,7 @@ class PaymentController extends Controller
     }
 
     public function handle_payment(Request $request){
+        $discounts = Discounts::where('code',$request->discount)->get()->first();
         // dd($request->orders);
         $orders = Orders::find($request->orders);
         // dd($request->vnp_TransactionStatus == 00);//Mã phản hồi kết quả thanh toán. Quy định mã trả lời 00 ứng với kết quả Thành công cho tất cả các API
@@ -136,7 +139,16 @@ class PaymentController extends Controller
             // dd($orders->hold);
             $orders->hold = 0;
             $orders->save();
-            
+            $cart = Cart::instance(Auth::user()->id);
+            foreach($cart->content() as $carts){
+                $products = Products::find($carts->id);
+                $products->quantity = $products->quantity-$carts->qty;
+                $products->update();
+            }
+              // $discount_id = Discounts::find($discounts->id);
+                // $discount_id->quantity--;
+                // $discount_id->save();
+
             $categories = Categories::all()->where('status',1);
             $subcategories = Subcategories::all()->where('status',1);
             $info = Info::find(1);

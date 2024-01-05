@@ -116,6 +116,13 @@ active
                                     </div>
                                 </div>
 
+                                <div class="col-md-6">
+                                    <label>{{__("Quantity")}}: </label>
+                                    <div class="form-group">
+                                        <input class="form-control" type="number" name="quantity" value="{{$products->quantity}}"/>
+                                    </div>
+                                </div>
+
                                 <div class="col-md-12">
                                     <label>{{__("Content")}}: </label>
                                     <div class="form-group">

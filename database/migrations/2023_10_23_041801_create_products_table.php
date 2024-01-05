@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('youtube_path')->nullable();
             $table->float('price',0)->nullable();
             $table->float('price_new',0)->nullable();    
+            $table->integer('quantity');   
             $table->longtext('content')->nullable();
             $table->boolean('featured_product')->default(false);
             $table->boolean('status')->default(true);
