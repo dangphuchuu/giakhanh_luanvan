@@ -9,7 +9,6 @@ use App\Models\Categories;
 use App\Models\Discounts;
 use App\Models\Info;
 use App\Models\Orders;
-use App\Models\Orders_Detail;
 use App\Models\Products;
 use App\Models\Reviews;
 use App\Models\Subcategories;
