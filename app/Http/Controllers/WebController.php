@@ -319,10 +319,8 @@ class WebController extends Controller
     }
 
     public function brands($id){
-        $brands = Brands::find($id);
         $products = Products::where('brands_id',$id)->where('status',1)->orderBy('id', 'ASC')->Paginate(12);
         return view('web.pages.brands.index',[
-            'brands'=>$brands,
             'products'=>$products
         ]);
     }
@@ -620,21 +618,33 @@ class WebController extends Controller
     public function update(Request $request){
         $qty = $request->qty;
         $id = $request->cartId;
+        $products = Products::find($request->productCartId);
+        $products_quantity = $products->quantity;
         $cart = Cart::instance(Auth::user()->id)->get($id);
-            $subtotal = $cart->price*$qty;
-        $cart = Cart::instance(Auth::user()->id);
-        $cart->update($id,$qty);
-        $sum = $cart->priceTotal(0,',','.'); 
-        $tax = $cart->tax(0,',','.');
-        $total = $cart->total(0,',','.'); 
-        $discount = $cart->discount(0,',','.');
-        return response()->json([
-            'subtotal'=>$subtotal,
-            'sum'=>$sum,
-            'tax'=>$tax,
-            'total'=>$total,
-            'discount'=>$discount
-        ],200);       
+        
+        $subtotal = $cart->price*$qty;
+        $cartChange = Cart::instance(Auth::user()->id);
+
+        if($qty <= $products_quantity){
+            $cartChange->update($id,$qty);
+            $sum = $cartChange->priceTotal(0,',','.'); 
+            $tax = $cartChange->tax(0,',','.');
+            $total = $cartChange->total(0,',','.'); 
+            $discount = $cartChange->discount(0,',','.');
+            return response()->json([
+                'success' => true,
+                'subtotal'=>$subtotal,
+                'sum'=>$sum,
+                'tax'=>$tax,
+                'total'=>$total,
+                'discount'=>$discount,
+            ]);       
+        }else{
+            return response()->json([
+                'error'=>__("You can't order in excess of the quantity"),
+                'products_quantity'=>$products_quantity
+            ]);
+        }
     }
 
     public function discounts(Request $request){

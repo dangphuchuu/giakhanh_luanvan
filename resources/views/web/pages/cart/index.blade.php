@@ -97,8 +97,8 @@ Cart::setGlobalTax($info->tax);
                         <td>
                             <div class="numbers-cart">
                                 <input type="text" value="{{$cart->qty}}" id="quantity_1" class="qty2" name="quantity">
-                                <div class="inc button_cart" data-id="{{$cart->rowId}}">+</div>
-                                <div class="dec button_cart" data-id="{{$cart->rowId}}">-</div>
+                                <div class="inc button_cart" data-id="{{$cart->rowId}}" data-productid="{{$cart->id}}">+</div>
+                                <div class="dec button_cart" data-id="{{$cart->rowId}}" data-productid="{{$cart->id}}">-</div>
                             </div>
                         </td>
                         <td>
@@ -115,6 +115,7 @@ Cart::setGlobalTax($info->tax);
                             </a>
                         </td>
                     </tr>
+                    
                     @endforeach
                 </tbody>
             </table>
@@ -214,7 +215,7 @@ Cart::setGlobalTax($info->tax);
     $(document).ready(function() {
         $(".button_cart").on("click", function () {
             var $button = $(this);
-            var oldValue = $button.parent().find("input").val();
+            var oldValue = $button.parent().find("input").val();               
             if ($button.text() == "+") {
                 var newVal = parseFloat(oldValue) + 1;
                 // alert(newVal);
@@ -229,26 +230,32 @@ Cart::setGlobalTax($info->tax);
             }
             $button.parent().find("input").val(newVal);
             var cartId = $(this).data('id');
+            var productCartId = $(this).data('productid');
+            // alert(productCartId);
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 data:{
                     cartId:cartId,
-                    qty:newVal
+                    qty:newVal,
+                    productCartId:productCartId
                 },
                 url:'/updateCart',
                 type: "post",
                 success: function(data){
-                    $("#subtotal_"+ cartId).text(data.subtotal.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
-                    $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
-                    $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
-                    $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
-                    $('#valueDiscount').text(data.discount.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
-                    
-                    // alert(data.total.toLocaleString('vi-VN'));
+                    if(data['success']){
+                        $("#subtotal_"+ cartId).text(data.subtotal.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                        $('#valueDiscount').text(data.discount.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                    }
+                    if(data['error']){
+                        $button.parent().find("input").val(data.products_quantity);
+                        alert(data.error);
+                    }
                 },error: function(){
-                    alert("error");
                 }
             });
           
@@ -347,32 +354,6 @@ Cart::setGlobalTax($info->tax);
                 }
             });
         });
-        function updateDiscountByPHD(){
-                var discount = $('#discount').val();
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url:'/cart/canceldiscounts',
-                type:'DELETE',
-                dataType:'json',
-                data:{
-                    'discount': discount,
-                },
-                success: function(data){
-                    if(data['success']){
-                        $('#sumSubtotal').text(data.subtotal.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
-                        $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
-                        $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
-                        $('#valueDiscount').text(data.discount.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
-                        // 4 lines above to set the total when it's changed
-                    }
-                    if(data['error']){
-                        alert(data.error)
-                    }
-                }
-            });
-        }
     });
 </script>
 @endsection
