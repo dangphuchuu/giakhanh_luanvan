@@ -255,7 +255,6 @@ Cart::setGlobalTax($info->tax);
                         $button.parent().find("input").val(data.products_quantity);
                         alert(data.error);
                     }
-                },error: function(){
                 }
             });
           
@@ -354,6 +353,7 @@ Cart::setGlobalTax($info->tax);
                 }
             });
         });
+      
     });
 </script>
 @endsection

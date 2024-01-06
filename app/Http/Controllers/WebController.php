@@ -541,6 +541,7 @@ class WebController extends Controller
 
     public function myOrder(){
         if(Auth::check()){
+            Orders::where('hold',1)->delete();
         $orders = Orders::where('users_id',Auth::user()->id)->orderBy('id', 'DESC')->paginate(5);
             // dd($orders);
             return view('web.pages.account.my-order',[
@@ -591,12 +592,13 @@ class WebController extends Controller
             }else{
                 $price = $products->price;
             }
-            $cart = Cart::instance(Auth::user()->id);
 
             if($request->quantity > $products->quantity){
                 return redirect()->back()->with('toast_warning',__("You can't order in excess of the quantity"));
             }
-            
+
+            $cart = Cart::instance(Auth::user()->id);
+
             $cart->add([
                 'id'=>$id,
                 'name'=> $products->name,
@@ -618,6 +620,7 @@ class WebController extends Controller
     public function update(Request $request){
         $qty = $request->qty;
         $id = $request->cartId;
+
         $products = Products::find($request->productCartId);
         $products_quantity = $products->quantity;
         $cart = Cart::instance(Auth::user()->id)->get($id);
@@ -737,16 +740,14 @@ class WebController extends Controller
         
     }
 
-    public function checkout(Request $request){
+    public function checkout(){  
         if(Auth::check()){
+            Orders::where('hold',1)->delete();
             return view('web.pages.cart.checkout');
         }
         abort(404);
     }
 
-    public function confirm(){
-        return view('web.pages.cart.confirm');
-    }
     //! News
     public function newsDetail($id){
         $news = News::find($id);
@@ -761,7 +762,6 @@ class WebController extends Controller
 
     public function newsList(){
         $news = News::where('status',1)->orderBy('id', 'ASC')->Paginate(8);
-        $categories = Categories::all()->where('status',1)->sortByDesc('created_at');
         return view('web.pages.news.list',[
             'news'=>$news
         ]);

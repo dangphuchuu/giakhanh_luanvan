@@ -77,7 +77,6 @@ Route::middleware('language')->group(function(){
     Route::delete('/cart/canceldiscounts',[WebController::class, 'cancelDiscounts']);
     Route::delete('/deleteCart',[WebController::class, 'deleteCart']);
     Route::get('/checkout',[WebController::class, 'checkout']);
-    Route::post('/checkout',[WebController::class, 'handle_checkout']);
     Route::get('/verify-email',[WebController::class,'verify_email']);
    
     //TODO News

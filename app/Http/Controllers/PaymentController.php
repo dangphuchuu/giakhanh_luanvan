@@ -69,7 +69,12 @@ class PaymentController extends Controller
         ]);
         $orders->save();
         foreach($cart->content() as $carts){
-            $orders->products()->attach($carts->id,['quantity'=>$carts->qty]);
+            $products = Products::find($carts->id);
+            if($carts->qty > $products->quantity){
+                $orders->delete();
+                return back()->with('toast_error',__("The product just ran out of stock !"));
+                break;
+            }
         }
         
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
@@ -131,24 +136,31 @@ class PaymentController extends Controller
     }
 
     public function handle_payment(Request $request){
-        $discounts = Discounts::where('code',$request->discount)->get()->first();
-        // dd($request->orders);
+        // $discounts = Discounts::where('code',$request->discount)->get()->first();
         $orders = Orders::find($request->orders);
         // dd($request->vnp_TransactionStatus == 00);//Mã phản hồi kết quả thanh toán. Quy định mã trả lời 00 ứng với kết quả Thành công cho tất cả các API
         if($request->vnp_TransactionStatus == 00){
-            // dd($orders->hold);
             $orders->hold = 0;
             $orders->save();
             $cart = Cart::instance(Auth::user()->id);
             foreach($cart->content() as $carts){
                 $products = Products::find($carts->id);
-                $products->quantity = $products->quantity-$carts->qty;
-                $products->update();
+                if($carts->qty <= $products->quantity){
+                    $products->quantity = $products->quantity-$carts->qty;
+                    $products->update();
+                    $orders->products()->attach($carts->id,['quantity'=>$carts->qty]);
+                }else{
+                    $orders->delete();
+                    return back()->with('toast_error',__('Out Stock'));
+                    break;
+
+                }
             }
-              // $discount_id = Discounts::find($discounts->id);
+            Orders::where('hold',1)->delete();
+            //   $discount_id = Discounts::find($discounts->id);
                 // $discount_id->quantity--;
                 // $discount_id->save();
-
+                // dd($discount_id);
             $categories = Categories::all()->where('status',1);
             $subcategories = Subcategories::all()->where('status',1);
             $info = Info::find(1);
