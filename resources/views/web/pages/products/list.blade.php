@@ -1,7 +1,17 @@
 @extends('web.layout.index')
 @section('css')
 <link href="web_assets/css/listing.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css" />
 @endsection
+<style>
+	.range-slider {
+		position: relative;
+		height: 80px;
+	}
+	.account-slider{
+		margin-top: 15px !important;
+	}
+</style>
 @section('content')
 <main>
 	<!-- /top_banner -->
@@ -9,6 +19,24 @@
 	<div class="toolbox elemento_stick">
 		<div class="container">
 			<ul class="clearfix">
+				<li>
+					<div class="sort_select">
+						<select name="sort" id="sort">
+							<option value="popularity" selected="selected">Sort by popularity</option>
+							<option value="rating">Sort by average rating</option>
+							<option value="date">Sort by newness</option>
+							<form action="/sortPriceIncrease" method="GET">
+								@csrf
+								<option value="price">Sort by price: low to high</option>
+							</form>
+							<form action="/sortPriceDecrease" method="GET">
+								@csrf
+								<option value="price-desc">Sort by price: high to
+							</form>
+
+						</select>
+					</div>
+				</li>
 				<li>
 					<a data-bs-toggle="collapse" href="#filters" role="button" aria-expanded="false" aria-controls="filters">
 						<i class="ti-filter"></i><span>{{__('Filters')}}</span>
@@ -69,49 +97,29 @@
 						</div>
 						<!-- /dropdown -->
 					</div>
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="dropdown">
-							<a href="#" data-bs-toggle="dropdown" class="drop">{{__("Price")}}</a>
-							<div class="dropdown-menu">
-								<div class="filter_type">
-									<ul>
-
-										<form action="/sortPriceIncrease" method="GET">
-											@csrf
-											<li>
-												<label class="container_check">{{__("Price Increase")}}
-													<input type="submit">
-												</label>
-											</li>
-										</form>
-
-										<form action="/sortPriceDecrease" method="GET">
-											@csrf
-											<li>
-												<label class="container_check">{{__("Price Decrease")}}
-													<input type="submit">
-												</label>
-											</li>
-										</form>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<!-- /dropdown -->
-
-					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
+	</div>
+	<div class="range-slider">
+		<input type="text" class="js-range-slider" value="" />
+	</div>
+	<div class="extra-controls">
+		<input type="text" id="js-input-from" value="0" />
+		<input type="text" id="js-input-to" value="0" />
+		<input type="hidden" name="from" id="from">
+		<input type="hidden" name="to" id="to">
+	</div>
 	<!-- /toolbox -->
-	<div id="products-container">
-		<div class="container margin_30">
-			<div class="row small-gutters">
+	<div id="products-container" >
+		<div class="container margin_30 ">
+			<div class="row small-gutters ProductList" >
 				@foreach($products as $pro)
 				@foreach($pro->ProductsImage as $img)
 				@if($loop->first)
-				<div class="col-6 col-md-4 col-xl-3">
+				<div class="col-6 col-md-4 col-xl-3" >
 					<div class="grid_item">
 						@if(isset($pro->price_new) && isset($pro->price) && $pro->price != 0 && $pro->price_new != 0 )
 						<span class="ribbon off">-{{round((($pro->price - $pro->price_new)/$pro->price)*100,0) }} %</span>
@@ -122,16 +130,12 @@
 						@endif
 						<figure>
 							<a href="/detail/{{$pro->id}}">
-								@if(strstr($img->image,"https") == "")
 								<img style="width:290px; height: 290px;" class="img-fluid lazy" data-src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$img->image}}.jpg" alt="">
-								@else
-								<img style="width:290px; height: 290px;" class="img-fluid lazy" data-src="{{$img->image}}" alt="">
-								@endif
 							</a>
 							<!-- <div data-countdown="2019/05/15" class="countdown"></div> -->
 						</figure>
 						<a href="/detail/{{$pro->id}}">
-							<h3 class="d-block" style="max-width: 270px; height:50px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{$pro->name}}</h3>
+							<h3 class="d-block product-name" style="max-width: 270px; height:50px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{$pro->name}}</h3>
 						</a>
 						<div class="price_box">
 							@if($pro->price_new !=0 && $pro->price !=0)
@@ -207,6 +211,7 @@
 @section('scripts')
 <script src="web_assets/js/sticky_sidebar.min.js"></script>
 <script src="web_assets/js/specific_listing.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
 <script>
 	totalWishlist();
 
@@ -247,6 +252,94 @@
 					}
 				}
 			})
+		});
+	});
+</script>
+<script>
+	var $range = $(".js-range-slider"),
+		$inputFrom = $("#js-input-from"),
+		$inputTo = $("#js-input-to"),
+		instance,
+		min = 0,
+		max = 100000000,
+		from = 30000000,
+		to = 60000000;
+
+	$range.ionRangeSlider({
+		skin: "flat",
+		type: "double",
+		grid: true,
+		min: min,
+		max: max,
+		from: from,
+		to: to,
+		onStart: updateInputs,
+		onChange: updateInputs,
+		prettify_enabled: true,
+		prettify_separator: ".",
+		postfix: " Vnđ"
+	});
+	instance = $range.data("ionRangeSlider");
+
+	function updateInputs(data) {
+		from = data.from;
+		to = data.to;
+
+		$inputFrom.prop("value", from);
+		$inputTo.prop("value", to);
+		$("#from").val(from);
+		$("#to").val(to);
+	}
+
+	$inputFrom.on("input", function() {
+		var val = $(this).prop("value");
+
+		// validate
+		if (val < min) {
+			val = min;
+		} else if (val > to) {
+			val = to;
+		}
+
+		instance.update({
+			from: val
+		});
+		$("#from").val($(this).val());
+	});
+
+	$inputTo.on("input", function() {
+		var val = $(this).prop("value");
+
+		// validate
+		if (val < from) {
+			val = from;
+		} else if (val > max) {
+			val = max;
+		}
+
+		instance.update({
+			to: val
+		});
+		$("#to").val($(this).val());
+	});
+	$(document).ready(function() {
+		$(".js-range-slider").on('change', function() {
+			var from = $('#from').val();
+			var to = $('#to').val();
+			$.ajax({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				},
+				data: {
+					from: from,
+					to: to
+				},
+				url: '/filterPrice',
+				method: "GET",
+				success: function(data) {
+					$('.ProductList').html(data)
+				}
+			});
 		});
 	});
 </script>

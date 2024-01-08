@@ -321,6 +321,17 @@ Cart::setGlobalTax($info->tax);
                     }
                 }
             });
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url:'/vnpay_payment',
+                type:'POST',
+                dataType:'json',
+                data:{
+                    'discount': discount,
+                }
+            })
 
         });
 

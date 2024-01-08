@@ -54,6 +54,7 @@ Route::middleware('language')->group(function(){
     Route::get('/sortBrands',[WebController::class, 'sortBrands']);
     Route::get('/sortPriceIncrease',[WebController::class, 'sortPriceIncrease']);
     Route::get('/sortPriceDecrease',[WebController::class, 'sortPriceDecrease']);
+    Route::get('/filterPrice',[WebController::class, 'filterPrice']);
 
     //! Categories
     Route::get('/category/{id}',[WebController::class, 'category']);

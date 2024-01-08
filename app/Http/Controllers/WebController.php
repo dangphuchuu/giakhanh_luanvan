@@ -412,6 +412,17 @@ class WebController extends Controller
         ]);
     }
 
+    public function filterPrice(Request $request){
+        if(Products::where('price', '!=', 0)){
+            $products = Products::whereBetween('price',[$request->from,$request->to])->where('status',1)->orderBy('price','ASC')->get();
+        }else if(Products::where('price', '==', 0)){
+            $products = Products::whereBetween('price_new',[$request->from,$request->to])->where('status',1)->orderBy('price_new','ASC')->get();
+        }
+        return view('web.pages.products.filterPrice',[
+            'products'=>$products
+        ])->render();
+    }
+
     //TODO Profile
     public function profile(){
         $user = Auth::user();

@@ -1,3 +1,10 @@
+@if(Request::path() == 'list')
+<style>
+    .account-slider{
+        margin-top: 19px !important;
+    }
+</style>
+@endif
 <header class="version_2">
     <div class="layer"></div><!-- Mobile menu overlay mask -->
     <div class="main_header" style=" z-index: 1 !important;">
@@ -133,7 +140,7 @@
                         </li>
                         @if(Auth::check())                                    
                         <li>
-                            <div class="dropdown dropdown-access mt-1" >
+                            <div class="dropdown dropdown-access mt-1 account-slider">
                             <a href="javascript:void(0)"><i class="ti-unlock" style="font-size: 22px;"></i></a>
                                 <div class="dropdown-menu" style="display: none;">
                                     @if(isset(Auth::user()->image))

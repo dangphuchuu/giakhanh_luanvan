@@ -45,7 +45,7 @@ class PaymentController extends Controller
         if($request->city == null){
             return back()->with('toast_error',__('Please choose a city'));
         }
-      
+        dd($request->discount);
         $cart = Cart::instance(Auth::user()->id);
         $user = Auth::user()->id;
         $orders = new Orders([
@@ -78,7 +78,7 @@ class PaymentController extends Controller
         }
         
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = $request->getSchemeAndHttpHost() . "/handle_payment?orders=" . $orders->id;
+        $vnp_Returnurl = $request->getSchemeAndHttpHost() . "/handle_payment?orders=" . $orders->id. "?discount=". $request->discount;
         $vnp_TmnCode = "SJ2TDXGL"; //Mã website tại VNPAY 
         $vnp_HashSecret = "SSXAFWDTAAVKSVHEHWWKQLWWJSTRKBRF"; //Chuỗi bí mật
 
