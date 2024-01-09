@@ -21,19 +21,10 @@
 			<ul class="clearfix">
 				<li>
 					<div class="sort_select">
-						<select name="sort" id="sort">
-							<option value="popularity" selected="selected">Sort by popularity</option>
-							<option value="rating">Sort by average rating</option>
-							<option value="date">Sort by newness</option>
-							<form action="/sortPriceIncrease" method="GET">
-								@csrf
-								<option value="price">Sort by price: low to high</option>
-							</form>
-							<form action="/sortPriceDecrease" method="GET">
-								@csrf
-								<option value="price-desc">Sort by price: high to
-							</form>
-
+						<select name="sort" id="sort" onchange="onSortChange()">
+							<option value="">Sort By</option>
+							<option value="price-asc"> Sort by price: low to high</option>
+							<option value="price-desc">Sort by price: high to low</option>
 						</select>
 					</div>
 				</li>
@@ -342,5 +333,24 @@
 			});
 		});
 	});
+</script>
+<script>
+	function onSortChange(){
+		var sort = document.getElementById('sort').value;
+		$.ajax({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				},
+				data: {
+					sort: sort
+				},
+				url: '/sortBySelect',
+				method: "GET",
+				success: function(data) {
+					$('.ProductList').html(data)
+				}
+			});
+		
+	}
 </script>
 @endsection

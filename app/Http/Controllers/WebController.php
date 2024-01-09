@@ -24,6 +24,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
+use PDO;
 
 class WebController extends Controller
 {
@@ -398,18 +399,26 @@ class WebController extends Controller
         ]);
     }
 
-    public function sortPriceIncrease(){
-        $products = Products::orderBy('price_new', 'ASC')->where('status',1)->paginate(1000000);
-        return view('web.pages.products.list',[
-            'products'=>$products
-        ]);
-    }
-
-    public function sortPriceDecrease(){
-        $products = Products::orderBy('price_new', 'DESC')->where('status',1)->paginate(1000000);
-        return view('web.pages.products.list',[
-            'products'=>$products
-        ]);
+    public function sortBySelect(Request $request){
+        if($request->sort == 'price-asc'){
+            if(Products::where('price', '!=', 0)){
+                $products = Products::orderBy('price', 'ASC')->where('status',1)->paginate(1000000);
+            }else{
+                $products = Products::orderBy('price_new', 'ASC')->where('status',1)->paginate(1000000);
+            }
+            return view('web.pages.products.filterPrice',[
+                'products'=>$products
+            ])->render();
+        }else if ($request->sort == 'price-desc'){
+            if(Products::where('price', '!=', 0)){
+                $products = Products::orderBy('price', 'DESC')->where('status',1)->paginate(1000000);
+            }else{
+                $products = Products::orderBy('price_new', 'DESC')->where('status',1)->paginate(1000000);
+            }
+            return view('web.pages.products.filterPrice',[
+                'products'=>$products
+            ])->render();
+        }
     }
 
     public function filterPrice(Request $request){

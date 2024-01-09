@@ -52,8 +52,7 @@ Route::middleware('language')->group(function(){
     Route::post('/reviews',[WebController::class, 'reviews']);
     Route::get('/sortCategories',[WebController::class, 'sortCategories']);
     Route::get('/sortBrands',[WebController::class, 'sortBrands']);
-    Route::get('/sortPriceIncrease',[WebController::class, 'sortPriceIncrease']);
-    Route::get('/sortPriceDecrease',[WebController::class, 'sortPriceDecrease']);
+    Route::get('/sortBySelect',[WebController::class, 'sortBySelect']);
     Route::get('/filterPrice',[WebController::class, 'filterPrice']);
 
     //! Categories
