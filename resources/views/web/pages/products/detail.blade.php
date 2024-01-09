@@ -350,14 +350,14 @@
 						<h3 class="d-block" style="max-width: 270px; height:50px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{$re->name}}</h3>
 					</a>
 					<div class="price_box">
-						@if(isset($re->price_new) && isset($re->price))
+						@if($re->price_new!=0 && $re->price!=0)
 						<span class="new_price">{{number_format($re->price_new,0,",",".")}} Vnđ</span>
 						<span class="old_price">{{number_format($re->price,0,",",".")}} Vnđ</span>
 
-						@elseif(!isset($re->price_new) && isset($re->price))
+						@elseif($re->price_new==0 && $re->price!=0)
 						<span class="new_price">{{number_format($re->price,0,",",".")}} Vnđ</span>
 
-						@elseif(!isset($re->price) && isset($re->price_new))
+						@elseif($re->price==0 && $re->price_new!=0)
 						<span class="new_price">{{number_format($re->price_new,0,",",".")}} Vnđ</span>
 
 						@else
@@ -415,46 +415,6 @@
 @section('scripts')
 <script src="web_assets/js/carousel_with_thumbs.js"></script>
 <script>
-	totalWishlist();
-    function totalWishlist()
-    {
-        $.ajax({
-            type: 'GET',
-            url: '/count_wishlist',
-            success:function(data){
-                $('#wishlistCount').text(data.count.toLocaleString('vi-VN'));
-            }
-        });
-    }
-
-	$(document).ready(function (){
-		$('.wishlist').click(function(){
-			$.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-			var user_id = "{{Auth::id()}}"
-			var product_id = $(this).data('productid');
-			$.ajax({
-				type: 'POST',
-				url: '/wishlist',
-				data:{
-					product_id:product_id,
-					user_id:user_id
-				},
-				success: function (data) {
-					if(data.action == 'add'){
-						totalWishlist();
-                        $('a[data-productid=' + product_id + ']').html('<i class="fa-solid fa-heart" style="color:red"></i>');
-					}else if (data.action == 'delete'){
-						totalWishlist();
-                        $('a[data-productid=' + product_id + ']').html('<i class="fa-regular fa-heart"></i>');
-						
-					}
-				}
-			})
-		});
 		$('.wishlistDetail').click(function(){
 			$.ajaxSetup({
                 headers: {
@@ -482,6 +442,5 @@
 				}
 			})
 		});
-	});
 </script>
 @endsection

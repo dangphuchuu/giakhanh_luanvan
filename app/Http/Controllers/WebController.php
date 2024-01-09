@@ -431,7 +431,6 @@ class WebController extends Controller
             'products'=>$products
         ])->render();
     }
-
     //TODO Profile
     public function profile(){
         $user = Auth::user();

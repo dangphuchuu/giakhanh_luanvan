@@ -93,7 +93,6 @@
 			</div>
 		</div>
 	</div>
-	</div>
 	<div class="range-slider">
 		<input type="text" class="js-range-slider" value="" />
 	</div>
