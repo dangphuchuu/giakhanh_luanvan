@@ -1,4 +1,3 @@
-
     @foreach($products as $pro)
     @foreach($pro->ProductsImage as $img)
     @if($loop->first)
