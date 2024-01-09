@@ -36,7 +36,7 @@
 								<input type="text" class="form-control" @if(session()->has('username_client'))
 								value="{{session()->get('username_client')}}"
 								@endif
-								name="username" id="email" placeholder="{{__('Username')}}*">
+								name="username" id="email" placeholder="{{__('Username')}} {{__('or')}} Email*">
 							</div>
 							<div class="form-group">
 								<input type="password" class="form-control" @if(session()->has('password_client'))
