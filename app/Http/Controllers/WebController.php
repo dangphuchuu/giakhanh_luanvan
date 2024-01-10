@@ -28,19 +28,6 @@ use PDO;
 
 class WebController extends Controller
 {
-    public function __construct(){
-        $categories = Categories::all()->where('status',1);
-        $subcategories = Subcategories::all()->where('status',1);
-        $brands = Brands::all()->where('status',1);
-        $info = Info::find(1);
-        $wishlist = new Wishlist;
-        view()->share('categories',$categories);
-        view()->share('subcategories',$subcategories);
-        view()->share('brands',$brands);
-        view()->share('info',$info);
-        view()->share('wishlist',$wishlist);
-    }
-
     public function index(){
         $products = Products::all()->where('status',1)->sortByDesc('created_at')->take(4);
         $brands = Brands::all()->where('status',1);

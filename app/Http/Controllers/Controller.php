@@ -27,6 +27,6 @@ class Controller extends BaseController
         view()->share('brands',$brands);
         view()->share('info',$info);
         view()->share('wishlist',$wishlist);
-        View::share('new_orders',$new_orders);
+        View()->share('new_orders',$new_orders);
     }
 }
