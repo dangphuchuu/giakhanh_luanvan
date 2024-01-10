@@ -179,7 +179,7 @@
                         </li>
                         @else
                         <li>
-                            <div class="dropdown dropdown-access mt-1">
+                            <div class="dropdown dropdown-access mt-1 account-slider">
                                 <a href="/signin_signup"><i class="ti-lock" style="font-size: 22px;"></i><span>Account</span></a>
                             </div>
                             <!-- /dropdown-access-->
@@ -190,7 +190,7 @@
                                 @if(Auth::check())
                                     <a href="/wishlist"><i class="fa-solid fa-heart" style="font-size: 21px;color:red"></i><strong id="wishlistCount"></strong></a>
                                 @else
-                                    <a href="/signin_signup"><i class="fa-regular fa-heart" style="font-size: 21px;"></i><strong id="wishlistCount"></strong></a>
+                                    <a href="/signin_signup"><i class="fa-regular fa-heart account-slider" style="font-size: 21px;"></i><strong id="wishlistCount"></strong></a>
                                 @endif
                             </div>
                         </li>

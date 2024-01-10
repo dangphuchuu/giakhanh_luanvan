@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Products;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -9,7 +10,10 @@ use Illuminate\Support\Facades\Auth;
 class WishlistController extends Controller
 {
     public function index(){
-
+    $products = Wishlist::all();
+       return view('web.pages.wishlist.index',[
+        'products' => $products
+       ]);
     }
     public function wishlist(Request $request){
         $product_id = $request->product_id;

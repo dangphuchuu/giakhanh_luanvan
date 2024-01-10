@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Products extends Model
 {
@@ -45,4 +46,5 @@ class Products extends Model
     {
         return $this->hasMany(Reviews::class,'products_id','id');
     }
+
 }

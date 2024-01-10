@@ -4,11 +4,13 @@
 @endsection
 @section('content')
 <?php
+
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
-if(Auth::check()){
+
+if (Auth::check()) {
     $carts = Cart::instance(Auth::user()->id);
-}else{
+} else {
     $carts = Cart::instance();
 }
 Cart::setGlobalTax($info->tax);
@@ -27,6 +29,7 @@ Cart::setGlobalTax($info->tax);
         background-color: #fff;
         text-align: left !important;
     }
+
     .button_cart {
         cursor: pointer;
         position: absolute;
@@ -36,7 +39,7 @@ Cart::setGlobalTax($info->tax);
         text-align: center;
         z-index: 2;
         font-size: 26px;
-        font-weight: 300!important;
+        font-weight: 300 !important;
         color: #999;
     }
 </style>
@@ -52,104 +55,104 @@ Cart::setGlobalTax($info->tax);
             <h1>{{__("Cart")}}</h1>
         </div>
         <!-- /page_header -->
-   
-            <table class="table table-striped cart-list">
-                <thead>
-                    <tr>
-                        <th>
-                            {{__("Products")}}
-                        </th>
-                        <th>
-                            {{__("Unit Price")}}
-                        </th>
-                        <th>
-                            {{__("Quantity")}}
-                        </th>
-                        <th style="white-space: nowrap;">
-                            {{__("Subtotal")}}
-                        </th>
-                        <th>
 
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($carts->content() as $key =>$cart)
-                    <tr>
-                        <td>
-                            <div class="thumb_cart">
-                                @if(strstr($cart->image,"https") == "")
-                                <img src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$cart->options->image}}.jpg" class="lazy" alt="Image">
-                                @else
-                                <img src="{{$cart->options->image}}" class="lazy" alt="Image">
-                                @endif
-                            </div>
-                            <a href="/detail/{{$cart->id}}" style="color:black !important;">
+        <table class="table table-striped cart-list">
+            <thead>
+                <tr>
+                    <th>
+                        {{__("Products")}}
+                    </th>
+                    <th>
+                        {{__("Unit Price")}}
+                    </th>
+                    <th>
+                        {{__("Quantity")}}
+                    </th>
+                    <th style="white-space: nowrap;">
+                        {{__("Subtotal")}}
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($carts->content() as $key =>$cart)
+                <tr>
+                    <td>
+                        <div class="thumb_cart">
+                            @if(strstr($cart->image,"https") == "")
+                            <img src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$cart->options->image}}.jpg" class="lazy" alt="Image">
+                            @else
+                            <img src="{{$cart->options->image}}" class="lazy" alt="Image">
+                            @endif
+                        </div>
+                        <a href="/detail/{{$cart->id}}" style="color:black !important;">
                             <span class="item_cart">{{$cart->name}}</span>
-                            <input type="hidden" name="cartId" value="{{$cart->id}}"/>
-                            </a>
-                        </td>
-                        <td>
-                            <strong>
-                                {{number_format($cart->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
-                            </strong>
-                        </td>
-                        <td>
-                            <div class="numbers-cart">
-                                <input type="text" value="{{$cart->qty}}" id="quantity_1" class="qty2" name="quantity">
-                                <div class="inc button_cart" data-id="{{$cart->rowId}}" data-productid="{{$cart->id}}">+</div>
-                                <div class="dec button_cart" data-id="{{$cart->rowId}}" data-productid="{{$cart->id}}">-</div>
-                            </div>
-                        </td>
-                        <td>
-                            <strong id="subtotal_{{$cart->rowId}}">
-                               <?php
-                                    $sum = $cart->price * $cart->qty;
-                               ?>
-                               {{number_format($sum,0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
-                            </strong>
-                        </td>
-                        <td class="options">
-                            <a href="javascript:void(0)" class="delete-cart" data-id="{{$cart->rowId}}">
-                                <i class="ti-trash"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    
-                    @endforeach
-                </tbody>
-            </table>
+                            <input type="hidden" name="cartId" value="{{$cart->id}}" />
+                        </a>
+                    </td>
+                    <td>
+                        <strong>
+                            {{number_format($cart->price,0,",",".")}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                        </strong>
+                    </td>
+                    <td>
+                        <div class="numbers-cart">
+                            <input type="text" value="{{$cart->qty}}" id="quantity_1" class="qty2" name="quantity">
+                            <div class="inc button_cart" data-id="{{$cart->rowId}}" data-productid="{{$cart->id}}">+</div>
+                            <div class="dec button_cart" data-id="{{$cart->rowId}}" data-productid="{{$cart->id}}">-</div>
+                        </div>
+                    </td>
+                    <td>
+                        <strong id="subtotal_{{$cart->rowId}}">
+                            <?php
+                            $sum = $cart->price * $cart->qty;
+                            ?>
+                            {{number_format($sum,0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                        </strong>
+                    </td>
+                    <td class="options">
+                        <a href="javascript:void(0)" class="delete-cart" data-id="{{$cart->rowId}}">
+                            <i class="ti-trash"></i>
+                        </a>
+                    </td>
+                </tr>
 
-            <div class="row add_top_30 flex-sm-row-reverse cart_actions">
-                <div class="col-sm-4 text-end">
-                </div>
-                <div class="col-sm-8 text-start">
-                    <div class="apply-coupon">
-                        <div class="form-group">
-                            <div class="row g-2">
-                                @if(Auth::check())
-                                <div class="col-md-6">
-                                    <input type="text" name="code" id="discount" placeholder="{{__('Promo code')}}" class="form-control">
-                                </div>
-                                <div class="col-md-4" id="formCoupon">
-                                    <button id="applyCoupon" class="btn_1 outline">{{__("Apply Coupon")}}</button>
-                                </div>
-                                @else
-                                <div class="col-md-6">
-                                    <input type="text" disabled placeholder="{{__('Promo code')}}" class="form-control">
-                                </div>
-                                <div class="col-md-4">
-                                    <form action="/signin_signup">
-                                    <button type="submit" class="btn_1 outline">{{__("Login")}}</button>
-                                    </form>
-                                </div>
-                                @endif
+                @endforeach
+            </tbody>
+        </table>
+
+        <div class="row add_top_30 flex-sm-row-reverse cart_actions">
+            <div class="col-sm-4 text-end">
+            </div>
+            <div class="col-sm-8 text-start">
+                <div class="apply-coupon">
+                    <div class="form-group">
+                        <div class="row g-2">
+                            @if(Auth::check())
+                            <div class="col-md-6">
+                                <input type="text" name="code" id="discount" placeholder="{{__('Promo code')}}" class="form-control">
                             </div>
+                            <div class="col-md-4" id="formCoupon">
+                                <button id="applyCoupon" class="btn_1 outline">{{__("Apply Coupon")}}</button>
+                            </div>
+                            @else
+                            <div class="col-md-6">
+                                <input type="text" disabled placeholder="{{__('Promo code')}}" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <form action="/signin_signup">
+                                    <button type="submit" class="btn_1 outline">{{__("Login")}}</button>
+                                </form>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
-     
+        </div>
+
         <!-- /cart_actions -->
 
     </div>
@@ -161,45 +164,45 @@ Cart::setGlobalTax($info->tax);
                 <div class="col-xl-4 col-lg-4 col-md-6">
                     <ul>
                         <li>
-                            <span >{{__("Subtotal")}}</span> 
+                            <span>{{__("Subtotal")}}</span>
                             <p id="sumSubtotal">
-                            {{$carts->priceTotal(0,',','.');}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                                {{$carts->priceTotal(0,',','.');}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                             </p>
                         </li>
                         <li>
-                            <span>{{__("Tax")}} ({{$info->tax}}%)</span> 
+                            <span>{{__("Tax")}} ({{$info->tax}}%)</span>
                             <p id="tax">
-                            {{$carts->tax(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                                {{$carts->tax(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                             </p>
                         </li>
                         <li>
-                            <span id="discountPercent">{{__("Discount")}} (0%)</span> 
+                            <span id="discountPercent">{{__("Discount")}} (0%)</span>
                             <p id="valueDiscount">
-                            {{$carts->discount(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                                {{$carts->discount(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                             </p>
                         </li>
                         <li>
-                            <span>{{__("Shipping")}}</span> 
-                            <p >
-                            {{__("Free")}}
+                            <span>{{__("Shipping")}}</span>
+                            <p>
+                                {{__("Free")}}
                             </p>
                         </li>
                         <li>
-                            <span>{{__("Total")}}</span> 
+                            <span>{{__("Total")}}</span>
 
                             <p id="totalCart">
-                            {{$carts->total(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                                {{$carts->total(0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                             </p>
                         </li>
                     </ul>
                     @if(Auth::check())
-                        @if($carts->content()->count()!=0)
-                        <a href="/checkout" class="btn_1 full-width cart">{{__("Proceed to Checkout")}}</a>
-                        @else
-                        <a href="/list" class="btn_1 full-width cart">{{__("Please place an order")}}</a>
-                        @endif
+                    @if($carts->content()->count()!=0)
+                    <a href="/checkout" class="btn_1 full-width cart">{{__("Proceed to Checkout")}}</a>
                     @else
-                        <a href="/signin_signup" class="btn_1 full-width cart">{{__("Login")}}</a>
+                    <a href="/list" class="btn_1 full-width cart">{{__("Please place an order")}}</a>
+                    @endif
+                    @else
+                    <a href="/signin_signup" class="btn_1 full-width cart">{{__("Login")}}</a>
                     @endif
                 </div>
             </div>
@@ -213,9 +216,9 @@ Cart::setGlobalTax($info->tax);
 @section('scripts')
 <script>
     $(document).ready(function() {
-        $(".button_cart").on("click", function () {
+        $(".button_cart").on("click", function() {
             var $button = $(this);
-            var oldValue = $button.parent().find("input").val();               
+            var oldValue = $button.parent().find("input").val();
             if ($button.text() == "+") {
                 var newVal = parseFloat(oldValue) + 1;
                 // alert(newVal);
@@ -236,54 +239,55 @@ Cart::setGlobalTax($info->tax);
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                data:{
-                    cartId:cartId,
-                    qty:newVal,
-                    productCartId:productCartId
+                data: {
+                    cartId: cartId,
+                    qty: newVal,
+                    productCartId: productCartId
                 },
-                url:'/updateCart',
+                url: '/updateCart',
                 type: "post",
-                success: function(data){
-                    if(data['success']){
-                        $("#subtotal_"+ cartId).text(data.subtotal.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+                success: function(data) {
+                    if (data['success']) {
+                        $("#subtotal_" + cartId).text(data.subtotal.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         $('#sumSubtotal').text(data.sum.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         $('#valueDiscount').text(data.discount.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     }
-                    if(data['error']){
+                    if (data['error']) {
                         $button.parent().find("input").val(data.products_quantity);
                         alert(data.error);
                     }
                 }
             });
-          
+
         });
 
     });
 </script>
 <script>
-    $(document).ready(function(){
-        $('.delete-cart').on('click',function(){
+    $(document).ready(function() {
+        $('.delete-cart').on('click', function() {
             var Obj = $(this);
             var cartId = $(this).data('id');
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url:'/deleteCart',
-                type:'DELETE',
-                data:{
-                    cartId:cartId
+                url: '/deleteCart',
+                type: 'DELETE',
+                data: {
+                    cartId: cartId
                 },
                 dataType: 'json',
-                success: function(data){
+                success: function(data) {
                     Obj.parents('tr').remove();
                     $('#sumSubtotal').text(data.subtotal.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     $('#valueDiscount').text(data.discount.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
-                },error: function(){
+                },
+                error: function() {
                     alert("error");
 
                 }
@@ -292,65 +296,56 @@ Cart::setGlobalTax($info->tax);
     });
 </script>
 <script>
-    $(document).ready(function(){
-        $('#formCoupon').on('click','#applyCoupon',function(){
+    $(document).ready(function() {
+        $('#formCoupon').on('click', '#applyCoupon', function() {
             var discount = $('#discount').val();
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url:'/cart/discounts',
-                type:'POST',
-                dataType:'json',
-                data:{
+                url: '/cart/discounts',
+                type: 'POST',
+                dataType: 'json',
+                data: {
                     'discount': discount,
                 },
-                success: function(data){
-                    if(data['success']){
+                success: function(data) {
+                    if (data['success']) {
                         alert(data.success)
-                        $("#discount").prop('disabled',true);
-                        $('#discountPercent').text('{{__("Discounts")}} ('+data.percent.toLocaleString('vi-VN')+'%)');
+                        $("#discount").prop('disabled', true);
+                        $('#discountPercent').text('{{__("Discounts")}} (' + data.percent.toLocaleString('vi-VN') + '%)');
                         $("#applyCoupon").replaceWith('<button id="cancelCoupon" class="btn_1 outline">{{__("Cancel coupon")}}</button>')
                         $('#sumSubtotal').text(data.subtotal.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         $('#totalCart').text(data.total.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         $('#valueDiscount').text(data.discount.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
+
                     }
-                    if(data['error']){
+                    if (data['error']) {
                         alert(data.error)
                     }
                 }
             });
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url:'/vnpay_payment',
-                type:'POST',
-                dataType:'json',
-                data:{
-                    'discount': discount,
-                }
-            })
+
 
         });
 
-        $('#formCoupon').on('click','#cancelCoupon',function(){
+        $('#formCoupon').on('click', '#cancelCoupon', function() {
             var discount = $('#discount').val();
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url:'/cart/canceldiscounts',
-                type:'DELETE',
-                dataType:'json',
-                data:{
+                url: '/cart/canceldiscounts',
+                type: 'DELETE',
+                dataType: 'json',
+                data: {
                     'discount': discount,
                 },
-                success: function(data){
-                    if(data['success']){
+                success: function(data) {
+                    if (data['success']) {
                         alert(data.success);
-                        $("#discount").prop('disabled',false);
+                        $("#discount").prop('disabled', false);
                         $("#cancelCoupon").replaceWith('<button id="applyCoupon" class="btn_1 outline">{{__("Apply Coupon")}}</button>')
                         $('#discountPercent').text('{{__("Discounts")}} (0%)');
                         $('#sumSubtotal').text(data.subtotal.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
@@ -358,13 +353,13 @@ Cart::setGlobalTax($info->tax);
                         $('#tax').text(data.tax.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                         $('#valueDiscount').text(data.discount.toLocaleString('vi-VN')).append('<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>');
                     }
-                    if(data['error']){
+                    if (data['error']) {
                         alert(data.error)
                     }
                 }
             });
         });
-      
+
     });
 </script>
 @endsection

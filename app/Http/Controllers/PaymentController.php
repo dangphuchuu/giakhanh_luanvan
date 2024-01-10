@@ -19,6 +19,7 @@ class PaymentController extends Controller
     //TODO:Payment
     public function vnpay_payment(Request $request)
     {
+       dd($request->discount);
         $credentials = Validator::make($request->all(),[
             'lastname' => 'required',
             'firstname' => 'required',

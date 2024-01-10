@@ -759,7 +759,7 @@ class WebController extends Controller
         
     }
 
-    public function checkout(){  
+    public function checkout(Request $request){  
         if(Auth::check()){
             Orders::where('hold',1)->delete();
             return view('web.pages.cart.checkout');
