@@ -197,7 +197,10 @@ Cart::setGlobalTax($info->tax);
                     </ul>
                     @if(Auth::check())
                     @if($carts->content()->count()!=0)
-                    <a href="/checkout" class="btn_1 full-width cart">{{__("Proceed to Checkout")}}</a>
+                    <form action="/checkout" method="get">
+                    <button type="submit" class="btn_1 full-width cart">{{__("Proceed to Checkout")}}</button>
+                    <input type="hidden" id="discount_hidden" name="discount_hidden" value="" />
+                    </form>
                     @else
                     <a href="/list" class="btn_1 full-width cart">{{__("Please place an order")}}</a>
                     @endif
@@ -299,6 +302,7 @@ Cart::setGlobalTax($info->tax);
     $(document).ready(function() {
         $('#formCoupon').on('click', '#applyCoupon', function() {
             var discount = $('#discount').val();
+            console.log(discount)
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -312,6 +316,7 @@ Cart::setGlobalTax($info->tax);
                 success: function(data) {
                     if (data['success']) {
                         alert(data.success)
+                        $('#discount_hidden').val(discount);
                         $("#discount").prop('disabled', true);
                         $('#discountPercent').text('{{__("Discounts")}} (' + data.percent.toLocaleString('vi-VN') + '%)');
                         $("#applyCoupon").replaceWith('<button id="cancelCoupon" class="btn_1 outline">{{__("Cancel coupon")}}</button>')

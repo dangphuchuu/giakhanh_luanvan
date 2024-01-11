@@ -240,6 +240,7 @@ if(Auth::check()){
                             @if($carts->content()->count() >0)
                             <a href="javascript:void(0)" onclick="document.getElementById('confirmCheckout').submit();"
                                 class="btn_1 full-width">{{__("Confirm and Pay")}}</a>
+                                <input type="hidden" name="discount" value="{{$discount}}"/>
                             @else
                             <a href="/list" class="btn_1 full-width">{{__("Please place an order")}}</a>
                             @endif

@@ -19,7 +19,7 @@ class PaymentController extends Controller
     //TODO:Payment
     public function vnpay_payment(Request $request)
     {
-       dd($request->discount);
+    //    dd($request->discount);
         $credentials = Validator::make($request->all(),[
             'lastname' => 'required',
             'firstname' => 'required',
@@ -46,7 +46,7 @@ class PaymentController extends Controller
         if($request->city == null){
             return back()->with('toast_error',__('Please choose a city'));
         }
-        dd($request->discount);
+        // dd($request->discount);
         $cart = Cart::instance(Auth::user()->id);
         $user = Auth::user()->id;
         $orders = new Orders([
@@ -79,7 +79,7 @@ class PaymentController extends Controller
         }
         
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = $request->getSchemeAndHttpHost() . "/handle_payment?orders=" . $orders->id. "?discount=". $request->discount;
+        $vnp_Returnurl = $request->getSchemeAndHttpHost() . "/handle_payment?orders=" . $orders->id. "&discount=". $request->discount;
         $vnp_TmnCode = "SJ2TDXGL"; //Mã website tại VNPAY 
         $vnp_HashSecret = "SSXAFWDTAAVKSVHEHWWKQLWWJSTRKBRF"; //Chuỗi bí mật
 
@@ -137,12 +137,16 @@ class PaymentController extends Controller
     }
 
     public function handle_payment(Request $request){
-        // $discounts = Discounts::where('code',$request->discount)->get()->first();
+        $discount = Discounts::where('code',$request->discount)->first();
+        // dd($request->all());
+
         $orders = Orders::find($request->orders);
         // dd($request->vnp_TransactionStatus == 00);//Mã phản hồi kết quả thanh toán. Quy định mã trả lời 00 ứng với kết quả Thành công cho tất cả các API
         if($request->vnp_TransactionStatus == 00){
             $orders->hold = 0;
             $orders->save();
+            $discount->quantity--;
+            $discount->save();
             $cart = Cart::instance(Auth::user()->id);
             foreach($cart->content() as $carts){
                 $products = Products::find($carts->id);
