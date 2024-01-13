@@ -228,7 +228,8 @@
 	$("#forgot").on("click", function () {
 		$("#forgot_pw").fadeToggle("fast");
 	});
-	
+
+
 	// Top panel on click: add to cart, search header
 	var $topPnl = $('.top_panel');
 	var $pnlMsk = $('.layer');

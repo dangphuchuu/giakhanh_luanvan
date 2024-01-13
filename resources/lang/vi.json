@@ -307,6 +307,13 @@
     "Sorry, the product is currently out of stock !":"Xin lỗi, sản phẩm hiện tại đã hết hàng !",
     "You can't order in excess of the quantity":"Bạn không thể đặt hàng quá số lượng tồn kho",
     "The product just ran out of stock !":"Sản phẩm vừa hết hàng !",
-    "or":"hoặc"
+    "or":"hoặc",
+    "The phone number field is required":"Sô điện thoại không được để trống",
+    "Verify OTP":"Xác thực OTP",
+    "Verify":"Xác thực",
+    "A code has been sent to":"Mã OTP đã được gửi đến",
+    "Validate":"Xác thực",
+    "Didn't get the code ?":"Không có mã ?",
+    "Resend":"Gửi lại"
 
 }

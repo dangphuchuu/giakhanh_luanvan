@@ -54,7 +54,6 @@ class WebController extends Controller
         }
          // Lấy đường dẫn trình duyệt của người dùng
         $referer = request()->headers->get('referer');
-
         // Lưu trữ đường dẫn trong session
         session()->put('previous_url', $referer);
         // dd(session()->all());
@@ -106,7 +105,7 @@ class WebController extends Controller
              'email'=>'required|unique:users',
              'firstname'=>'required',
              'lastname'=>'required',
-             'phone' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:12||unique:users|nullable'
+             'phone' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:12||unique:users|required'
         ],
         [
             'username.required'=>__("the username field is required"),
@@ -125,6 +124,7 @@ class WebController extends Controller
             'phone.min' => __("Phone number at least 10 digits"),
             'phone.max' => __("Phone number maximum 20 digits"),
             'phone.unique' => __("Phone number is already exists"),
+            'phone.required'=>__("The phone number field is required"),
         ]);
         if($credentials->fails()){
             return back()->with('toast_error', $credentials->messages()->all()[0])->withInput();
@@ -775,5 +775,24 @@ class WebController extends Controller
         ]);
     }
 
+    //?OTP
+    public function verifyOtp(Request $request){
+        $user = Auth::user()->id;
+        if(isset($user->phone)){
+            if($user->phone == $request->phone){
+                $user->phone_verified = 1;
+                $user->save();
+            }else{
+                $user->phone = $request->phone;
+                $user->phone_verified = 1;
+                $user->update();
+            }
+        }else{
+            $user->phone = $request->phone;
+            $user->phone_verified = 1;
+            $user->update();
+        }
+        return response()->json();
+    }
    
 }
