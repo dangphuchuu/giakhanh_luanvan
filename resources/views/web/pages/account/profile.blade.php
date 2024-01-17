@@ -121,11 +121,7 @@
                                 </div>
                                 <div class="col-sm-9 text-secondary">
                                     <input type="text" name="phone" id="phone" class="form-control phone" value="{{$user->phone}}">
-                                    <div class="justify-center" id="recaptcha-container"></div>
-                                    @if($user->phone_verified == 0 && isset($user->phone))
-                                    <span class="ml-1" style="color:red">{{__("Please verify your phone number")}}</span>
-                                    <br/>
-                                    @endif
+                                    <div class="justify-center mb-2" id="recaptcha-container"></div>
                                     <a type="button" class="btn btn-danger" style="color:white" data-bs-toggle="modal" data-bs-target="#otpModal" onclick="sendOTP();">{{__("Verify")}}</a>
                                     @include('web.pages.account.otp')
                                 </div>
@@ -245,6 +241,7 @@
 </div>
 @endsection
 @section('scripts')
+
 <script>
     $(document).ready(function() {
         $('.checkPassword').change(function() {
@@ -263,7 +260,6 @@
 <script>
     window.onload = function() {
         render();
-
     };
 
     function render() {
@@ -278,8 +274,8 @@
         firebase.auth().signInWithPhoneNumber(phone, window.recaptchaVerifier).then(function(confirmationResult) {
             window.confirmationResult = confirmationResult;
             coderesult = confirmationResult;
-            $("#successAuth").text("A code has been sent");
-            $("#successAuth").show();
+            $("#success").text("A code has been sent");
+            $("#success").show();
         }).catch(function(error) {
             $("#error").text(error.message);
             $("#error").show();
@@ -294,32 +290,20 @@
         var fifthDigit = $("#fifth").val();
         var sixthDigit = $("#sixth").val();
         var code = firstDigit + secondDigit + thirdDigit + fourthDigit + fifthDigit + sixthDigit;
+        var phone = $('#phone').val();
         coderesult.confirm(code).then(function(result) {
             var user = result.user;
-            var phone = $('#phone').val();
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: 'GET',
-                url: '/verifyOtp',
-                dataType: 'json',
-                data:{
-                    phone:phone
-                },
-                success: function(data) {
-                    alert('Verify otp code successfully');
-                    window.location.reload();
-                }
-            });
+            alert('Verify otp code successfully');
+            window.location.reload();
         }).catch(function(error) {
             alert('Wrong OTP, please try to resend');
         });
+
     }
+
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function(event) {
-
         function OTPInput() {
             const inputs = document.querySelectorAll('#otp > *[id]');
             for (let i = 0; i < inputs.length; i++) {

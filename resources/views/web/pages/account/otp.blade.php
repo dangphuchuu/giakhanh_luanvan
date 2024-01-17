@@ -1,4 +1,3 @@
-
 <div class="modal fade" id="otpModal" tabindex="-1" aria-labelledby="otpModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -10,7 +9,7 @@
                 <div class="container height-100 d-flex justify-content-center align-items-center">
                     <div class="position-relative">
                         <div class="p-2 text-center">
-                            <h6 id="successAuth" style="color:green"></h6>
+                            <h6 id="success" style="color:green"></h6>
                             <h6 id="error" style="color:red"></h6>
                             <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
                                 <input class="m-2 text-center form-control rounded" type="text" id="first" maxlength="1" />

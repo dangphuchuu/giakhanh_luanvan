@@ -93,8 +93,6 @@ Route::middleware('language')->group(function(){
     Route::post('/wishlist',[WishlistController::class, 'wishlist']);
     Route::get('/count_wishlist',[WishlistController::class, 'count_wishlist']);
 
-    //?OTP
-    Route::get('/verifyOtp',[WebController::class, 'verifyOtp']);
 
 
 

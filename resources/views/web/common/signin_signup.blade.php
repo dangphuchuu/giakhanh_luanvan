@@ -43,15 +43,6 @@
 				<div class="box_account">
 					<h3 class="client">{{__("Sign In")}}</h3>
 					<div class="form_container">
-						<div class="row no-gutters">
-							<div class="col-lg-6 pr-lg-1">
-								<a href="#0" class="social_bt facebook">{{__("Login with Facebook")}}</a>
-							</div>
-							<div class="col-lg-6 pl-lg-1">
-								<a href="#0" class="social_bt google">{{__("Login with Google")}}</a>
-							</div>
-						</div>
-						<div class="divider"><span>{{__("OR")}}</span></div>
 						<form action="/handle_login" method="post">
 							@csrf
 							<div class="form-group">

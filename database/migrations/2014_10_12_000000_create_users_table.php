@@ -24,7 +24,8 @@ return new class extends Migration
             $table->string('district', 255)->nullable();
             $table->string('city', 255)->nullable();
             $table->boolean('status')->default(true);
-            $table->boolean('email_verified')->default(false);
+            $table->boolean('email_verified')->default(0);
+            $table->boolean('phone_verified')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

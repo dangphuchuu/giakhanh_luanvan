@@ -314,6 +314,7 @@
     "A code has been sent to":"Mã OTP đã được gửi đến",
     "Validate":"Xác thực",
     "Didn't get the code ?":"Không có mã ?",
-    "Resend":"Gửi lại"
+    "Resend":"Gửi lại",
+    "Please verify your phone number":"Vui lòng xác thực số điện thoại của bạn"
 
 }

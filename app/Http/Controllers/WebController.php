@@ -773,26 +773,5 @@ class WebController extends Controller
         return view('web.pages.news.list',[
             'news'=>$news
         ]);
-    }
-
-    //?OTP
-    public function verifyOtp(Request $request){
-        $user = Auth::user()->id;
-        if(isset($user->phone)){
-            if($user->phone == $request->phone){
-                $user->phone_verified = 1;
-                $user->save();
-            }else{
-                $user->phone = $request->phone;
-                $user->phone_verified = 1;
-                $user->update();
-            }
-        }else{
-            $user->phone = $request->phone;
-            $user->phone_verified = 1;
-            $user->update();
-        }
-        return response()->json();
-    }
-   
+    }   
 }
