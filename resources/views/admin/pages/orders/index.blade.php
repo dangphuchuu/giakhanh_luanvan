@@ -51,31 +51,34 @@ active
                             <!-- <td class="text-center">{{$order->content}}</td> -->
                             <td class="text-center" id="status{{$order->id}}">
                                 @if($order->status == 1)
-                               <span class="badge bg-warning">{{__("In Progress")}}</span>
+                                <span class="badge bg-warning">{{__("In Progress")}}</span>
                                 @elseif($order->status == 2)
-                               <span class="badge bg-info">{{__("Delivery in Progress")}}</span>
+                                <span class="badge bg-info">{{__("Delivery in Progress")}}</span>
                                 @elseif($order->status == 3)
-                               <span class="badge bg-success">{{__("Delivered")}}</span>
+                                <span class="badge bg-success">{{__("Delivered")}}</span>
                                 @else
-                               <span class="badge bg-danger">{{__("Cancelled")}}</span>
+                                <span class="badge bg-danger">{{__("Cancelled")}}</span>
                                 @endif
                             </td>
                             <td class="text-center">
-                                <a href="javascript:void(0)" data-bs-toggle="modal"
-                                    data-bs-target="#order_detail{{$order->id}}">
+                                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#order_detail{{$order->id}}">
                                     <i data-feather="search"></i>
                                 </a>
                                 @include('admin/pages/orders/detail')
                             </td>
                             <td class="text-center">
+                                @if($order->status != 3)
                                 <a href="javascript:void(0)" onclick="status({{$order->id}},3)">
                                     <i data-feather="check" stroke="green"></i>
                                 </a>
+                                @endif
                             </td>
                             <td class="text-center">
+                                @if($order->status != 0)
                                 <a href="javascript:void(0)" onclick="if(confirm(`{{__('Are you sure you want to cancel your order ?')}}`)){status({{$order->id}},0);}">
                                     <i data-feather="x" stroke="red"></i>
                                 </a>
+                                @endif
                             </td>
                             <td class="text-center">{{$order->updated_at->format('d/m/Y - H:i')}}</td>
                         </tr>
@@ -92,45 +95,45 @@ active
 <script src="admin_assets/vendors/simple-datatables/simple-datatables.js"></script>
 <script src="admin_assets/js/vendors.js"></script>
 <script>
-function status(status_id, active) {
-    if (active === 1) {
-        $("#status" + status_id).html(' <a href="javascript:void(0)">\
+    function status(status_id, active) {
+        if (active === 1) {
+            $("#status" + status_id).html(' <a href="javascript:void(0)">\
                 <span class="badge bg-warning">{{__("In Progress")}}</span>\
             </a>')
-    } else if (active === 2) {
-        $("#status" + status_id).html(' <a href="javascript:void(0)">\
+        } else if (active === 2) {
+            $("#status" + status_id).html(' <a href="javascript:void(0)">\
                 <span class="badge bg-info">{{__("Delivery in Progress")}}</span>\
             </a>')
-    } else if (active === 3) {
-        $("#status" + status_id).html(' <a href="javascript:void(0)">\
+        } else if (active === 3) {
+            $("#status" + status_id).html(' <a href="javascript:void(0)">\
                 <span class="badge bg-success">{{__("Delivered")}}</span>\
             </a>')
-    } else {
-        $("#status" + status_id).html(' <a href="javascript:void(0)">\
+        } else {
+            $("#status" + status_id).html(' <a href="javascript:void(0)">\
                 <span class="badge bg-danger">{{__("Cancelled")}}</span>\
             </a>')
-    }
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-    });
-    $.ajax({
-        url: "/admin/orders/status",
-        type: 'GET',
-        dataType: 'json',
-        data: {
-            'active': active,
-            'status_id': status_id
-        },
-        success: function(data) {
-            if (data['success']) {
-                // alert(data.success);
-            } else if (data['error']) {
-                alert(data.error);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-        }
-    });
-}
+        });
+        $.ajax({
+            url: "/admin/orders/status",
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                'active': active,
+                'status_id': status_id
+            },
+            success: function(data) {
+                if (data['success']) {
+                    // alert(data.success);
+                } else if (data['error']) {
+                    alert(data.error);
+                }
+            }
+        });
+    }
 </script>
 @endsection

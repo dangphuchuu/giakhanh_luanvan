@@ -29,36 +29,32 @@
 @endsection
 @section('scripts')
 <script>
-	$(document).ready(function(){
-	var orders = $('#orders_id').data('id');
-	window.onload = () => {
-		$.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-		$.ajax({
-			url: '/send_mail_orders',
-			type: 'POST',
-			data: {
-				orders: orders
-			},
-			dataType: 'json',
-			statusCode:{
-				200: () => {
-				window.setTimeout(function() {
-					window.location.href = "/myOrder";
-				}, 3000);
-				},
-				500: () => {
-					
-
+	$(document).ready(function() {
+		var orders = $('#orders_id').data('id');
+		window.onload = () => {
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 				}
-			}
-			
-		})
-	}
+			});
+			$.ajax({
+				url: '/send_mail_orders',
+				type: 'POST',
+				data: {
+					orders: orders
+				},
+				dataType: 'json',
+				statusCode: {
+					200: () => {
+						window.setTimeout(function() {
+							window.location.href = "/myOrder";
+						}, 3000);
+					},
+					500: () => {}
+				}
+
+			})
+		}
 	});
-	
 </script>
 @endsection

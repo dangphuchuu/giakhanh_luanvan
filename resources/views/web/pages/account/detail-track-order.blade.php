@@ -8,24 +8,24 @@
     @if($order!=null)
     @if($order->status == 1)
     <style>
-    .track .step::before {
-        width: 50% !important;
-    }
+        .track .step::before {
+            width: 50% !important;
+        }
     </style>
     @elseif($order->status == 0)
     <style>
-    .track .step.active .icon {
-        background: #f00 !important;
-        color: #fff !important
-    }
+        .track .step.active .icon {
+            background: #f00 !important;
+            color: #fff !important
+        }
 
-    .track .step.active:before {
-        background: #f00 !important
-    }
+        .track .step.active:before {
+            background: #f00 !important
+        }
 
-    .track .step.active .text {
-        color: #f00 !important;
-    }
+        .track .step.active .text {
+            color: #f00 !important;
+        }
     </style>
     @endif
     <article class="card">
@@ -35,7 +35,8 @@
             <article class="card">
                 <div class="card-body row">
                     <div class="col"> <strong>{{__("Estimated Delivery time")}}:</strong>
-                        <br>{{$order->updated_at->addDays(7)->format('d/m/Y')}} </div>
+                        <br>{{$order->updated_at->addDays(7)->format('d/m/Y')}}
+                    </div>
                     @if(isset($order->phone_sender) && isset($order->firstname_sender))
                     <div class="col"> <strong>{{__("Sender BY")}}:</strong> <br>
                         @if(Session("language") == "en")
@@ -59,16 +60,20 @@
                         <span style="color:#ff5b5c;font-weight: 700!important;">{{__("Order is canceled")}}</span>
                         @endif
                     </div>
-                    <div class="col"> <strong>{{__("Tracking")}} #:</strong> <br> {{date('dmY')}}{{$order->id}} </div>
-                    <div class="col"> <strong>{{__("Quantity")}} :</strong> <br> 
-                    <?php 
-                        $sum=0;
-                        foreach($order->products as $orderPro){
-                            $sum+=$orderPro->pivot->quantity;
+                    <div class="col"> <strong>{{__("Quantity")}} :</strong> <br>
+                        <?php
+                        $sum = 0;
+                        foreach ($order->products as $orderPro) {
+                            $sum += $orderPro->pivot->quantity;
                         }
                         echo $sum;
-                    ?> 
-                    /{{__("piece")}}
+                        ?>
+                        /{{__("piece")}}
+                    </div>
+                    <div class="col">
+                        <a href="javascript:void(0)" data-id="{{ $order->id }}" class="btn_1 cancelOrder">
+                            {{__("Cancel Order")}}
+                        </a>
                     </div>
                 </div>
             </article>
@@ -107,20 +112,16 @@
                 <li class="col-md-4">
                     <a href="/detail/{{$orderPro->id}}" style="color:black !important;">
                         <figure class="itemside mb-3">
-                            <div class="aside"><img
-                                    src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$orderPro->ProductsImage->first()->image}}.jpg"
-                                    class="img-sm border"></div>
+                            <div class="aside"><img src="https://res.cloudinary.com/{{env('CLOUD_NAME')}}/image/upload/{{$orderPro->ProductsImage->first()->image}}.jpg" class="img-sm border"></div>
                             <figcaption class="info align-self-center">
                                 <p class="title">
-                                {{$orderPro->pivot->quantity}} x {{$orderPro->name}}
+                                    {{$orderPro->pivot->quantity}} x {{$orderPro->name}}
                                 </p>
                                 <span class="text-muted">
                                     @if($orderPro->price_new)
-                                    {{number_format($orderPro->price_new,0,',','.')}}<sup
-                                        style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                                    {{number_format($orderPro->price_new,0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                                     @else
-                                    {{number_format($orderPro->price,0,',','.')}}<sup
-                                        style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
+                                    {{number_format($orderPro->price,0,',','.')}}<sup style="text-decoration: underline; padding: 3px; text-transform: lowercase !important;">đ</sup>
                                     @endif
                                 </span>
                             </figcaption>
@@ -139,4 +140,38 @@
     </div>
     @endif
 </div>
+@endsection
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $('.cancelOrder').on('click', function() {
+            var order_id = $(this).data("id");
+            if (confirm("Bạn có chắc chắn muốn hủy đơn ?") === true) {
+                $.ajax({
+                    url: '/cancelOrder',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'order_id': order_id,
+                    },
+                    success: function(data) {
+                        if (data['success']) {
+                            // console.log(data.orderPro);
+                            // console.log(data.quantity);
+                            alert(data.success);
+                            window.location.reload();
+                        } else if (data['error']) {
+                            alert(data.error);
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
 @endsection

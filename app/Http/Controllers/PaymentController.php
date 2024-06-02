@@ -177,7 +177,7 @@ class PaymentController extends Controller
             $categories = Categories::all()->where('status', 1);
             $subcategories = Subcategories::all()->where('status', 1);
             $info = Info::find(1);
-            return view('web.pages.cart.confirm', ['orders' => $orders, 'categories' => $categories, 'subcategories' => $subcategories, 'info' => $info]);
+            return view('web.pages.cart.confirm', ['orders' => $orders, 'categories' => $categories, 'subcategories' => $subcategories, 'info' => $info,'discount' => $discount]);
         } else {
             $orders->delete();
         }
