@@ -268,6 +268,12 @@ if (Auth::check()) {
         else
             $('#other_addr_c').fadeOut('fast');
     });
+    @if(Auth::check())
+    $(document).ready(function() {
+        $("#city option[value='{{ Auth::user()->city }}']").prop("selected", true);
+        $('#city').select2();
+    });
+    @endif
 </script>
 <script>
     if (window.history && window.history.pushState) {
