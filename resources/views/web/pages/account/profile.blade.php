@@ -121,9 +121,6 @@
                                 </div>
                                 <div class="col-sm-9 text-secondary">
                                     <input type="text" name="phone" id="phone" class="form-control phone" value="{{$user->phone}}">
-                                    <div class="justify-center mb-2" id="recaptcha-container"></div>
-                                    <a type="button" class="btn btn-danger" style="color:white" data-bs-toggle="modal" data-bs-target="#otpModal" onclick="sendOTP();">{{__("Verify")}}</a>
-                                    @include('web.pages.account.otp')
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -256,51 +253,6 @@
         $("#city option[value='{{ $user->city }}']").prop("selected", true);
         $('#city').select2();
     });
-</script>
-<script>
-    window.onload = function() {
-        render();
-    };
-
-    function render() {
-        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-            size: "invisible"
-        });
-        recaptchaVerifier.render();
-    }
-
-    function sendOTP() {
-        var phone = $('#phone').val();
-        firebase.auth().signInWithPhoneNumber(phone, window.recaptchaVerifier).then(function(confirmationResult) {
-            window.confirmationResult = confirmationResult;
-            coderesult = confirmationResult;
-            $("#success").text("A code has been sent");
-            $("#success").show();
-        }).catch(function(error) {
-            $("#error").text(error.message);
-            $("#error").show();
-        });
-    };
-
-    function verify() {
-        var firstDigit = $("#first").val();
-        var secondDigit = $("#second").val();
-        var thirdDigit = $("#third").val();
-        var fourthDigit = $("#fourth").val();
-        var fifthDigit = $("#fifth").val();
-        var sixthDigit = $("#sixth").val();
-        var code = firstDigit + secondDigit + thirdDigit + fourthDigit + fifthDigit + sixthDigit;
-        var phone = $('#phone').val();
-        coderesult.confirm(code).then(function(result) {
-            var user = result.user;
-            alert('Verify otp code successfully');
-            window.location.reload();
-        }).catch(function(error) {
-            alert('Wrong OTP, please try to resend');
-        });
-
-    }
-
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function(event) {

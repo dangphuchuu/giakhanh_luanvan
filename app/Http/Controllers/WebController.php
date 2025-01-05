@@ -138,11 +138,11 @@ class WebController extends Controller
             return back()->with('toast_error', $credentials->messages()->all()[0])->withInput();
         }
         $user = new User([
-            'lastname' => $request->lastname,
+           'lastname' => $request->lastname,
             'firstname' => $request->firstname,
             'username' => $request->username,
             'email' => $request->email,
-            'image' => 'https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper.png',
+            ' image' => 'https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper.png',
             'password' => Hash::make($request->password),
             'address' => $request->address,
             'district' => $request->district,

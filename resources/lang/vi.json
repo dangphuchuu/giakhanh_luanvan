@@ -316,6 +316,8 @@
     "Validate":"Xác thực",
     "Didn't get the code ?":"Không có mã ?",
     "Resend":"Gửi lại",
-    "Please verify your phone number":"Vui lòng xác thực số điện thoại của bạn"
-
+    "Please verify your phone number":"Vui lòng xác thực số điện thoại của bạn",
+    "Role":"Vai trò",
+    "Permissions":"Quyền truy cập",
+    "of":"của"
 }
