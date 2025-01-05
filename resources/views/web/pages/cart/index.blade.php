@@ -130,23 +130,13 @@ Cart::setGlobalTax($info->tax);
                 <div class="apply-coupon">
                     <div class="form-group">
                         <div class="row g-2">
-                            @if(Auth::check())
                             <div class="col-md-6">
                                 <input type="text" name="code" id="discount" placeholder="{{__('Promo code')}}" class="form-control">
                             </div>
                             <div class="col-md-4" id="formCoupon">
                                 <button id="applyCoupon" class="btn_1 outline">{{__("Apply Coupon")}}</button>
                             </div>
-                            @else
-                            <div class="col-md-6">
-                                <input type="text" disabled placeholder="{{__('Promo code')}}" class="form-control">
-                            </div>
-                            <div class="col-md-4">
-                                <form action="/signin_signup">
-                                    <button type="submit" class="btn_1 outline">{{__("Login")}}</button>
-                                </form>
-                            </div>
-                            @endif
+
                         </div>
                     </div>
                 </div>
@@ -195,18 +185,16 @@ Cart::setGlobalTax($info->tax);
                             </p>
                         </li>
                     </ul>
-                    @if(Auth::check())
+                   
                     @if($carts->content()->count()!=0)
                     <form action="/checkout" method="get">
-                    <button type="submit" class="btn_1 full-width cart">{{__("Proceed to Checkout")}}</button>
-                    <input type="hidden" id="discount_hidden" name="discount_hidden" value="" />
+                        <button type="submit" class="btn_1 full-width cart">{{__("Proceed to Checkout")}}</button>
+                        <input type="hidden" id="discount_hidden" name="discount_hidden" value="" />
                     </form>
                     @else
                     <a href="/list" class="btn_1 full-width cart">{{__("Please place an order")}}</a>
                     @endif
-                    @else
-                    <a href="/signin_signup" class="btn_1 full-width cart">{{__("Login")}}</a>
-                    @endif
+    
                 </div>
             </div>
         </div>

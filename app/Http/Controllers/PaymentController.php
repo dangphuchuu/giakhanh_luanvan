@@ -51,8 +51,14 @@ class PaymentController extends Controller
             return back()->with('toast_error', __('Please choose a city'));
         }
         // dd($request->discount);
-        $cart = Cart::instance(Auth::user()->id);
-        $user = Auth::user()->id;
+        if (Auth::check()) {
+            $cart = Cart::instance(Auth::user()->id);
+            $user = Auth::user()->id;
+        } else {
+            $cart = Cart::instance();
+            $user = rand(0, 99999);
+        }
+
         $orders = new Orders([
             'users_id' => $user,
             'lastname' => $request->lastname,
@@ -156,7 +162,11 @@ class PaymentController extends Controller
                 $discount->quantity--;
                 $discount->save();
             }
-            $cart = Cart::instance(Auth::user()->id);
+            if (Auth::check()) {
+                $cart = Cart::instance(Auth::user()->id);
+            } else {
+                $cart = Cart::instance();
+            }
             foreach ($cart->content() as $carts) {
                 $products = Products::find($carts->id);
                 if ($carts->qty <= $products->quantity) {
@@ -177,7 +187,7 @@ class PaymentController extends Controller
             $categories = Categories::all()->where('status', 1);
             $subcategories = Subcategories::all()->where('status', 1);
             $info = Info::find(1);
-            return view('web.pages.cart.confirm', ['orders' => $orders, 'categories' => $categories, 'subcategories' => $subcategories, 'info' => $info,'discount' => $discount]);
+            return view('web.pages.cart.confirm', ['orders' => $orders, 'categories' => $categories, 'subcategories' => $subcategories, 'info' => $info, 'discount' => $discount]);
         } else {
             $orders->delete();
         }
@@ -186,24 +196,24 @@ class PaymentController extends Controller
     {
         if (Auth::check()) {
             $cart = Cart::instance(Auth::user()->id);
-            $orders = Orders::find($request->orders);
-
-            $email_cur = $orders->email;
-            $name = Auth::user()->firstname;
-            if (isset($orders->email)) {
-                Mail::send('web.pages.cart.cart_mail', [
-                    'name' => $name,
-                    'orders' => $orders,
-                    'cart' => $cart
-                ], function ($email) use ($email_cur) {
-                    $email->subject(__("Shopping Cart Information"));
-                    $email->to($email_cur);
-                });
-            }
-            $cart->destroy();
-            return response(200);
         } else {
-            return response(500);
+            $cart = Cart::instance();
         }
+        $orders = Orders::find($request->orders);
+
+        $email_cur = $orders->email;
+        $name = Auth::user()->firstname;
+        if (isset($orders->email)) {
+            Mail::send('web.pages.cart.cart_mail', [
+                'name' => $name,
+                'orders' => $orders,
+                'cart' => $cart
+            ], function ($email) use ($email_cur) {
+                $email->subject(__("Shopping Cart Information"));
+                $email->to($email_cur);
+            });
+        }
+        $cart->destroy();
+        return response(200);
     }
 }

@@ -138,7 +138,7 @@ class WebController extends Controller
             return back()->with('toast_error', $credentials->messages()->all()[0])->withInput();
         }
         $user = new User([
-           'lastname' => $request->lastname,
+            'lastname' => $request->lastname,
             'firstname' => $request->firstname,
             'username' => $request->username,
             'email' => $request->email,
@@ -601,50 +601,48 @@ class WebController extends Controller
 
     public function handle_cart(Request $request)
     {
-        if (Auth::check()) {
-            $id = $request->products_id;
-            // dd($request->email);
-            $quantity = $request->quantity;
-            $products = Products::where('id', $id)->first();
-            // dd($products);
-            foreach ($products->ProductsImage as $value) {
-                $img[] = $value->image;
-            }
-            // dd($img[0]);
-
-            if ($quantity <= 0) {
-                return redirect()->back()->with('toast_warning', __("Please choose product at least 1 !"));
-            }
-            if ($products->quantity == 0) {
-                return redirect()->back()->with('toast_warning', __("Sorry, the product is currently out of stock !"));
-            }
-
-            if ($products->price_new != 0) {
-                $price = $products->price_new;
-            } else {
-                $price = $products->price;
-            }
-
-            if ($request->quantity > $products->quantity) {
-                return redirect()->back()->with('toast_warning', __("You can't order in excess of the quantity"));
-            }
-
-            $cart = Cart::instance(Auth::user()->id);
-
-            $cart->add([
-                'id' => $id,
-                'name' => $products->name,
-                'qty' => $request->quantity,
-                'price' =>  $price,
-                'weight' => 550,
-                'options' => [
-                    'image' =>  $img[0],
-                ]
-            ]);
-            return redirect()->back()->with('toast_success', __("Order Successfully !"));
-        } else {
-            return redirect('/signin_signup')->with('toast_warning', __("Please login to buy products"));
+        $id = $request->products_id;
+        // dd($request->email);
+        $quantity = $request->quantity;
+        $products = Products::where('id', $id)->first();
+        // dd($products);
+        foreach ($products->ProductsImage as $value) {
+            $img[] = $value->image;
         }
+        // dd($img[0]);
+
+        if ($quantity <= 0) {
+            return redirect()->back()->with('toast_warning', __("Please choose product at least 1 !"));
+        }
+        if ($products->quantity == 0) {
+            return redirect()->back()->with('toast_warning', __("Sorry, the product is currently out of stock !"));
+        }
+
+        if ($products->price_new != 0) {
+            $price = $products->price_new;
+        } else {
+            $price = $products->price;
+        }
+
+        if ($request->quantity > $products->quantity) {
+            return redirect()->back()->with('toast_warning', __("You can't order in excess of the quantity"));
+        }
+        if (Auth::check()) {
+            $cart = Cart::instance(Auth::user()->id);
+        } else {
+            $cart = Cart::instance();
+        }
+        $cart->add([
+            'id' => $id,
+            'name' => $products->name,
+            'qty' => $request->quantity,
+            'price' =>  $price,
+            'weight' => 550,
+            'options' => [
+                'image' =>  $img[0],
+            ]
+        ]);
+        return redirect()->back()->with('toast_success', __("Order Successfully !"));
     }
 
     public function update(Request $request)
@@ -753,13 +751,17 @@ class WebController extends Controller
     public function deleteCart(Request $request)
     {
         $id = $request->cartId;
-        $cart = Cart::instance(Auth::user()->id);
+        if (Auth::check()) {
+            $cart = Cart::instance(Auth::user()->id);
+        } else {
+            $cart = Cart::instance();
+        }
         $cart->remove($id);
         $subtotal = $cart->priceTotal(0, ',', '.');
         $total = $cart->total(0, ',', '.');
         $tax = $cart->tax(0, ',', '.');
         $discount = $cart->discount(0, ',', '.');
-        $count = Cart::instance(Auth::user()->id)->count();
+        $count = $cart->count();
         return response()->json([
             'success' => true,
             'subtotal' => $subtotal,
@@ -772,13 +774,11 @@ class WebController extends Controller
 
     public function checkout(Request $request)
     {
-        if (Auth::check()) {
-            Orders::where('hold', 1)->delete();
-            return view('web.pages.cart.checkout', [
-                'discount' => $request->discount_hidden
-            ]);
-        }
-        abort(404);
+
+        Orders::where('hold', 1)->delete();
+        return view('web.pages.cart.checkout', [
+            'discount' => $request->discount_hidden
+        ]);
     }
 
     //! News
