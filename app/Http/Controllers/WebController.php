@@ -583,14 +583,10 @@ class WebController extends Controller
 
     public function trackOrder()
     {
-        if (Auth::check()) {
             $products = Products::all()->where('status', 1)->sortByDesc('created_at')->take(8);
             return view('web.pages.account.track-order', [
                 'products' => $products
             ]);
-        } else {
-            abort(404);
-        }
     }
 
     //! Cart
@@ -652,10 +648,19 @@ class WebController extends Controller
 
         $products = Products::find($request->productCartId);
         $products_quantity = $products->quantity;
-        $cart = Cart::instance(Auth::user()->id)->get($id);
+        if (Auth::check()) {
+            $carts = Cart::instance(Auth::user()->id);
+        } else {
+            $carts = Cart::instance();
+        }
+        $cart = $carts->get($id);
 
         $subtotal = $cart->price * $qty;
-        $cartChange = Cart::instance(Auth::user()->id);
+        if (Auth::check()) {
+            $cartChange = Cart::instance(Auth::user()->id);
+        } else {
+            $cartChange = Cart::instance();
+        }
 
         if ($qty <= $products_quantity) {
             $cartChange->update($id, $qty);
@@ -682,7 +687,11 @@ class WebController extends Controller
     public function discounts(Request $request)
     {
         $discounts = Discounts::where('code', $request->discount)->get()->first();
-        $cart = Cart::instance(Auth::user()->id);
+        if (Auth::check()) {
+            $cart = Cart::instance(Auth::user()->id);
+        } else {
+            $cart = Cart::instance();
+        }
         if ($discounts) {
             if ($discounts->status == 1) {
                 if ($discounts->quantity == 0) {
@@ -722,7 +731,11 @@ class WebController extends Controller
     public function cancelDiscounts(Request $request)
     {
         $discounts = Discounts::where('code', $request->discount)->get()->first();
-        $cart = Cart::instance(Auth::user()->id);
+        if (Auth::check()) {
+            $cart = Cart::instance(Auth::user()->id);
+        } else {
+            $cart = Cart::instance();
+        }
         if ($cart->count() > 0) {
             foreach ($cart->content() as $cart_id) {
                 $cart->setDiscount($cart_id->rowId, 0);

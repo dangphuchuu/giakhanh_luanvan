@@ -47,7 +47,11 @@
 				statusCode: {
 					200: () => {
 						window.setTimeout(function() {
+							@if(Auth::check())
 							window.location.href = "/myOrder";
+							@else
+							window.location.href = "/";
+							@endif
 						}, 3000);
 					},
 					500: () => {}

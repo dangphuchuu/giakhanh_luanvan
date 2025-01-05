@@ -7,7 +7,7 @@
 <div style="width: 100%;text-align: -webkit-center;">
     <table  style="width: 100%; color: #333;" border="1">
         <tr>
-
+            <th style="text-align:center">{{__("Invoice ID")}}</th>
             <th style="text-align:center">{{__("Products")}}</th>
             <th style="text-align:center">{{__("Image")}}</th>
             <th style="text-align:center">{{__("Quantity")}}</th>
@@ -16,7 +16,7 @@
         </tr>
         @foreach($cart->content() as $carts)
         <tr>
-
+            <td style="text-align: center;">{{$orders->id}}</td>
             <td style="text-align:center; max-width: 300px;word-wrap: break-word;">{{$carts->name}}</td>
             <td style="text-align:center">
                 <img style="width: 150px"

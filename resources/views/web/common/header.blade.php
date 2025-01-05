@@ -190,7 +190,7 @@
                                 @if(Auth::check())
                                     <a href="/wishlist"><i class="fa-solid fa-heart" style="font-size: 21px;color:red"></i><strong id="wishlistCount"></strong></a>
                                 @else
-                                    <a href="/signin_signup"><i class="fa-regular fa-heart account-slider" style="font-size: 21px;"></i><strong id="wishlistCount"></strong></a>
+                                    <a href="/trackOrder" style="font-size: 25px"><i class="ti-truck" style="vertical-align: text-top;"></i></a>
                                 @endif
                             </div>
                         </li>

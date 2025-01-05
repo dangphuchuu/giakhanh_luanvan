@@ -200,9 +200,9 @@ class PaymentController extends Controller
             $cart = Cart::instance();
         }
         $orders = Orders::find($request->orders);
-
         $email_cur = $orders->email;
-        $name = Auth::user()->firstname;
+        $name = $orders->firstname;
+        
         if (isset($orders->email)) {
             Mail::send('web.pages.cart.cart_mail', [
                 'name' => $name,
